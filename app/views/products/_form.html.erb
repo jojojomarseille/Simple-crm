@@ -1,0 +1,54 @@
+<%= form_with(model: product, local: true) do |form| %>
+    <% if product.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(product.errors.count, "erro") %> impediram o salvamento deste produto:</h2>
+        <ul>
+          <% product.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div>
+      <%= form.label :name, "Nome" %>
+      <%= form.text_field :name %>
+    </div>
+  
+    <div>
+      <%= form.label :description, "Descrição" %>
+      <%= form.text_area :description %>
+    </div>
+  
+    <div>
+      <%= form.label :price, "Preço" %>
+      <%= form.number_field :price, step: 0.01 %>
+    </div>
+  
+    <div>
+      <%= form.label :stock, "Estoque" %>
+      <%= form.number_field :stock %>
+    </div>
+
+    <h3>Prices</h3>
+
+    <%= form.fields_for :prices do |price_form| %>
+      
+      <div>
+        <%= price_form.label :amount %>
+        <%= price_form.number_field :amount %>
+      </div>
+  
+      <div>
+        <%= price_form.label :currency %>
+        <%= price_form.text_field :currency %>
+      </div>
+
+    <% end %> 
+
+    <div>
+      <%= form.submit %>
+    </div>
+  
+  <% end %>
+  

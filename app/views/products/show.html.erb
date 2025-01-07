@@ -1,0 +1,26 @@
+<h1>Detalhes do Produto</h1>
+
+    <p><strong>Nome:</strong> <%= @product.name %></p>
+    <p><strong>Descrição:</strong> <%= @product.description %></p>
+    <p><strong>Preço:</strong> <%= number_to_currency(@product.price) %></p>
+    <p><strong>Estoque:</strong> <%= @product.stock %></p>
+    
+    <%= link_to 'Editar', edit_product_path(@product) %> |
+    <%= link_to 'Voltar', products_path %>
+
+    <h3>Prices</h3>
+    <% @product.prices.each do |price| %>
+     <%= form_with model: price, url: product_update_price_path(@product, price_id: price), local: true, method: :patch do |price_form| %>  
+        <div>
+          <%= price_form.label :amount %>
+          <%= price_form.number_field :amount %>
+        </div>
+    
+        <div>
+          <%= price_form.label :currency %>
+          <%= price_form.text_field :currency %>
+        </div>
+    
+        <%= price_form.submit "Update Price" %>
+      <% end %> 
+      <% end %>

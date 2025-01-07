@@ -1,0 +1,27 @@
+<h1>Lista de Produtos</h1>
+
+<table>
+  <tr>
+    <th>Nome</th>
+    <th>Descrição</th>
+    <th>Preço</th>
+    <th>Estoque</th>
+    <th>Ações</th>
+  </tr>
+
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.description %></td>
+      <td><%= number_to_currency(product.price) %></td>
+      <td><%= product.stock %></td>
+      <td>
+        <%= link_to 'Mostrar', product %> |
+        <%= link_to 'Editar', edit_product_path(product) %> |
+        <%= link_to 'Excluir', product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Novo Produto', new_product_path %>
