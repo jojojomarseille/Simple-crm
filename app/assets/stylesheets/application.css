@@ -1,19 +1,229 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+/* Estilos gerais */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
 
-* {
-    font-family: poppins;
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Centralizar a tabela e adicionar padding de 5px nas laterais */
+.table-container {
+  padding: 0 5px; /* 5px de distância das laterais */
+}
+
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.client-table th,
+.client-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  box-sizing: border-box; /* Certifica-se que o padding não afete a largura total */
+}
+
+/* Alternância de cores nas linhas */
+.client-table tr:nth-child(odd) {
+  background-color: #fff; /* Branco */
+}
+
+.client-table tr:nth-child(even) {
+  background-color: #f4f4f4; /* Cinza Claro */
+}
+
+/* Estilo do botão "Novo Cliente" */
+.client-table .btn {
+  background-color: #007bff; /* Cor azul */
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  display: inline-block;
+  font-size: 16px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif; /* Tipografia geral */
+}
+
+.client-table .btn:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos dos botões de ação (Mostrar, Editar, Excluir) */
+.client-table .btn-show {
+  background-color: #28a745; /* Verde */
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.client-table .btn-show:hover {
+  background-color: #218838;
+}
+
+.client-table .btn-edit {
+  background-color: #007bff; /* Azul */
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.client-table .btn-edit:hover {
+  background-color: #0056b3;
+}
+
+.client-table .btn-delete {
+  background-color: #dc3545; /* Vermelho */
+  color: white;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.client-table .btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Centralizando o título */
+h1 {
+  margin: 25px;
+  text-align: center;
+}
+
+/* Estilo das mensagens de flash */
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.flash.notice {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.flash.alert {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+/* Header */
+.main-header {
+  background-color: #333333;
+  color: #fff;
+  padding: 10px 0;
+  text-align: right;
+}
+
+.main-header p {
+  margin: 0;
+  color: #fff;
+}
+
+.main-header .btn {
+  background-color: #fff;
+  color: black;
+  padding: 5px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.main-header .btn:hover {
+  background-color: antiquewhite;
+}
+
+/* Footer */
+.main-footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.main-footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+p {
+  margin: 25px;
+}
+
+/* Estilos do formulário */
+.form-group {
+  margin-bottom: 15px;
+  padding: 5px 0;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Certifica-se que o padding não afete a largura total */
+  margin-bottom: 10px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.error-message ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.error-message li {
+  margin-bottom: 5px;
+}
+
+/* Estilo do botão de envio */
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
 }
