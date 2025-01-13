@@ -1,11 +1,34 @@
 <h1>Detalhes do Cliente</h1>
 
-    <p><strong>Nome:</strong> <%= @client.name %></p>
-    <p><strong>Tipo:</strong> <%= @client.client_type %></p>
-    <p><strong>Email:</strong> <%= @client.mail %></p>
-    <p><strong>Telefone:</strong> <%= @client.phone %></p>
-    <p><strong>Endereço:</strong> <%= @client.address %></p>
-    
-    <%= link_to 'Editar', edit_client_path(@client) %> |
-    <%= link_to 'Voltar', clients_path %>
+    <table class="client-table">
+      <tr>
+        <td><strong>Nome:</strong></td>
+        <td><%= @client.name %></td>
+      </tr>
+      <tr>
+        <td><strong>Tipo:</strong></td>
+        <td><%= @client.client_type %></td>
+      </tr>
+      <tr>
+        <td><strong>Email:</strong></td>
+        <td><%= @client.mail %></td>
+      </tr>
+      <tr>
+        <td><strong>Telefone:</strong></td>
+        <td><%= @client.phone %></td>
+      </tr>
+      <tr>
+        <td><strong>Endereço:</strong></td>
+        <td><%= @client.address %></td>
+      </tr>
+      <% if @client.image? %>
+        <%= image_tag @client.image.url %>
+      <% end %> 
+      <tr class="buttons">
+        <td colspan="2" class="text-right">
+          <%= link_to 'Editar', edit_client_path(@client), class: 'btn' %> |
+          <%= link_to 'Voltar', clients_path, class: 'btn' %>
+        </td>
+      </tr>
+    </table>
     

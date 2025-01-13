@@ -11,21 +11,38 @@
   </head>
 
   <body>
-     <header>
-    <% if user_signed_in? %>
-      <p>Bienvenue, <%= current_user.firstname %> <%= current_user.lastname %></p>
-      <%= link_to 'Se déconnecter', destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to 'Se connecter', new_user_session_path %> |
-      <%= link_to 'Créer un compte', new_user_registration_path %>
-    <% end %>
-  </header>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="container">
+        <% if user_signed_in? %>
+          <p>
+            Bienvenue, <%= current_user.firstname %> <%= current_user.lastname %> |
+            <%= link_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn' %>
+          </p>
+        <% else %>
+          <nav>
+            <%= link_to 'Se connecter', new_user_session_path, class: 'btn' %>
+            <%= link_to 'Créer un compte', new_user_registration_path, class: 'btn' %>
+          </nav>
+        <% end %>
+      </div>
+    </header>
+
     <!-- Messages Flash -->
     <% flash.each do |type, message| %>
       <div class="flash <%= type %>"><%= message %></div>
     <% end %>
 
-    <%= yield %>
+    <!-- Conteúdo Principal -->
+    <main>
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <p>&copy; <%= Time.current.year %> SuperCrmTest. Tous droits réservés.</p>
+      </div>
+    </footer>
   </body>
 </html>
-

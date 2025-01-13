@@ -1,41 +1,48 @@
-<%= form_with(model: client, local: true) do |form| %>
-    <% if client.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(client.errors.count, "erro") %> impediram o salvamento deste cliente:</h2>
-        <ul>
-          <% client.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  
-    <div>
-      <%= form.label :name %>
-      <%= form.text_field :name %>
+<%= form_with(model: client, local: true, html: { multipart: true }) do |form| %>
+  <% if client.errors.any? %>
+    <div id="error_explanation" class="error-message">
+      <h2><%= pluralize(client.errors.count, "erro") %> impediram o salvamento deste cliente:</h2>
+      <ul>
+        <% client.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
-  
-    <div>
-      <%= form.label :client_type, "Tipo" %>
-      <%= form.text_field :client_type %>
-    </div>
-  
-    <div>
-      <%= form.label :mail %>
-      <%= form.email_field :mail %>
-    </div>
-  
-    <div>
-      <%= form.label :phone %>
-      <%= form.text_field :phone %>
-    </div>
-  
-    <div>
-      <%= form.label :address %>
-      <%= form.text_field :address %>
-    </div>
-  
-    <div>
-      <%= form.submit %>
-    </div>
-  <% end %> 
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-input' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :client_type, "Tipo" %>
+    <%= form.text_field :client_type, class: 'form-input' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :mail %>
+    <%= form.email_field :mail, class: 'form-input' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone %>
+    <%= form.text_field :phone, class: 'form-input' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :address %>
+    <%= form.text_field :address, class: 'form-input' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </div> 
+
+  <div class="form-group">
+    <%= form.submit 'Salvar', class: 'btn-submit' %>
+  </div>
+
+
+<% end %>
