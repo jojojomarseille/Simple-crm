@@ -21,6 +21,9 @@
         <td><strong>Endereço:</strong></td>
         <td><%= @client.address %></td>
       </tr>
+      <% if @client.image? %>
+        <%= image_tag @client.image.url %>
+      <% end %> 
       <tr class="buttons">
         <td colspan="2" class="text-right">
           <%= link_to 'Editar', edit_client_path(@client), class: 'btn' %> |
