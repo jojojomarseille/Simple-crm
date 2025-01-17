@@ -21,6 +21,32 @@
         <td><strong>Endereço:</strong></td>
         <td><%= @client.address %></td>
       </tr>
+      <tr>
+        <td><strong>Cidade:</strong></td>
+        <td><%= @client.city %></td>
+      </tr>
+      <tr>
+        <td><strong>País:</strong></td>
+        <td><%= @client.country %></td>
+      </tr>
+      <tr>
+        <td><strong>Codigo Postal:<strong></td>
+        <td><%= @client.postal_code %></td>
+      </tr>
+      <tr>
+        <td><strong>Latitude:</strong></td>
+        <td><%= @client.latitude %></td>
+      </tr>
+      <tr>
+        <td><strong>Longitude:</strong></td>
+        <td><%= @client.longitude %></td>
+      </tr>
+
+      <%if @client.latitude? %>
+        <div id="map" style="height: 500px; width: 100%;">
+        </div>
+      <% end %> 
+
       <% if @client.image? %>
         <%= image_tag @client.image.url %>
       <% end %> 
@@ -32,3 +58,26 @@
       </tr>
     </table>
     
+    <script>
+    function initMap() {
+      var map = new 
+  google.maps.Map
+  (document.getElementById('map'), {
+        zoom: 10,
+        center: {lat: <%= @client.latitude %>, lng: <%= @client.longitude %>}  // Utilisez les coordonnées du client pour centrer la carte
+      });
+  
+      // Création du marqueur avec les coordonnées du client
+      var clientLocation = {lat: <%= @client.latitude %>, lng: <%= @client.longitude %>};
+  
+      new google.maps.Marker({
+        position: clientLocation,
+        map: map
+      });
+    }
+  
+    // Lorsque le document est prêt
+    document.addEventListener('DOMContentLoaded', function() {
+      initMap();
+    });
+  </script> 
