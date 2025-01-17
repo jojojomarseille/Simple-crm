@@ -4,7 +4,7 @@
     <p><strong>Descrição:</strong> <%= @product.description %></p>
     <p><strong>Preço:</strong> <%= number_to_currency(@product.price) %></p>
     <p><strong>Estoque:</strong> <%= @product.stock %></p>
-    
+  
     <%= link_to 'Editar', edit_product_path(@product) %> |
     <%= link_to 'Voltar', products_path %>
 

@@ -228,12 +228,97 @@ p {
   background-color: #0056b3;
 }
 
-.buttons-2 {
-  color: black;
+/* Estilos gerais */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Estilos específicos para o formulário da página 'Novo Produto' */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto; /* Espaçamento em volta */
+  padding: 20px;
+  width: 100%;
+  max-width: 500px; /* Largura máxima do formulário */
+  background-color: #f9f9f9; /* Fundo claro */
+  border-radius: 15px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.form-container form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Certifica-se que o padding não afete a largura */
+  margin-bottom: 10px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.buttons .btn-back {
+  background-color: #007bff; /* Azul */
+  color: white;
+  padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;
   font-size: 16px;
-  width: 20%;
-  display: block;
-  text-align: center;
+  display: inline-block;
 }
+
+.buttons .btn-back:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo do botão "Create Product" */
+.form-container input[type="submit"] {
+  background-color: #28a745; /* Verde claro */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: #218838;
+}
+
+
