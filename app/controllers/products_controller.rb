@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
 
   # 📦 Parâmetros permitidos
   def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, prices_attributes: [:id, :amount, :currency, :_destroy])
+    params.require(:product).permit(:name, :description, :price, :stock, :product_image,prices_attributes: [:id, :amount, :currency, :_destroy])
   end
 
   def price_params
@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
   end 
 
   def set_price
-    @price = @product.prices.find(params[:price_id]) # Find specific price tied to the product
+    @price = @product.prices.find(params [:price_id]) # Find specific price tied to the product
   end 
 
 end

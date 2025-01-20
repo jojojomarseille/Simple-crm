@@ -1,38 +1,4 @@
-<div class="container form-page">
-  <!-- Formulário -->
-  <div class="form-container">
-    <form action="/create-product" method="POST">
-      <div class="form-group">
-        <label for="product-name">Nome do Produto:</label>
-        <input type="text" id="product-name" class="form-input" name="product-name" required>
-      </div>
-      <div class="form-group">
-        <label for="product-description">Descrição:</label>
-        <textarea id="product-description" class="form-input" name="product-description" rows="3" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="product-price">Preço:</label>
-        <input type="number" id="product-price" class="form-input" name="product-price" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label for="product-stock">Estoque:</label>
-        <input type="number" id="product-stock" class="form-input" name="product-stock" required>
-      </div>
-      <div class="form-group">
-        <label for="product-prices">Prices:</label>
-        <input type="text" id="product-prices" class="form-input" name="product-prices">
-      </div>
-      <div class="form-group">
-        <label for="product-amount">Amount:</label>
-        <input type="number" id="product-amount" class="form-input" name="product-amount">
-      </div>
-      <div class="form-group">
-        <label for="product-currency">Currency:</label>
-        <input type="text" id="product-currency" class="form-input" name="product-currency">
-      </div>
-      <input type="submit" value="Criar Produto">
-    </form>
-  </div>
+<%= render 'form', product: @product %> 
 
   <!-- Botão Voltar fora do formulário -->
   <div class="btn-back-container">

@@ -30,6 +30,11 @@
       <%= form.number_field :stock %>
     </div>
 
+    <div>
+      <%= form.label :product_image %>
+      <%= form.file_field :product_image %>
+    </div> 
+
     <h3>Prices</h3>
 
     <%= form.fields_for :prices do |price_form| %>
