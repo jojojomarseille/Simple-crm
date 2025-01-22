@@ -16,10 +16,11 @@
       <td><%= number_to_currency(product.price) %></td>
       <td><%= product.stock %></td>
       <td>
-        <%= link_to 'Mostrar', product %> |
-        <%= link_to 'Editar', edit_product_path(product) %> |
-        <%= link_to 'Excluir', product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } %>
-      </td>
+      <div class='product-buttons'>
+      <%= link_to 'Mostrar', product, class: 'btn btn-show' %>
+      <%= link_to 'Editar', edit_product_path(product), class: 'btn btn-edit' %>
+      <%= link_to 'Excluir', product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' }, class: 'btn btn-delete' %>
+    </div>
     </tr>
   <% end %>
 </table>

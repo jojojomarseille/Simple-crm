@@ -1,59 +1,56 @@
-<%= form_with(model: product, local: true) do |form| %>
-    <% if product.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(product.errors.count, "erro") %> impediram o salvamento deste produto:</h2>
-        <ul>
-          <% product.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  
-    <div>
-      <%= form.label :name, "Nome" %>
-      <%= form.text_field :name %>
+<%= form_with(model: product, local: true, class: "custom-form") do |form| %>
+  <% if product.errors.any? %>
+    <div class="custom-error-container">
+      <h2><%= pluralize(product.errors.count, "erro") %> impediram o salvamento deste produto:</h2>
+      <ul>
+        <% product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
-  
-    <div>
-      <%= form.label :description, "Descrição" %>
-      <%= form.text_area :description %>
-    </div>
-  
-    <div>
-      <%= form.label :price, "Preço" %>
-      <%= form.number_field :price, step: 0.01 %>
-    </div>
-  
-    <div>
-      <%= form.label :stock, "Estoque" %>
-      <%= form.number_field :stock %>
-    </div>
-
-    <div>
-      <%= form.label :product_image %>
-      <%= form.file_field :product_image %>
-    </div> 
-
-    <h3>Prices</h3>
-
-    <%= form.fields_for :prices do |price_form| %>
-      
-      <div>
-        <%= price_form.label :amount %>
-        <%= price_form.number_field :amount %>
-      </div>
-  
-      <div>
-        <%= price_form.label :currency %>
-        <%= price_form.text_field :currency %>
-      </div>
-
-    <% end %> 
-
-    <div>
-      <%= form.submit %>
-    </div>
-  
   <% end %>
-  
+
+  <div class="custom-form-group">
+    <%= form.label :name, "Nome" %>
+    <%= form.text_field :name, class: "custom-input" %>
+  </div>
+
+  <div class="custom-form-group">
+    <%= form.label :description, "Descrição" %>
+    <%= form.text_area :description, class: "custom-input" %>
+  </div>
+
+  <div class="custom-form-group">
+    <%= form.label :price, "Preço" %>
+    <%= form.number_field :price, step: 0.01, class: "custom-input" %>
+  </div>
+
+  <div class="custom-form-group">
+    <%= form.label :stock, "Estoque" %>
+    <%= form.number_field :stock, class: "custom-input" %>
+  </div>
+
+  <div class="custom-form-group">
+    <%= form.label :product_image %>
+    <%= form.file_field :product_image, class: "custom-input" %>
+  </div> 
+
+  <h3>Prices</h3>
+
+  <%= form.fields_for :prices do |price_form| %>
+    <div class="custom-form-group">
+      <%= price_form.label :amount %>
+      <%= price_form.number_field :amount, class: "custom-input" %>
+    </div>
+
+    <div class="custom-form-group">
+      <%= price_form.label :currency %>
+      <%= price_form.text_field :currency, class: "custom-input" %>
+    </div>
+  <% end %>
+
+  <div class="custom-form-group">
+    <%= form.submit "Salvar", class: "custom-button" %>
+  </div>
+
+<% end %>
