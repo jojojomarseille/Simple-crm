@@ -424,3 +424,41 @@ body {
 .custom-button:hover {
   background-color: #218838;
 }
+
+.btn-back {
+  background-color: #007bff; /* Azul */
+  color: white;
+  margin: 25px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+/* Centraliza o botão na página */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda a altura da página */
+  margin: 0;
+}
+
+.btn-new {
+  display: inline-block;
+  background-color: #007bff; /* Cor azul */
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  text-decoration: none;
+  border-radius: 5px; /* Bordas arredondadas */
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-new:hover {
+  background-color: #0056b3;
+}
