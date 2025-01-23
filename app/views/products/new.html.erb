@@ -1,5 +1,3 @@
-<h1>Novo Produto</h1>
+<%= render 'form', product: @product %> 
 
-<%= render 'form', product: @product %>
-
-<%= link_to 'Voltar', products_path %>
+<%= link_to 'Voltar', clients_path, class: 'btn-back' %>

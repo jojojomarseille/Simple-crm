@@ -5,7 +5,7 @@ body {
   padding: 0;
   line-height: 1.6;
 }
-
+ 
 .container {
   width: 90%;
   max-width: 1200px;
@@ -228,12 +228,245 @@ p {
   background-color: #0056b3;
 }
 
-.buttons-2 {
-  color: black;
+/* Estilos gerais */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Estilos específicos para o formulário da página 'Novo Produto' */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto; /* Espaçamento em volta */
+  padding: 20px;
+  width: 100%;
+  max-width: 500px; /* Largura máxima do formulário */
+  background-color: #f9f9f9; /* Fundo claro */
+  border-radius: 15px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.form-container form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Certifica-se que o padding não afete a largura */
+  margin-bottom: 10px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.buttons .btn-back {
+  background-color: #007bff; /* Azul */
+  color: white;
+  padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;
   font-size: 16px;
-  width: 20%;
-  display: block;
+  display: inline-block;
+}
+
+.buttons .btn-back:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo do botão "Create Product" */
+.form-container input[type="submit"] {
+  background-color: #28a745; /* Verde claro */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: #218838;
+}
+
+
+.product-buttons .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
   text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.product-buttons .btn-show {
+  background-color: #28a745; /* Verde */
+}
+
+.product-buttons .btn-show:hover {
+  background-color: #218838;
+}
+
+.product-buttons .btn-edit {
+  background-color: #007bff; /* Azul */
+}
+
+.product-buttons .btn-edit:hover {
+  background-color: #0056b3;
+}
+
+.product-buttons .btn-delete {
+  background-color: #dc3545; /* Vermelho */
+}
+
+.product-buttons .btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* FORMULARIO NOVO- PRODUTO */
+
+.custom-form {
+  width: 400px;
+  margin: 50px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-form-group {
+  margin-bottom: 15px;
+}
+
+.custom-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.custom-error-container {
+  background-color: #ffe6e6;
+  border: 1px solid #ffb3b3;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.custom-error-container h2 {
+  color: #cc0000;
+}
+
+.custom-error-container ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.custom-button {
+  display: inline-flex;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+}
+
+.custom-button:hover {
+  background-color: #218838;
+}
+
+.btn-back {
+  background-color: #007bff; /* Azul */
+  color: white;
+  margin: 25px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+/* Centraliza o botão na página */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda a altura da página */
+  margin: 0;
+}
+
+.btn-new {
+  display: inline-block;
+  background-color: #007bff; /* Cor azul */
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  text-decoration: none;
+  border-radius: 5px; /* Bordas arredondadas */
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-new:hover {
+  background-color: #0056b3;
+}
+
+.carousel-item img {
+  height: 500px;
+  object-fit: cover;
+}
+.carousel-indicators button {
+  background-color: #000; /* Cor dos pontos */
 }

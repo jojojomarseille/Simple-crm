@@ -1,6 +1,7 @@
 <h1>Lista de Produtos</h1>
 
-<table>
+<div class="table-container">
+  <table class="client-table">
   <tr>
     <th>Nome</th>
     <th>Descrição</th>
@@ -16,12 +17,14 @@
       <td><%= number_to_currency(product.price) %></td>
       <td><%= product.stock %></td>
       <td>
-        <%= link_to 'Mostrar', product %> |
-        <%= link_to 'Editar', edit_product_path(product) %> |
-        <%= link_to 'Excluir', product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } %>
-      </td>
+      <div class='product-buttons'>
+      <%= link_to 'Mostrar', product, class: 'btn btn-show' %>
+      <%= link_to 'Editar', edit_product_path(product), class: 'btn btn-edit' %>
+      <%= button_to 'Excluir', product, method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: 'btn btn-delete' %>
+
+    </div>
     </tr>
   <% end %>
 </table>
 
-<%= link_to 'Novo Produto', new_product_path %>
+<%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
