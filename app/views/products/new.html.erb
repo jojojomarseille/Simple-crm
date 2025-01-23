@@ -1,5 +1,3 @@
 <%= render 'form', product: @product %> 
 
-  <!-- Botão Voltar fora do formulário -->
-  <div class="btn-back-container">
-    <a href="/products" class="btn-back">Voltar</a>
+<%= link_to 'Voltar', clients_path, class: 'btn-back' %>

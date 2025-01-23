@@ -31,11 +31,11 @@
         <td class="actions">
           <%= link_to 'Mostrar', client, class: 'btn-show' %> |
           <%= link_to 'Editar', edit_client_path(client), class: 'btn-edit' %> |
-          <%= link_to 'Excluir', client, method: :delete, data: { confirm: 'Tem certeza?' }, class: 'btn-delete' %>
+          <%= button_to 'Excluir', client, method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: 'btn btn-delete' %>
         </td>
       </tr>
     <% end %>
   </table>
 </div>
 
-<%= link_to 'Novo Cliente', new_client_path, class: 'btn-new-client' %> <!-- Botão de Novo Cliente -->
+<%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> <!-- Botão de Novo Cliente -->
