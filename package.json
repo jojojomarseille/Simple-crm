@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@nathanvda/cocoon": "^1.2.14",
+    "jquery": "^3.7.1"
+  }
+}

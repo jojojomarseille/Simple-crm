@@ -1,0 +1,77 @@
+<%= form_with(model:  [@client, @order], local: true) do |form| %>
+  <div>
+    <%= form.label :date %>
+    <%= form.datetime_select :date %>
+  </div>
+
+  <h3>Order Items:</h3>
+
+  <div id="order_items">
+    <%= form.fields_for :order_items do |item_form| %>
+      <%= render 'order_item_fields', f: item_form %>
+    <% end %>
+  </div>
+
+  <%= link_to 'Add Product', '#', id: 'add_product_link', data: {target: 'order_items'} %> 
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  console.log("DOM entièrement chargé");
+
+  const addProductLink = document.getElementById('add_product_link');
+  const orderItemsContainer = document.getElementById('order_items');
+
+  // Vérification de la présence des éléments nécessaires
+  if (addProductLink) {
+    console.log("Bouton 'Add Product' trouvé");
+  } else {
+    console.error("Bouton 'Add Product' introuvable !");
+    return;
+  }
+
+  if (orderItemsContainer) {
+    console.log("Conteneur 'order_items' trouvé");
+  } else {
+    console.error("Conteneur 'order_items' introuvable !");
+    return;
+  }
+
+  addProductLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    console.log("Bouton 'Add Product' cliqué");
+
+    // Sélection de la première entrée (modèle pour duplication)
+    const firstOrderItem = orderItemsContainer.querySelector('.nested-fields');
+    if (!firstOrderItem) {
+      console.error("Aucun élément modèle '.nested-fields' trouvé dans le conteneur !");
+      return;
+    }
+    console.log("Élément modèle '.nested-fields' trouvé");
+
+    // Récupération de l'HTML de l'élément modèle
+    const newItemHTML = firstOrderItem.outerHTML;
+    console.log("HTML du modèle extrait :", newItemHTML);
+
+    // Calcul du prochain indice basé sur le nombre d'items existants
+    const currentIndex = orderItemsContainer.querySelectorAll('.nested-fields').length;
+    console.log(`Nombre actuel d'éléments '.nested-fields' : ${currentIndex}`);
+
+    // Mise à jour des indices dans le nouvel HTML
+    const updatedHTML = newItemHTML.replace(/order_items_attributes\[\d+\]/g, function (match) {
+      console.log("Index trouvé pour remplacement :", match);
+      return `order_items_attributes[${currentIndex}]`;
+    });
+    console.log("HTML mis à jour avec le nouvel index :", updatedHTML);
+
+    // Ajout de l'élément au conteneur
+    orderItemsContainer.insertAdjacentHTML('beforeend', updatedHTML);
+    console.log("Nouvel élément '.nested-fields' ajouté au conteneur");
+  });
+});
+</script>

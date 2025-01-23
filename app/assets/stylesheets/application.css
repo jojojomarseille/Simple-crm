@@ -237,3 +237,16 @@ p {
   display: block;
   text-align: center;
 }
+
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}

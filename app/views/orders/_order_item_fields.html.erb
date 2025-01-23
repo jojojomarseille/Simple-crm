@@ -1,0 +1,12 @@
+<div class="nested-fields" id="order-item">
+  <%= f.label :product_id, "Product" %>
+  <%= f.collection_select :product_id, Product.all, :id, :name, prompt: 'Select a Product', include_blank: true %>
+
+  <%= f.label :quantity, "Quantity" %>
+  <%= f.number_field :quantity, min: 1, value: 1 %>
+
+  <%= f.label :price, "Prix" %>
+  <%= f.number_field :price, min: 1, value: 1 %>
+
+  <%= link_to_remove_association "Remove", f %> 
+</div>
