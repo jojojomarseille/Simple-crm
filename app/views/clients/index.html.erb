@@ -1,5 +1,17 @@
 <h1>Lista de Clientes</h1>
 
+<div class="sort-container">
+  <%= form_with(url: clients_path, method: :get, local: true, class: "sort-form") do |form| %>
+    <%= form.label :order, "Ordenar por", class: "label-sort" %>
+    <%= form.select :order, options_for_select([['Nome', 'name'], ['Tipo', 'client_type']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
+
+    <%= form.label :direction, "Direção", class: "label-sort" %>
+    <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
+
+    <%= form.submit "Aplicar", class: "btn-apply" %>
+  <% end %>
+</div>
+
 <div class="table-container">
   <table class="client-table">
     <tr>

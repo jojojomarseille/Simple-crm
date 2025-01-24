@@ -470,3 +470,148 @@ body {
 .carousel-indicators button {
   background-color: #000; /* Cor dos pontos */
 }
+
+.quotes-section {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.quote-box {
+  display: flex;
+  gap: 20px;
+  max-width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quote {
+  flex: 1;
+  min-width: 200px;
+  padding: 15px;
+  border-left: 4px solid #007bff;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quote-text {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.quote-author {
+  font-size: 14px;
+  color: #555;
+  text-align: right;
+  font-style: italic;
+}
+
+.highlight-section {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.highlight-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.highlight-description {
+  font-size: 16px;
+  color: #555;
+}
+
+.btn-sort {
+  padding: 8px 12px;
+  margin-right: 8px;
+  background-color: #6cd196;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-sort:hover {
+  background-color: #0056b3;
+}
+
+.sort-options {
+  margin-bottom: 20px;
+}
+
+.sort-options label {
+  margin-right: 8px;
+}
+
+.sort-options select {
+  margin-right: 12px;
+}
+
+.btn-sort {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-sort:hover {
+  background-color: #0056b3;
+}
+
+.search-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.search-input {
+  padding: 8px;
+  width: 300px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.search-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
