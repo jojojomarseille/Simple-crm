@@ -124,7 +124,7 @@ h1 {
 
 /* Header */
 .main-header {
-  background-color: #333333;
+  background-color: #5686FF;
   color: #fff;
   padding: 10px 0;
   text-align: right;
@@ -150,7 +150,7 @@ h1 {
 
 /* Footer */
 .main-footer {
-  background-color: #333;
+  background-color: #5686FF;
   color: #fff;
   padding: 10px 0;
   text-align: center;
@@ -614,4 +614,105 @@ body {
 
 .search-button:hover {
   background-color: #0056b3;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+.icon img {
+  width: 40px;
+  height: 40px;
+}
+/* Estilos gerais */
+
+/* Container da caixa de login */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Caixa do formulário */
+.login-box {
+  background-color: #f0f0f0; /* Fundo cinza */
+  padding: 20px;
+  border-radius: 10px; /* Cantos arredondados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  text-align: center;
+}
+
+/* Título do formulário */
+.login-title {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Grupos de formulário */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Inputs */
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* Cantos arredondados */
+  font-size: 16px;
+}
+
+/* Checkbox de "Remember me" */
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.form-checkbox {
+  margin-right: 10px;
+}
+
+.form-label-inline {
+  color: #555;
+}
+
+/* Botão de login */
+.form-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #5686FF;
+  color: white;
+  border: none;
+  border-radius: 5px; /* Cantos arredondados */
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #4575e6;
+}
+
+/* Links adicionais (Sign up e Forgot password) */
+.additional-links {
+  margin-top: 15px;
+}
+
+.additional-links a {
+  color: #5686FF;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
 }
