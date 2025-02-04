@@ -3,7 +3,15 @@ class ClientsController < ApplicationController
 
   # 📋 Listar todos os clientes
   def index
-    @clients = Client.all
+    order = params[:order] || 'name'  # Se não passar um parâmetro `order`, usa 'name' como padrão
+    direction = params[:direction] || 'asc'  # Se não passar um parâmetro `direction`, usa 'asc' como padrão
+
+    # Verifica se a direção é 'desc' para reverter a ordem
+    if %w[name client_type].include?(order) && %w[asc desc].include?(direction)
+      @clients = Client.order("#{order} #{direction}")
+    else
+      @clients = Client.all # Caso não haja parâmetros válidos
+    end
   end
 
   # 👁️ Mostrar detalhes de um cliente
@@ -53,6 +61,6 @@ class ClientsController < ApplicationController
 
   # 📦 Parâmetros permitidos
   def client_params
-    params.require(:client).permit(:name, :client_type, :mail, :phone, :address, :image, :city, :country, :postal_code, :latitude, :longitude )
+    params.require(:client).permit(:name, :client_type, :mail, :phone, :address, :image, :city, :country, :postal_code, :latitude, :longitude)
   end
 end

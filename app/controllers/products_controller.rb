@@ -1,10 +1,18 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy, :update_price]
-  before_action :set_price, only: [:update_price] 
+  before_action :set_price, only: [:update_price]
 
   # 📋 Listar todos os produtos
   def index
-    @products = Product.all
+    order = params[:order] || 'name'  # Se não passar um parâmetro `order`, usa 'name' como padrão
+    direction = params[:direction] || 'asc'  # Se não passar um parâmetro `direction`, usa 'asc' como padrão
+
+    # Verifica se a direção é 'desc' para reverter a ordem
+    if %w[name price stock].include?(order) && %w[asc desc].include?(direction)
+      @products = Product.order("#{order} #{direction}")
+    else
+      @products = Product.all # Caso não haja parâmetros válidos
+    end
   end
 
   # 👁️ Mostrar detalhes de um produto
@@ -14,21 +22,21 @@ class ProductsController < ApplicationController
   # ➕ Formulário para novo produto
   def new
     @product = Product.new
-    @product.prices.build 
+    @product.prices.build
   end
 
   # 📝 Formulário para editar produto
   def edit
   end
 
-  # Updates a price directly from the product show page
+  # Atualizar preço diretamente da página de produto
   def update_price
     if @price.update(price_params)
-      redirect_to @product, notice: 'Price updated successfully.'
+      redirect_to @product, notice: 'Preço atualizado com sucesso.'
     else
-      redirect_to @product, alert: 'Error updating price.'
+      redirect_to @product, alert: 'Erro ao atualizar preço.'
     end
-  end 
+  end
 
   # 💾 Salvar novo produto
   def create
@@ -59,21 +67,21 @@ class ProductsController < ApplicationController
 
   # 🔑 Buscar produto por ID
   def set_product
-    @product = Product.find(params[:id]) 
-    # Adjust to :product_id
-  end 
-
-  # 📦 Parâmetros permitidos
-  def product_params
-    params.require(:product).permit(:name, :description, :price, :stock, :product_image,prices_attributes: [:id, :amount, :currency, :_destroy])
+    @product = Product.find(params[:id])
   end
 
+  # 📦 Parâmetros permitidos para o produto
+  def product_params
+    params.require(:product).permit(:name, :description, :price, :stock, :product_image, prices_attributes: [:id, :amount, :currency, :_destroy])
+  end
+
+  # Parâmetros permitidos para o preço
   def price_params
     params.require(:price).permit(:amount, :currency)
-  end 
+  end
 
+  # 🔑 Buscar o preço específico de um produto
   def set_price
-    @price = @product.prices.find(params [:price_id]) # Find specific price tied to the product
-  end 
-
+    @price = @product.prices.find(params[:price_id])
+  end
 end
