@@ -716,3 +716,11 @@ body {
 .additional-links a:hover {
   text-decoration: underline;
 }
+
+.nav-item {
+  color: blue
+}
+
+.nav-item.active {
+  color: red
+}
