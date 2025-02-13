@@ -23,8 +23,6 @@
       <th>Cidade</th>
       <th>País</th>
       <th>Código Postal</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
       <th>Ações</th>
     </tr>
 
@@ -38,8 +36,6 @@
         <td><%= client.city %></td>
         <td><%= client.country %></td>
         <td><%= client.postal_code %></td>
-        <td><%= client.latitude %></td>
-        <td><%= client.longitude %></td>
         <td class="actions">
           <%= link_to 'Mostrar', client, class: 'btn-show' %> |
           <%= link_to 'Editar', edit_client_path(client), class: 'btn-edit' %> |
