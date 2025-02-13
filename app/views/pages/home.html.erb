@@ -1,17 +1,58 @@
-
-<h1> Home Page </h1>
+<h1>Home Page</h1>
 
 <p>Nossa Aplicação de gestão de Produtos!</p>
 
+<!-- Barra de Pesquisa -->
+<div class="search-container">
+<%= form_with(url: search_path, method: :get, class: "search-form", data: { turbo_frame: "search_results" }) do |form| %>
+  <%= form.label :query, "Pesquisar por Cliente ou Produto", class: "search-label" %>
+  <%= form.text_field :query, placeholder: "Nome do Cliente ou Produto", class: "search-input" %>
+  <%= form.submit "Pesquisar", class: "search-button" %>
+<% end %>
+</div>
+
+<turbo-frame id="search_results">
+  <!-- Contenu par défaut avant toute recherche -->
+  <p>Insira uma pesquisa para ver os resultados.</p>
+</turbo-frame> 
+
+
+<!-- Resultados de Pesquisa -->
+<% if params[:query].present? %>
+  <h2>Resultados da Busca</h2>
+  <div class="search-results">
+    <% if @clients.any? %>
+      <h3>Clientes Encontrados:</h3>
+      <ul>
+        <% @clients.each do |client| %>
+          <li><%= link_to client.name, client_path(client) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>Nenhum cliente encontrado.</p>
+    <% end %>
+
+    <% if @products.any? %>
+      <h3>Produtos Encontrados:</h3>
+      <ul>
+        <% @products.each do |product| %>
+          <li><%= link_to product.name, product_path(product) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>Nenhum produto encontrado.</p>
+    <% end %>
+  </div>
+<% end %>
+
+<!-- Carrossel de Imagens -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <!-- Indicadores -->
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
 
-  <!-- Slides -->
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" class="d-block w-100" alt="Imagem 1">
@@ -24,7 +65,6 @@
     </div>
   </div>
 
-  <!-- Botões de navegação -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -35,3 +75,43 @@
   </button>
 </div>
 
+<!-- Seção de destaque -->
+<div class="highlight-section">
+  <h1 class="highlight-title">Organize melhor seu trabalho e seus ganhos!</h1>
+  <p class="highlight-description">Nossa aplicação pode te ajudar!</p>
+</div>
+
+<!-- Citações -->
+<div class="quotes-section">
+  <div class="quote-box">
+    <div class="quote">
+      <p class="quote-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</p>
+      <p class="quote-author">- John Doe</p>
+    </div>
+    <div class="quote">
+      <p class="quote-text">"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p>
+      <p class="quote-author">- Jane Smith</p>
+    </div>
+    <div class="quote">
+      <p class="quote-text">"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."</p>
+      <p class="quote-author">- Emily Johnson</p>
+    </div>
+  </div>
+</div>
+<div class="social-icons">
+  <div class="icon">
+    <a href="" target="_blank">
+      <img src="/assets/instagram.png" alt="Instagram">
+    </a>
+  </div>
+  <div class="icon">
+    <a href="https://www.facebook.com/seu_perfil" target="_blank">
+      <img src="/assets/facebook.png" alt="Facebook">
+    </a>
+  </div>
+  <div class="icon">
+    <a href="https://www.twitter.com/seu_perfil" target="_blank">
+      <img src="/assets/twitter.png" alt="Twitter">
+    </a>
+  </div>
+</div>

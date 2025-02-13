@@ -1,30 +1,32 @@
+<div class="login-container">
+  <div class="login-box">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <h2 class="login-title">Log in</h2>
 
-<div class="custom-form">
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <h2>Log in</h2>
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+      </div>
 
-    <div class="custom-form-group">
-      <%= f.label :email, class: "custom-label" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "custom-input" %>
-    </div>
+      <div class="form-group">
+        <%= f.label :password, class: "form-label" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-input" %>
+      </div>
 
-    <div class="custom-form-group">
-      <%= f.label :password, class: "custom-label" %>
-      <%= f.password_field :password, autocomplete: "current-password", class: "custom-input" %>
-    </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="form-group remember-me">
+          <%= f.check_box :remember_me, class: "form-checkbox" %>
+          <%= f.label :remember_me, class: "form-label-inline" %>
+        </div>
+      <% end %>
 
-    <% if devise_mapping.rememberable? %>
-      <div class="custom-form-group custom-remember">
-        <%= f.check_box :remember_me, class: "custom-checkbox" %>
-        <%= f.label :remember_me, class: "custom-label-inline" %>
+      <div class="form-group">
+        <%= f.submit "Log in", class: "form-button" %>
       </div>
     <% end %>
 
-    <div class="custom-form-group">
-      <%= f.submit "Log in", class: "custom-button" %>
+    <div class="additional-links">
+      <%= render "devise/shared/links" %>
     </div>
-    
-  <% end %>
+  </div>
 </div>
-
-<%= render "devise/shared/links" %>
