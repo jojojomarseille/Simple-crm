@@ -33,18 +33,7 @@
         <td><strong>Codigo Postal:<strong></td>
         <td><%= @client.postal_code %></td>
       </tr>
-      <tr>
-        <td><strong>Latitude:</strong></td>
-        <td><%= @client.latitude %></td>
-      </tr>
-      <tr>
-        <td><strong>Longitude:</strong></td>
-        <td><%= @client.longitude %></td>
-      </tr>
-
-      <%if @client.latitude? %>
-        <div id="map" style="height: 500px; width: 100%;">
-        </div>
+      
       <% end %> 
 
       <% if @client.image? %>
