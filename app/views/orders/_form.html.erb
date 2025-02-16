@@ -1,4 +1,4 @@
-<%= form_with(model:  [@client, @order], local: true) do |form| %>
+<%= form_with(model: [@client, @order], local: true) do |form| %>
   <div>
     <%= form.label :date %>
     <%= form.datetime_select :date %>
@@ -6,73 +6,103 @@
 
   <h3>Order Items:</h3>
 
-  <div id="order_items">
-    <%= form.fields_for :order_items do |item_form| %>
-      <%= render 'order_item_fields', f: item_form %>
-    <% end %>
+  <div class="list-container">
+    <div id="list">
+      <%= form.fields_for :order_items do |f| %>
+        <%= render partial: "order_item_fields", locals: { f: f } %>
+      <% end %>
+    </div>
+    <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
   </div>
-
-  <%= link_to 'Add Product', '#', id: 'add_product_link', data: {target: 'order_items'} %> 
 
   <div>
     <%= form.submit %>
   </div>
+
+  <!-- Placeholder pour le template -->
+  <div id="template-container" style="display: none;">
+    <%= form.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
+      <%= render partial: 'order_item_fields', locals: { f: f } %>
+    <% end %>
+  </div>
+
 <% end %>
 
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  console.log("DOM entièrement chargé");
+  document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.getElementById('add-button');
+    const list = document.getElementById('list');
+    const templateContainer = document.getElementById('template-container');
 
-  const addProductLink = document.getElementById('add_product_link');
-  const orderItemsContainer = document.getElementById('order_items');
+    addButton.addEventListener('click', function() {
+      const newId = new Date().getTime();
+      const templateHTML = templateContainer.innerHTML.replace(/NEW_RECORD/g, newId);
 
-  // Vérification de la présence des éléments nécessaires
-  if (addProductLink) {
-    console.log("Bouton 'Add Product' trouvé");
-  } else {
-    console.error("Bouton 'Add Product' introuvable !");
-    return;
-  }
+      const newFields = document.createElement('div');
+      newFields.innerHTML = templateHTML;
 
-  if (orderItemsContainer) {
-    console.log("Conteneur 'order_items' trouvé");
-  } else {
-    console.error("Conteneur 'order_items' introuvable !");
-    return;
-  }
-
-  addProductLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    console.log("Bouton 'Add Product' cliqué");
-
-    // Sélection de la première entrée (modèle pour duplication)
-    const firstOrderItem = orderItemsContainer.querySelector('.nested-fields');
-    if (!firstOrderItem) {
-      console.error("Aucun élément modèle '.nested-fields' trouvé dans le conteneur !");
-      return;
-    }
-    console.log("Élément modèle '.nested-fields' trouvé");
-
-    // Récupération de l'HTML de l'élément modèle
-    const newItemHTML = firstOrderItem.outerHTML;
-    console.log("HTML du modèle extrait :", newItemHTML);
-
-    // Calcul du prochain indice basé sur le nombre d'items existants
-    const currentIndex = orderItemsContainer.querySelectorAll('.nested-fields').length;
-    console.log(`Nombre actuel d'éléments '.nested-fields' : ${currentIndex}`);
-
-    // Mise à jour des indices dans le nouvel HTML
-    const updatedHTML = newItemHTML.replace(/order_items_attributes\[\d+\]/g, function (match) {
-      console.log("Index trouvé pour remplacement :", match);
-      return `order_items_attributes[${currentIndex}]`;
+      const removeButton = newFields.querySelector('.button-remove');
+      if (removeButton) {
+        // Ajouter un identifiant unique au bouton supprimer
+        removeButton.id = `remove-button-${newId}`;
+        attachRemoveEvent(removeButton);
+      }
+      
+      list.appendChild(newFields.firstElementChild);
     });
-    console.log("HTML mis à jour avec le nouvel index :", updatedHTML);
 
-    // Ajout de l'élément au conteneur
-    orderItemsContainer.insertAdjacentHTML('beforeend', updatedHTML);
-    console.log("Nouvel élément '.nested-fields' ajouté au conteneur");
+    function attachRemoveEvent(button) {
+      button.addEventListener('click', function() {
+        button.closest('.list-item').remove();
+      });
+    }
+
+    // Initialiser les événements pour tous les boutons "remove" existants au départ
+    document.querySelectorAll('.button-remove').forEach(button => {
+      attachRemoveEvent(button);
+    });
   });
-});
-
 </script>
+
+
+
+<style>
+  .list-container {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .list-item {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .button-add {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .button-remove {
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-remove:hover, .button-add:hover {
+    opacity: 0.8;
+  }
+</style>
