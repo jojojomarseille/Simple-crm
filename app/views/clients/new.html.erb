@@ -1,9 +1,9 @@
 <h1>Novo Cliente</h1>
 
-<div class="form-container">
-  <%= render 'form', client: @client %>
+<div class="form-wrapper">
+  <div class="form-container">
+    <%= render 'form', client: @client %>
+  </div>
 </div>
 
-<div class="buttons">
-  <%= link_to 'Voltar', clients_path, class: 'btn' %>
-</div>
+<%= link_to 'Voltar', clients_path, class: 'btn-back' %>

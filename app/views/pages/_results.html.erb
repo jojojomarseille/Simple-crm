@@ -1,0 +1,28 @@
+<h2>Resultados da Busca</h2>
+<div class="search-results">
+  <% if @clients.any? %>
+    <h3>Clientes Encontrados:</h3>
+    <ul>
+      <% @clients.each do |client| %>
+        <li><%= link_to 
+client.name
+, client_path(client) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Nenhum cliente encontrado.</p>
+  <% end %>
+
+  <% if @products.any? %>
+    <h3>Produtos Encontrados:</h3>
+    <ul>
+      <% @products.each do |product| %>
+        <li><%= link_to 
+product.name
+, product_path(product) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Nenhum produto encontrado.</p>
+  <% end %>
+</div> 

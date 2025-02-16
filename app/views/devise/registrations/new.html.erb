@@ -1,28 +1,36 @@
 <h2>Sign up</h2>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'custom-form' }) do |f| %>
+  <% if resource.errors.any? %>
+    <div class="custom-error-container">
+      <h2><%= pluralize(resource.errors.count, "erro") %> impediram o salvamento deste formulário:</h2>
+      <ul>
+        <% resource.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="custom-form-group">
+    <%= f.label :email %>
+    <%= f.email_field :email, class: 'custom-input', autofocus: true, autocomplete: "email" %>
   </div>
 
-  <div class="field">
+  <div class="custom-form-group">
     <%= f.label :password %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %>
+    <%= f.password_field :password, class: 'custom-input', autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  <div class="custom-form-group">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, class: 'custom-input', autocomplete: "new-password" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+  <div class="custom-form-group">
+    <%= f.submit "Sign up", class: 'custom-button' %>
   </div>
 <% end %>
 

@@ -1,27 +1,47 @@
 <h1>Lista de Produtos</h1>
 
-<table>
-  <tr>
-    <th>Nome</th>
-    <th>Descrição</th>
-    <th>Preço</th>
-    <th>Estoque</th>
-    <th>Ações</th>
-  </tr>
-
-  <% @products.each do |product| %>
-    <tr>
-      <td><%= product.name %></td>
-      <td><%= product.description %></td>
-      <td><%= number_to_currency(product.price) %></td>
-      <td><%= product.stock %></td>
-      <td>
-        <%= link_to 'Mostrar', product %> |
-        <%= link_to 'Editar', edit_product_path(product) %> |
-        <%= link_to 'Excluir', product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } %>
-      </td>
-    </tr>
+<div class="sort-options">
+  <%= form_with url: products_path, method: :get, local: true do |f| %>
+    <div>
+      <%= f.label :order, 'Ordenar por' %>
+      <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['Estoque', 'stock']], params[:order]), { include_blank: true } %>
+    </div>
+    <div>
+      <%= f.label :direction, 'Direção' %>
+      <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
+    </div>
+    <div>
+      <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
+    </div>
   <% end %>
-</table>
+</div>
 
-<%= link_to 'Novo Produto', new_product_path %>
+<div class="table-container">
+  <table class="client-table">
+    <tr>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Preço</th>
+      <th>Estoque</th>
+      <th>Ações</th>
+    </tr>
+
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= number_to_currency(product.price) %></td>
+        <td><%= product.stock %></td>
+        <td>
+          <div class="product-buttons">
+            <%= link_to 'Mostrar', product, class: 'btn btn-show' %>
+            <%= link_to 'Editar', edit_product_path(product), class: 'btn btn-edit' %>
+            <%= button_to 'Excluir', product, method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: 'btn btn-delete' %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
