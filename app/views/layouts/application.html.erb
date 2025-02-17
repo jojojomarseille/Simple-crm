@@ -27,51 +27,13 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
   </head>
 
   <body>
-    <!-- Header -->
-    <header class="main-header">
-      <div class="container">
-        <!-- Menu Hamburguer -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-            <!-- Botão do menu hamburguer -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Logo ou Título -->
-            <a class="navbar-brand" href="<%= root_path %>">SuperCrmTest</a>
-
-            <!-- Links do menu -->
-            <div class="collapse navbar-collapse" id="navbarMenu">
-          
-              <!-- Verificação de Login -->
-              <% if user_signed_in? %>
-                <span class="navbar-text">
-                  Bienvenue, <%= current_user.firstname %> <%= current_user.lastname %> |
-                </span>
-                <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
-              <% else %>
-                <div class="d-flex">
-                  <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-outline-primary btn-sm me-2' %>
-                  <%= link_to 'Créer un compte', new_user_registration_path, class: 'btn btn-outline-success btn-sm' %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Messages Flash -->
-    <% flash.each do |type, message| %>
-      <div class="flash <%= type %>"><%= message %></div>
-    <% end %>
-
     <!-- Menu -->
-    <div class="sidebar close">
+    <div class="sidebar close" style="z-index: 999">
     <div class="logo-details">
-      <i class='bx bxl-c-plus-plus'></i>
-      <span class="logo_name">CodingLab</span>
+      <a class="link_name" style="margin-top: 60px" href=".">
+        <i class='bx bxl-c-plus-plus'></i>
+        <span class="logo_name">Super CRM</span>
+      </a>
     </div>
     <ul class="nav-links">
       <li>
@@ -95,7 +57,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
           <li><a class="link_name" href="#">Categorias</a></li>
           <li><%= link_to 'Produtos', products_path %></li>
           <li><%= link_to 'Clientes', clients_path %></li>
-          <li><a href="#">Vendas</a></li>
+          <li><%= link_to 'Vendas', orders_path %></li>
         </ul>
       </li>
       <li>
@@ -176,7 +138,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
       <li>
     <div class="profile-details">
       <div class="profile-content">
-        <img src="image/profile.jpg" alt="profileImg">
+        <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
       </div>
       <div class="name-job">
         <div class="profile_name">Prem Shahi</div>
@@ -186,30 +148,48 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
     </div>
   </li>
 </ul>
-  </div>
+</div>
+
+<!-- top bar-->
   <section class="home-section">
     <div class="home-content">
-      <i class='bx bx-menu' ></i>
-      <span class="text"></span>
+      <i class='bx bx-menu' style="z-index: 1000"></i>   
+      <div class="top-bar">   
+        <!-- Verificação de Login -->
+        <% if user_signed_in? %>
+          <span class="navbar-text">
+            Bienvenue, Roger cuelho!<%= current_user.firstname %> <%= current_user.lastname %> |
+          </span>
+          <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
+        <% else %>
+          <div class="d-flex">
+            <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-outline-primary btn-sm me-2' %>
+            <%= link_to 'Créer un compte', new_user_registration_path, class: 'btn btn-outline-success btn-sm' %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </section>
+
+<!-- Messages Flash -->
+<% flash.each do |type, message| %>
+  <div class="flash <%= type %>"><%= message %></div>
+<% end %>
+
   
-
-      <div>
-        <main>
-          <%= yield %>
-        </main>
-      </div>
-    </div>
-
-
-    <!-- Footer -->
-    <footer class="main-footer">
-      <div class="container">
-        <p>&copy; <%= Time.current.year %> SuperCrmTest. Tous droits réservés.</p>
-      </div>
-    </footer>
-  </body>
+  <!-- Content of the yield-->
+  <div class="yield">
+    <main>
+      <%= yield %>
+    </main>
+  </div>
+</body>
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="container">
+    <p>&copy; <%= Time.current.year %> SuperCrmTest. Tous droits réservés.</p>
+  </div>
+</footer>
 
 </html>
 

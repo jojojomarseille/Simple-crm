@@ -1,15 +1,16 @@
-<h1>Home Page</h1>
 
-<p>Nossa Aplicação de gestão de Produtos!</p>
+<%# <p>Nossa Aplicação de gestão de Produtos!</p> %>
 
 <!-- Barra de Pesquisa -->
-<div class="search-container">
-<%= form_with(url: search_path, method: :get, class: "search-form", data: { turbo_frame: "search_results" }) do |form| %>
-  <%= form.label :query, "Pesquisar por Cliente ou Produto", class: "search-label" %>
-  <%= form.text_field :query, placeholder: "Nome do Cliente ou Produto", class: "search-input" %>
-  <%= form.submit "Pesquisar", class: "search-button" %>
-<% end %>
-</div>
+<% if user_signed_in? %>
+  <div class="search-container">
+    <%= form_with(url: search_path, method: :get, class: "search-form", data: { turbo_frame: "search_results" }) do |form| %>
+      <%= form.label :query, "Pesquisar por Cliente ou Produto", class: "search-label" %>
+      <%= form.text_field :query, placeholder: "Nome do Cliente ou Produto", class: "search-input" %>
+      <%= form.submit "Pesquisar", class: "search-button" %>
+    <% end %>
+  </div>
+<%end%>
 
 <turbo-frame id="search_results">
   <!-- Contenu par défaut avant toute recherche -->
