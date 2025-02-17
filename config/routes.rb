@@ -1,5 +1,6 @@
 # config/routes.rb
 Rails.application.routes.draw do
+  root "pages#home"
   devise_for :users
   # Rota para a pesquisa
   get 'search', to: 'home#search', as: 'search' 
@@ -7,7 +8,9 @@ Rails.application.routes.draw do
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'
   end 
-  resources :clients
+  resources :clients do
+    resources :orders, only: [:new, :create]
+  end
+  resources :orders, only: [:show, :edit, :update, :destroy, :index]
   
-  root "pages#home"
 end

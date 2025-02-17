@@ -34,7 +34,7 @@
         <td><%= @client.postal_code %></td>
       </tr>
       
-      <% end %> 
+      <%# <% end %>  
 
       <% if @client.image? %>
         <%= image_tag @client.image.url %>
@@ -46,7 +46,19 @@
         </td>
       </tr>
     </table>
-    
+
+    <%= link_to 'Add Sale', new_client_order_path(@client), class: 'btn btn-success' %>
+
+    <h2>Sales</h2>
+    <ul>
+      <% @client.orders.each do |order| %>
+        <li>
+          <%= link_to "Order ##{order.id}", order_path(order) %> - 
+          <%# <%= number_to_currency(order.price) %> 
+        </li>
+      <% end %>
+    </ul>
+        
     <script>
     function initMap() {
       var map = new 

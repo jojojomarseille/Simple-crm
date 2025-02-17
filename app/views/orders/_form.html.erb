@@ -1,0 +1,33 @@
+<%= form_with(model: [@client, @order], local: true) do |form| %>
+  <div>
+    <%= form.label :date %>
+    <%= form.datetime_select :date %>
+  </div>
+
+  <h3>Order Items:</h3>
+
+  <div class="list-container">
+    <div id="list">
+      <%= form.fields_for :order_items do |f| %>
+        <%= render partial: "order_item_fields", locals: { f: f } %>
+      <% end %>
+    </div>
+    <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+  <!-- Placeholder pour le template -->
+  <div id="template-container" style="display: none;">
+    <%= form.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
+      <%= render partial: 'order_item_fields', locals: { f: f } %>
+    <% end %>
+  </div>
+
+<% end %>
+
+
+
+

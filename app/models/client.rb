@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
+  has_many :orders, dependent: :destroy
     # Spécifiez les champs qui, combinés, forment l'adresse complète utilisée pour le géocodage
     geocoded_by :full_address
   
@@ -15,4 +16,4 @@ class Client < ApplicationRecord
     validates :mail, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
     mount_uploader :image, ImageUploader 
 
-  end 
+end 

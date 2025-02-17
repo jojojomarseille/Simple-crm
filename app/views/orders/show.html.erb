@@ -1,0 +1,16 @@
+<p>
+  <strong>Date:</strong>
+  <%= @order.date %>
+</p>
+
+<p>
+  <strong>Total Price:</strong>
+  <%= number_to_currency(@order.total_price_ht) %>
+</p>
+
+<h3>Order Items</h3>
+<ul>
+  <% @order.order_items.each do |item| %>
+    <li><%= item.product.name %>: <%= item.quantity %> x <%= number_to_currency(item.price) %></li>
+  <% end %>
+</ul>
