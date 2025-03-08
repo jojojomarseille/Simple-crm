@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  belongs_to :organisation
   has_many :prices, dependent: :destroy 
   accepts_nested_attributes_for :prices, allow_destroy: true
   has_many :order_items

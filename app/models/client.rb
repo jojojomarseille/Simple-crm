@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
+  belongs_to :organisation
   has_many :orders, dependent: :destroy
     # Spécifiez les champs qui, combinés, forment l'adresse complète utilisée pour le géocodage
     geocoded_by :full_address
