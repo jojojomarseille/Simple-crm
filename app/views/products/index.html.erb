@@ -1,23 +1,22 @@
-<h1>Lista de Produtos</h1>
-
-<div class="sort-options">
+<h1>Produtos</h1>
+<div class="sort-container">
   <%= form_with url: products_path, method: :get, local: true do |f| %>
-    <div>
+    
       <%= f.label :order, 'Ordenar por' %>
       <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['Estoque', 'stock']], params[:order]), { include_blank: true } %>
-    </div>
-    <div>
+    
+    
       <%= f.label :direction, 'Direção' %>
       <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
-    </div>
-    <div>
+    
+    
       <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
-    </div>
+    
   <% end %>
 </div>
 
 <div class="table-container">
-  <table class="client-table">
+  <table class="index-table">
     <tr>
       <th>Nome</th>
       <th>Descrição</th>

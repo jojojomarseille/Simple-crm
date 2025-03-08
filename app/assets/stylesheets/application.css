@@ -12,95 +12,6 @@ body {
   margin: 0 auto;
 }
 
-/* Centralizar a tabela e adicionar padding de 5px nas laterais */
-.table-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 0 5px;
-}
-
-.client-table {
-  width: auto; /* Permite que a tabela se ajuste ao conteúdo */
-  max-width: 100%;
-}
-
-.client-table th,
-.client-table td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  box-sizing: border-box; /* Certifica-se que o padding não afete a largura total */
-}
-
-/* Alternância de cores nas linhas */
-.client-table tr:nth-child(odd) {
-  background-color: #fff; /* Branco */
-}
-
-.client-table tr:nth-child(even) {
-  background-color: #f4f4f4; /* Cinza Claro */
-}
-
-/* Estilo do botão "Novo Cliente" */
-.client-table .btn {
-  background-color: #007bff; /* Cor azul */
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  margin: 10px 0;
-  display: inline-block;
-  font-size: 16px;
-  text-align: center;
-  font-family: 'Poppins', sans-serif; /* Tipografia geral */
-}
-
-.client-table .btn:hover {
-  background-color: #0056b3;
-}
-
-/* Estilos dos botões de ação (Mostrar, Editar, Excluir) */
-.client-table .btn-show {
-  background-color: #28a745; /* Verde */
-  color: white;
-  padding: 5px 10px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.client-table .btn-show:hover {
-  background-color: #218838;
-}
-
-.client-table .btn-edit {
-  background-color: #007bff; /* Azul */
-  color: white;
-  padding: 5px 10px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.client-table .btn-edit:hover {
-  background-color: #0056b3;
-}
-
-.client-table .btn-delete {
-  background-color: #dc3545; /* Vermelho */
-  color: white;
-  padding: 5px 10px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.client-table .btn-delete:hover {
-  background-color: #c82333;
-}
-
 /* Centralizando o título */
 h1 {
   margin: 25px;
@@ -569,6 +480,7 @@ p {
 /* Container da caixa de login */
 .login-container {
   width: 100%;
+  margin: auto;
   max-width: 400px;
   padding: 20px;
 }
@@ -623,6 +535,25 @@ p {
 .form-label-inline {
   color: #555;
 }
+
+/* top bar*/
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height:60px;
+  padding-right: 60px;
+  /* padding-top: 15px; */
+  align-items: center;
+  position: fixed; /* Rendre la barre fixe */
+  top: 0;          /* Colle la barre en haut de la page */
+  left: 30px;         /* Commence à gauche */
+  z-index: 998;  /* Assure que la barre est au-dessus des autres éléments */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ajoute une ombre (optionnel) */
+  background-color: #E4E9F7;
+}
+
+
 
 /* Botão de login */
 .form-button {
@@ -763,6 +694,7 @@ p {
   align-items: center;
   text-decoration: none;
 }
+
 .sidebar .nav-links li a .link_name{
   font-size: 18px;
   font-weight: 400;
@@ -882,10 +814,16 @@ p {
 .home-section{
   position: relative;
   background: #E4E9F7;
-  height: 100vh;
+  /* height: 100vh; */
   left: 260px;
   width: calc(100% - 260px);
   transition: all 0.5s ease;
+}
+
+.yield{
+ padding-left: 100px;
+ padding-right: 30px;
+ min-height: 86vh;
 }
 
 .sidebar.close ~ .home-section{
