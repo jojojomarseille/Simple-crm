@@ -2,6 +2,10 @@
   <strong>Date:</strong>
   <%= @order.date %>
 </p>
+<p>
+  <strong>Numeros:</strong>
+  <%= @order.id %>
+</p>
 
 <p>
   <strong>Total Price:</strong>
@@ -14,3 +18,4 @@
     <li><%= item.product.name %>: <%= item.quantity %> x <%= number_to_currency(item.price) %></li>
   <% end %>
 </ul>
+ <%= link_to 'Comandes', orders_path %>

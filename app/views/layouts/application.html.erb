@@ -7,6 +7,8 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "style_table", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "style_form", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -30,7 +32,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
     <!-- Menu -->
     <div class="sidebar close" style="z-index: 999">
     <div class="logo-details">
-      <a class="link_name" style="margin-top: 60px" href=".">
+      <a class="link_name" style="margin-top: 60px; text-decoration:none" href=".">
         <i class='bx bxl-c-plus-plus'></i>
         <span class="logo_name">Super CRM</span>
       </a>
@@ -153,7 +155,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
 <!-- top bar-->
   <section class="home-section">
     <div class="home-content">
-      <i class='bx bx-menu' style="z-index: 1000"></i>   
+      <i class='bx bx-menu' id='lat-menue-btn' style="z-index: 1000; position: fixed; top: 5px"></i>   
       <div class="top-bar">   
         <!-- Verificação de Login -->
         <% if user_signed_in? %>
@@ -192,19 +194,3 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
 </footer>
 
 </html>
-
-<script>
-  let arrow = document.querySelectorAll(".arrow");
-  for (var i = 0; i < arrow.length; i++) {
-    arrow[i].addEventListener("click", (e)=>{
-   let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-   arrowParent.classList.toggle("showMenu");
-    });
-  }
-  let sidebar = document.querySelector(".sidebar");
-  let sidebarBtn = document.querySelector(".bx-menu");
-  console.log(sidebarBtn);
-  sidebarBtn.addEventListener("click", ()=>{
-    sidebar.classList.toggle("close");
-  });
-  </script>

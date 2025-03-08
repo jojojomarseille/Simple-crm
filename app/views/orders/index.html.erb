@@ -1,30 +1,48 @@
-<h1>Orders</h1>
+<h1>Vendas</h1>
+<div class="sort-container">
+  <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
+    <%= form.label :order, "Ordenar por", class: "label-sort" %>
+    <%= form.select :order, options_for_select([['Cliente', 'cliente'], ['Data', 'data']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
+    <%= form.label :direction, "Direção", class: "label-sort" %>
+    <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
 
-<table>
-  <thead>
+    <%= form.submit "Aplicar", class: "btn-apply" %>
+  <% end %>
+</div>
+
+<div class="table-container">
+  <table class="index-table">
     <tr>
-      <th>Date</th>
-      <th>Client</th>
-      <th>Utilisateur</th>
-      <th>Total Price</th>
-      <th>Actions</th>
+      <th>ID</th>
+      <th>Data</th>
+      <th>Cliente</th>
+      <th>Utilisator</th>
+      <th>Total price HT</th>
+      <th>Ações</th>
     </tr>
-  </thead>
-  <tbody>
+
     <% @orders.each do |order| %>
-      <tr>
+       <tr>
+        <td><%= order.id %></td>
         <td><%= order.date %></td>
         <td><%= order.client.name %></td>
         <td><%= order.user.email %></td>
-        <%# <td><%= number_to_currency(order.price) %>
+        <% if order.total_price_ht.present? %>
+          <td><%= order.total_price_ht %></td>
+        <%else%>
+          <td>Erreur calcul prix</td>
+        <% end %>
         <td>
-          <%= link_to 'Show', order_path(order) %>
-          <%= link_to 'Edit', edit_order_path(order) %>
-          <%= link_to 'Delete', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Mostrar', order_path(order), class: 'btn-show' %>
+          <%= link_to 'Editar', edit_order_path(order), class: 'btn-edit' %>
+          <%= link_to 'Excluir', order_path(order), method: :delete, data: { confirm: 'Séguro que si?' }, class: 'btn btn-delete' %>
         </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+  </table>
+</div>
+
+<%# <%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> <!-- Botão de Novo Cliente --> 
+
 
 <%# <%= link_to 'New Order', new_order_path %> 
