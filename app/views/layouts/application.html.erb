@@ -29,7 +29,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
   </head>
 
   <body>
-    <!-- Menu -->
+    <!-- left Menu -->
     <div class="sidebar close" style="z-index: 999">
     <div class="logo-details">
       <a class="link_name" style="margin-top: 60px; text-decoration:none" href=".">
@@ -160,7 +160,7 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
         <!-- Verificação de Login -->
         <% if user_signed_in? %>
           <span class="navbar-text">
-            Bienvenue, Roger cuelho!<%= current_user.firstname %> <%= current_user.lastname %> |
+            Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> |
           </span>
           <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
         <% else %>

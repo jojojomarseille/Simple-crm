@@ -477,6 +477,20 @@ p {
 }
 /* Estilos gerais */
 
+.form-container {
+  width: 100%;
+  margin: auto;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.form-box {
+  background-color: #f0f0f0; /* Fundo cinza */
+  padding: 20px;
+  border-radius: 10px; /* Cantos arredondados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  text-align: center;
+}
 /* Container da caixa de login */
 .login-container {
   width: 100%;

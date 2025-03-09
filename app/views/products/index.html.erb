@@ -18,19 +18,19 @@
 <div class="table-container">
   <table class="index-table">
     <tr>
+      <th>ID</th>
       <th>Nome</th>
       <th>Descrição</th>
       <th>Preço</th>
-      <th>Estoque</th>
       <th>Ações</th>
     </tr>
 
     <% @products.each do |product| %>
       <tr>
+        <td><%= product.id %></td>
         <td><%= product.name %></td>
         <td><%= product.description %></td>
-        <td><%= number_to_currency(product.price) %></td>
-        <td><%= product.stock %></td>
+        <td><%= number_to_currency(product.prices.last.amount, :unit => "€") %></td>
         <td>
           <div class="product-buttons">
             <%= link_to 'Mostrar', product, class: 'btn btn-show' %>

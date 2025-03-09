@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: [:show, :edit, :update, :destroy, :update_price]
   before_action :set_price, only: [:update_price]
+  before_action :set_organisation, only: [:new, :create, :index]
 
   # 📋 Listar todos os produtos
   def index
@@ -10,9 +11,9 @@ class ProductsController < ApplicationController
 
     # Verifica se a direção é 'desc' para reverter a ordem
     if %w[name price stock].include?(order) && %w[asc desc].include?(direction)
-      @products = Product.order("#{order} #{direction}")
+      @products = Product.where(organisation_id: @organisation.id).order("#{order} #{direction}")
     else
-      @products = Product.all # Caso não haja parâmetros válidos
+      @products = Product.where(organisation_id: @organisation.id) # Caso não haja parâmetros válidos
     end
   end
 
@@ -42,9 +43,13 @@ class ProductsController < ApplicationController
   # 💾 Salvar novo produto
   def create
     @product = Product.new(product_params)
+    @product.organisation = @organisation
+    puts "organisation id: #{@organisation.id}"
     if @product.save
       redirect_to @product, notice: 'Produto criado com sucesso.'
     else
+      puts "le create n'a pas fonctionné"
+      puts "le produits que j'ai soumis: #{@product.inspect}"
       render :new
     end
   end
@@ -69,6 +74,10 @@ class ProductsController < ApplicationController
   # 🔑 Buscar produto por ID
   def set_product
     @product = Product.find(params[:id])
+  end
+
+  def set_organisation
+    @organisation = current_user.organisation
   end
 
   # 📦 Parâmetros permitidos para o produto

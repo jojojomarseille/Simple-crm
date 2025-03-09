@@ -8,6 +8,7 @@
   <li><strong>Phone:</strong> <%= @user.phone %></li>
   <li><strong>Birthdate:</strong> <%= @user.birthdate %></li>
 </ul>
+<%= link_to 'Edit User Info', edit_user_path, class: 'btn btn-secondary' %>
 
 <h2>Organisation Information</h2>
 <% if @organisation %>
@@ -22,6 +23,7 @@
     <li><strong>Identification Number:</strong> <%= @organisation.identification_number %></li>
     <li><strong>VAT Number:</strong> <%= @organisation.vat_number %></li>
   </ul>
+    <%= link_to 'Edit Organisation', edit_organisation_path, class: 'btn btn-primary' %>
 <% else %>
   <p>No organisation found.</p>
 <% end %>

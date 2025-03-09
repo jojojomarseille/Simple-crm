@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_08_202355) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_09_202908) do
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "client_type"
@@ -70,7 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_202355) do
 
   create_table "prices", force: :cascade do |t|
     t.decimal "amount"
-    t.string "currency"
+    t.string "currency", default: "Euros"
     t.integer "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -80,8 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_202355) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "price"
-    t.integer "stock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "product_image"

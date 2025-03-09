@@ -4,6 +4,14 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
+
+  # Route pour l'édition des informations utilisateur
+  get 'user/edit', to: 'users#edit', as: 'edit_user'
+  patch 'user', to: 'users#update'
+
+  # Routes pour edit de orga
+  resource :organisation, only: [:edit, :update]
+
   # Rota para a pesquisa
   get 'search', to: 'home#search', as: 'search' 
   get 'infos_user', to: 'pages#infos_user', as: 'infos_user'

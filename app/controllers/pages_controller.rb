@@ -4,7 +4,8 @@ class PagesController < ApplicationController
     end
 
     def infos_user
-        @user = current_user
-        @organisation = @user.organisation
+      @user = current_user
+      @organisation = @user.organisation
     end
+    
 end
