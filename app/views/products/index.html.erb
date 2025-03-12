@@ -1,9 +1,9 @@
 <h1>Produtos</h1>
-<div class="sort-container">
+<div class="index-top-container">
   <%= form_with url: products_path, method: :get, local: true do |f| %>
     
       <%= f.label :order, 'Ordenar por' %>
-      <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['Estoque', 'stock']], params[:order]), { include_blank: true } %>
+      <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['ID', 'id']], params[:order]) %>
     
     
       <%= f.label :direction, 'Direção' %>
@@ -13,6 +13,7 @@
       <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
     
   <% end %>
+  <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
 </div>
 
 <div class="table-container">
@@ -20,6 +21,7 @@
     <tr>
       <th>ID</th>
       <th>Nome</th>
+      <th>Photo</th>
       <th>Descrição</th>
       <th>Preço</th>
       <th>Ações</th>
@@ -29,6 +31,13 @@
       <tr>
         <td><%= product.id %></td>
         <td><%= product.name %></td>
+        <td>
+          <% if product.product_image.present? %>
+            <%= image_tag product.product_image.url, size: "50x50", alt: "#{product.name} image" %>
+          <% else %>
+            <p>>No image available" </p>
+          <% end %>
+        </td>
         <td><%= product.description %></td>
         <td><%= number_to_currency(product.prices.last.amount, :unit => "€") %></td>
         <td>
@@ -43,4 +52,4 @@
   </table>
 </div>
 
-<%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+

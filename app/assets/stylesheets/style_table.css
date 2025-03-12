@@ -8,6 +8,12 @@
     width: 100%;
     padding: 0 5px;
   }
+
+  .index-top-container {
+    display: flex;
+    justify-content: space-between;
+
+  }
   
   .index-table {
     width: 90%; /* Permite que a tabela se ajuste ao conteúdo */

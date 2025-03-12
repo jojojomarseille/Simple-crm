@@ -4,16 +4,21 @@ class ProductsController < ApplicationController
   before_action :set_price, only: [:update_price]
   before_action :set_organisation, only: [:new, :create, :index]
 
-  # 📋 Listar todos os produtos
   def index
-    order = params[:order] || 'name'  # Se não passar um parâmetro `order`, usa 'name' como padrão
-    direction = params[:direction] || 'asc'  # Se não passar um parâmetro `direction`, usa 'asc' como padrão
+    order = params[:order] || 'name'  
+    direction = params[:direction] || 'asc' 
 
-    # Verifica se a direção é 'desc' para reverter a ordem
-    if %w[name price stock].include?(order) && %w[asc desc].include?(direction)
-      @products = Product.where(organisation_id: @organisation.id).order("#{order} #{direction}")
+    valid_order_attributes = %w[id name]
+
+    if order == 'price'
+      @products = Product.joins(:prices) 
+                        .where(organisation_id: current_user.organisation.id)
+                        .select('products.*, prices.amount AS price_amount') 
+                        .order("price_amount #{direction}")
+    elsif valid_order_attributes.include?(order) && %w[asc desc].include?(direction)
+      @products = Product.where(organisation_id: current_user.organisation.id).order("#{order} #{direction}")
     else
-      @products = Product.where(organisation_id: @organisation.id) # Caso não haja parâmetros válidos
+      @products = Product.where(organisation_id: current_user.organisation.id)
     end
   end
 
