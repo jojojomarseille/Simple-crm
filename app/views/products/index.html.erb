@@ -1,19 +1,19 @@
 <h1>Produtos</h1>
-<div class="index-top-container">
-  <%= form_with url: products_path, method: :get, local: true do |f| %>
-    
-      <%= f.label :order, 'Ordenar por' %>
-      <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['ID', 'id']], params[:order]) %>
-    
-    
-      <%= f.label :direction, 'Direção' %>
-      <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
-    
-    
-      <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
-    
-  <% end %>
-  <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+<div class="index-top-container" style="justify-content: center">
+  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px">
+    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
+      <%= form_with url: products_path, method: :get, local: true do |f| %>
+          <%= f.label :order, 'Ordenar por' %>
+          <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['ID', 'id']], params[:order]) %>
+        
+          <%= f.label :direction, 'Direção' %>
+          <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
+        
+          <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
+      <% end %>
+    </div>
+    <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+  </div>
 </div>
 
 <div class="table-container">
