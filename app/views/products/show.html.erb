@@ -3,8 +3,6 @@
     <p><strong>Nome:</strong> <%= @product.name %></p>
     <p><strong>Descrição:</strong> <%= @product.description %></p>
   
-    <%= link_to 'Editar', edit_product_path(@product) %> |
-    <%= link_to 'Voltar', products_path %>
 
        <% if @product.product_image? %>
         <%= image_tag @product.product_image.url %>
@@ -16,3 +14,6 @@
       <li><%=price.amount%>€ - mis a jour le: <%=price.created_at%></li>
      </ul>
     <% end %>
+
+      <%= link_to 'Editar', edit_product_path(@product) %> |
+    <%= link_to 'Voltar', products_path %>

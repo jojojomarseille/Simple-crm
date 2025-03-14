@@ -1,20 +1,33 @@
 <h1>Clientes</h1>
 
-<div class="sort-container">
-  <%= form_with(url: clients_path, method: :get, local: true, class: "sort-form") do |form| %>
-    <%= form.label :order, "Ordenar por", class: "label-sort" %>
-    <%= form.select :order, options_for_select([['Nome', 'name'], ['Tipo', 'client_type']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
+<div class="index-top-container" style="justify-content: center">
+  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
+    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
+      <%= form_with(url: clients_path, method: :get, local: true, class: "sort-form") do |form| %>
+        <%= form.label :order, "Ordenar por", class: "label-sort" %>
+        <%= form.select :order, options_for_select([['Nome', 'name'], ['Tipo', 'client_type'], ['País', 'country']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
 
-    <%= form.label :direction, "Direção", class: "label-sort" %>
-    <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
+        <%= form.label :direction, "Direção", class: "label-sort" %>
+        <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
 
-    <%= form.submit "Aplicar", class: "btn-apply" %>
-  <% end %>
+        <%= form.label :per_page, 'Produtos por página' %>
+        <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
+
+        <%= form.submit "Aplicar", class: "btn-apply" %>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to 'Télécharger le CSV', clients_path(format: :csv), class: 'btn btn-download' %>
+      <%= link_to 'Télécharger le PDF', clients_path(format: :pdf), class: 'btn btn-download' %>
+      <%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> 
+    </div>
+  </div>
 </div>
 
 <div class="table-container">
   <table class="index-table">
     <tr>
+      <th>ID</th>
       <th>Nome</th>
       <th>Tipo</th>
       <th>Email</th>
@@ -28,6 +41,7 @@
 
     <% @clients.each do |client| %>
       <tr>
+        <td><%= client.id %></td>
         <td><%= client.name %></td>
         <td><%= client.client_type %></td>
         <td><%= client.mail %></td>
@@ -45,5 +59,4 @@
     <% end %>
   </table>
 </div>
-
-<%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> <!-- Botão de Novo Cliente -->
+<%= paginate @clients %>
