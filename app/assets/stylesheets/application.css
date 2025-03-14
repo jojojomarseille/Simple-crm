@@ -986,3 +986,37 @@ p {
 .button-remove:hover, .button-add:hover {
   opacity: 0.8;
 }
+
+
+/* pagination*/
+.pagination {
+  display: flex;
+  justify-content: center; /* Centre les éléments de pagination */
+  list-style: none;
+  padding: 0; 
+  margin-top: 20px;
+}
+
+.pagination li {
+  margin: 0 5px; /* Espacement entre les pages */
+}
+
+.pagination a, .pagination span {
+  color: #000; /* Couleur noire */
+  text-decoration: none; /* Supprime les soulignés des liens */
+  padding: 8px 16px;
+  /*border: 1px solid #000; /* Ajoute une bordure noire */
+  border-radius: 4px; /* Bordures arrondies */
+  transition: background-color 0.3s;
+}
+
+.pagination a:hover, .pagination span.current {
+  background-color: #f0f0f0; /* Couleur de fond au survol */
+  cursor: pointer;
+}
+
+.pagination span.current {
+  background-color: #000; /* Fond en noir pour la page actuelle */
+  color: #fff; /* Texte en blanc pour la page actuelle */
+  pointer-events: none; /* Désactive l'interaction */
+}

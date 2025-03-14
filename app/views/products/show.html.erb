@@ -11,18 +11,8 @@
        <% end %> 
 
     <h3>Prices</h3>
-    <% @product.prices.each do |price| %>
-     <%= form_with model: price, url: product_update_price_path(@product, price_id: price), local: true, method: :patch do |price_form| %>  
-        <div>
-          <%= price_form.label :amount %>
-          <%= price_form.number_field :amount %>
-        </div>
-    
-        <div>
-          <%= price_form.label :currency %>
-          <%= price_form.text_field :currency %>
-        </div>
-    
-        <%= price_form.submit "Update Price" %>
-      <% end %> 
-      <% end %>
+    <% @prices.each do |price| %>
+     <ul>
+      <li><%=price.amount%>€ - mis a jour le: <%=price.created_at%></li>
+     </ul>
+    <% end %>

@@ -1,6 +1,6 @@
 <h1>Produtos</h1>
 <div class="index-top-container" style="justify-content: center">
-  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px">
+  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
     <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
       <%= form_with url: products_path, method: :get, local: true do |f| %>
           <%= f.label :order, 'Ordenar por' %>
@@ -8,11 +8,18 @@
         
           <%= f.label :direction, 'Direção' %>
           <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
+
+          <%= f.label :per_page, 'Produtos por página' %>
+          <%= f.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
         
-          <%= f.submit 'Aplicar Ordenação', class: 'btn-sort' %>
+          <%= f.submit 'Aplicar parametros', class: 'btn-sort' %>
       <% end %>
     </div>
-    <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+    <div>
+      <%= link_to 'Télécharger le CSV', products_path(format: :csv), class: 'btn btn-download' %>
+      <%= link_to 'Télécharger le PDF', products_path(format: :pdf), class: 'btn btn-download' %>
+      <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+    </div>
   </div>
 </div>
 
@@ -51,5 +58,7 @@
     <% end %>
   </table>
 </div>
+
+<%= paginate @products %>
 
 
