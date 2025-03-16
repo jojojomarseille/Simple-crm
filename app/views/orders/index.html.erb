@@ -1,13 +1,24 @@
 <h1>Vendas</h1>
-<div class="sort-container">
-  <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
-    <%= form.label :order, "Ordenar por", class: "label-sort" %>
-    <%= form.select :order, options_for_select([['Cliente', 'cliente'], ['Data', 'data']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
-    <%= form.label :direction, "Direção", class: "label-sort" %>
-    <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
 
-    <%= form.submit "Aplicar", class: "btn-apply" %>
-  <% end %>
+<div class="index-top-container" style="justify-content: center">
+  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
+    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
+      <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
+        <%= form.label :order_sort, "Ordenar por", class: "label-sort" %>
+        <%= form.select :order_sort, options_for_select([['Cliente', 'client.name'], ['Data', 'date'], ['Total price ht', 'total_price_ht']], selected: params[:order_sort]), { include_blank: false }, class: "select-sort" %>
+        <%= form.label :direction, "Direção", class: "label-sort" %>
+        <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
+        <%= form.label :per_page, 'Produtos por página' %>
+        <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
+        <%= form.submit "Aplicar", class: "btn-apply" %>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to 'Télécharger le CSV', orders_path(format: :csv), class: 'btn btn-download' %> 
+      <%= link_to 'Télécharger le PDF', orders_path(format: :pdf), class: 'btn btn-download' %> 
+      <%= link_to 'Nova Venda', new_with_client_selection_orders_path, class: 'btn-new' %> 
+    </div>
+  </div>
 </div>
 
 <div class="table-container">
@@ -16,8 +27,8 @@
       <th>ID</th>
       <th>Data</th>
       <th>Cliente</th>
-      <th>Utilisator</th>
-      <th>Total price HT</th>
+      <th>Mail</th>
+      <th>Price</th>
       <th>Ações</th>
     </tr>
 
@@ -25,8 +36,8 @@
        <tr>
         <td><%= order.id %></td>
         <td><%= order.date %></td>
-        <td><%= order.client.name %></td>
-        <td><%= order.user.email %></td>
+        <td><%= link_to order.client.name, client_path(order.client) %></td>
+        <td><%= order.client.mail %></td>
         <% if order.total_price_ht.present? %>
           <td><%= order.total_price_ht %></td>
         <%else%>
@@ -42,7 +53,4 @@
   </table>
 </div>
 
-<%# <%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> <!-- Botão de Novo Cliente --> 
-
-
-<%# <%= link_to 'New Order', new_order_path %> 
+<%= paginate @orders %>

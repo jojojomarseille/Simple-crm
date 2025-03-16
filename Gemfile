@@ -13,6 +13,12 @@ gem "sprockets-rails"
 gem "sqlite3", "~> 1.4"
 
 gem 'devise'
+gem 'kaminari'
+
+#pour generer des pdf
+gem 'prawn'
+gem 'prawn-table'
+
 
 gem 'geocoder'
 gem 'cocoon'

@@ -1,7 +1,7 @@
 <div class="list-item">
   <div class="nested-fields">
     <%= f.label :product_id, "Product" %>
-    <%= f.collection_select :product_id, Product.all, :id, :name, prompt: 'Select a Product', include_blank: true %>
+    <%= f.collection_select :product_id, Product.where(organisation_id: @organisation.id), :id, :name, prompt: 'Select a Product', include_blank: true %>
 
     <%= f.label :quantity, "Quantity" %>
     <%= f.number_field :quantity, min: 1, value: 1 %>

@@ -1,0 +1,55 @@
+<h1>Éditer les Informations de l'Organisation</h1>
+
+<%= form_for(@organisation, url: organisation_path, method: :patch) do |f| %>
+  <div class="form-group">
+    <%= f.label :business_name %>
+    <%= f.text_field :business_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status %>
+    <%= f.text_field :status %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :creation_date %>
+    <%= f.date_select :creation_date %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :address_line_2 %>
+    <%= f.text_field :address_line_2 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :postal_code %>
+    <%= f.text_field :postal_code %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :country %>
+    <%= f.text_field :country %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :identification_number %>
+    <%= f.text_field :identification_number %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :vat_number %>
+    <%= f.text_field :vat_number %>
+  </div>
+
+  <%= f.submit "Mettre à jour", class: 'btn btn-primary' %>
+<% end %>

@@ -1,4 +1,4 @@
-<%= form_with(model: product, local: true, class: "custom-form") do |form| %>
+<%= form_with(model: product, local: true) do |form| %>
   <% if product.errors.any? %>
     <div class="custom-error-container">
       <h2><%= pluralize(product.errors.count, "erro") %> impediram o salvamento deste produto:</h2>
@@ -10,47 +10,42 @@
     </div>
   <% end %>
 
-  <div class="custom-form-group">
+  <div class="form-group">
     <%= form.label :name, "Nome" %>
-    <%= form.text_field :name, class: "custom-input" %>
+    <%= form.text_field :name, class: "form-input" %>
   </div>
 
-  <div class="custom-form-group">
+  <div class="form-group">
     <%= form.label :description, "Descrição" %>
-    <%= form.text_area :description, class: "custom-input" %>
+    <%= form.text_area :description, class: "form-input" %>
   </div>
 
-  <div class="custom-form-group">
-    <%= form.label :price, "Preço" %>
-    <%= form.number_field :price, step: 0.01, class: "custom-input" %>
-  </div>
-
-  <div class="custom-form-group">
-    <%= form.label :stock, "Estoque" %>
-    <%= form.number_field :stock, class: "custom-input" %>
-  </div>
-
-  <div class="custom-form-group">
+  <div class="form-group">
     <%= form.label :product_image %>
-    <%= form.file_field :product_image, class: "custom-input" %>
+    <%= form.file_field :product_image, class: "form-input" %>
   </div> 
 
-  <h3>Prices</h3>
+  <h3>Price</h3>
 
-  <%= form.fields_for :prices do |price_form| %>
-    <div class="custom-form-group">
-      <%= price_form.label :amount %>
-      <%= price_form.number_field :amount, class: "custom-input" %>
-    </div>
+   <div class="form-group">
+    <label>Dernier Prix de vente HT:</label>
+    <% if @price %>
+      <p><%= @price.amount %></p>
+    <% else %>
+      <p>Aucun prix défini</p>
+    <% end %>
+  </div>
 
-    <div class="custom-form-group">
-      <%= price_form.label :currency %>
-      <%= price_form.text_field :currency, class: "custom-input" %>
-    </div>
-  <% end %>
+  <!-- Champ pour le nouveau prix -->
+  <div class="form-group">
+    <%= form.fields_for :prices, [@product.prices.build] do |price_form| %>
+      <%= price_form.label :amount, "Nouveau Prix de vente ht" %>
+      <%= price_form.number_field :amount, step: 0.01, class: "form-input" %>
+    <% end %>
+  </div>
 
-  <div class="custom-form-group">
-    <%= form.submit "Salvar", class: "custom-button" %>
+  <div class="form-group">
+    <%= form.submit "Salvar", class: "form-button" %>
   </div>
 
 <% end %>
