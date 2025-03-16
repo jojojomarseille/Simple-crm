@@ -1,0 +1,33 @@
+<h1>Nouvelle Commande</h1>
+
+<%= form_for @order, url: create_with_client_selection_orders_path do |f| %>
+  <div class="form-group">
+    <%= f.label :client_id, "Client" %>
+    <%= f.collection_select :client_id, Client.where(organisation_id: current_user.organisation_id), :id, :name, prompt: "Sélectionnez un client", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= f.label :date %>
+    <%= f.datetime_select :date %>
+  </div>
+
+  <h2>Items de la commande</h2>
+  <div class="list-container">
+    <div id="list">
+      <%= f.fields_for :order_items do |f| %>
+        <%= render partial: "order_item_fields", locals: { f: f } %>
+      <% end %>
+    </div>
+    <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
+  </div>
+
+  <%= f.submit "Créer Commande", class: "btn btn-primary" %>
+
+ <!-- Placeholder pour le template -->
+  <div id="template-container" style="display: none;">
+    <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
+      <%= render partial: 'order_item_fields', locals: { f: f } %>
+    <% end %>
+  </div>
+
+<% end %>

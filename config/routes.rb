@@ -22,6 +22,12 @@ Rails.application.routes.draw do
   resources :clients do
     resources :orders, only: [:new, :create]
   end
+
+  resources :orders do
+    get 'new_with_client_selection', on: :collection
+    post 'create_with_client_selection', on: :collection
+  end
+  
   resources :orders, only: [:show, :edit, :update, :destroy, :index]
   
 end
