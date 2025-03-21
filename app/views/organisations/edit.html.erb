@@ -12,8 +12,18 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :capital %>
+    <%= f.text_field :capital %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :creation_date %>
     <%= f.date_select :creation_date %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :logo, "Logo de l'Organisation" %>
+    <%= f.file_field :logo, class: "form-control" %>
   </div>
 
   <div class="form-group">

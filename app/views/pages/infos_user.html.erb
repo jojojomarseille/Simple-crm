@@ -12,9 +12,13 @@
 
 <h2>Organisation Information</h2>
 <% if @organisation %>
+  <% if @organisation.logo.present? %>
+    <%= image_tag @organisation.logo.url, alt: "Logo de l'Organisation", class: "organisation-logo-infos" %>
+  <% end %>
   <ul>
     <li><strong>Business Name:</strong> <%= @organisation.business_name %></li>
     <li><strong>Status:</strong> <%= @organisation.status %></li>
+    <li><strong>Capital:</strong> <%= @organisation.capital %>€</li>
     <li><strong>Creation Date:</strong> <%= @organisation.creation_date %></li>
     <li><strong>Address:</strong> <%= @organisation.address %>, <%= @organisation.address_line_2 %></li>
     <li><strong>Postal Code:</strong> <%= @organisation.postal_code %></li>

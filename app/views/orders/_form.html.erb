@@ -1,7 +1,14 @@
 <%= form_with(model: [@client, @order], local: true) do |form| %>
+
+  <%=  @order.client.name %>
   <div>
     <%= form.label :date %>
     <%= form.datetime_select :date %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :payment_terms, "Delais de paiements" %>
+    <%= form.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "form-control" %>
   </div>
 
   <h3>Order Items:</h3>

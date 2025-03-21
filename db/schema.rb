@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_09_202908) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_21_195556) do
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "client_type"
@@ -48,6 +48,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_09_202908) do
     t.integer "user_id", null: false
     t.decimal "total_price_ht"
     t.integer "organisation_id"
+    t.string "status", default: "brouillon"
+    t.integer "payment_terms"
+    t.date "payment_due_date"
+    t.integer "id_by_org"
     t.index ["client_id"], name: "index_orders_on_client_id"
     t.index ["organisation_id"], name: "index_orders_on_organisation_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
@@ -66,6 +70,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_09_202908) do
     t.string "vat_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "logo"
+    t.string "capital"
   end
 
   create_table "prices", force: :cascade do |t|

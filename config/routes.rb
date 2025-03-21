@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   resources :orders do
     get 'new_with_client_selection', on: :collection
     post 'create_with_client_selection', on: :collection
+    member do
+      patch 'validate'
+    end
   end
   
   resources :orders, only: [:show, :edit, :update, :destroy, :index]

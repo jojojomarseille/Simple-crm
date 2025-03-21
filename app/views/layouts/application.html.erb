@@ -140,7 +140,12 @@ https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxi
       <li>
     <div class="profile-details">
       <div class="profile-content">
-        <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
+         <% if current_user.organisation.logo.present? %>
+           <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation", class: "organisation-logo-lat-bar" %>
+         <%else%>
+           <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
+         <% end %>
+        
       </div>
       <div class="name-job">
         <div class="profile_name">Prem Shahi</div>

@@ -1020,3 +1020,11 @@ p {
   color: #fff; /* Texte en blanc pour la page actuelle */
   pointer-events: none; /* Désactive l'interaction */
 }
+
+/*logo de l'orga dans le form pour afficher les infos user et orga */
+.organisation-logo-infos {
+  width: 400px;
+  height: 400px;
+  object-fit: cover; /* Garder le ratio */
+}
+

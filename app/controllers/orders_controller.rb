@@ -2,7 +2,7 @@ require 'csv'
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_client, only: [:new, :create]
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :validate]
   before_action :set_organisation, only: [:new, :create, :index, :new_with_client_selection, :create_with_client_selection]
   before_action :set_clients_and_products, only: [:new_with_client_selection, :create_with_client_selection]
 
@@ -12,11 +12,20 @@ class OrdersController < ApplicationController
   end
 
   def new_with_client_selection
+    puts "#{Order.inspect}"
     @order = Order.new
     @order.order_items.build
   end
 
   def edit
+  end
+
+  def validate
+    if @order.update(status: "validé")
+      redirect_to orders_path, notice: 'Commande validée avec succès.'
+    else
+      redirect_to orders_path, alert: 'Erreur lors de la validation de la commande.'
+    end
   end
 
   def update
@@ -127,7 +136,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:date, :client_id, order_items_attributes: [:product_id, :quantity, :price, :_destroy])
+    params.require(:order).permit(:date, :client_id, :payment_terms, order_items_attributes: [:product_id, :quantity, :price, :_destroy])
   end
 
 end

@@ -11,6 +11,11 @@
     <%= f.datetime_select :date %>
   </div>
 
+    <div class="form-group">
+    <%= f.label :payment_terms, "Delais de paiements" %>
+    <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "form-control" %>
+  </div>
+
   <h2>Items de la commande</h2>
   <div class="list-container">
     <div id="list">

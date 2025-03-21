@@ -25,26 +25,45 @@
   <table class="index-table">
     <tr>
       <th>ID</th>
+      <th>ID by org</th>
       <th>Data</th>
       <th>Cliente</th>
       <th>Mail</th>
+      <th>Statut</th>
       <th>Price</th>
+      <th>Délais de paiement</th>
+      <th>Date d'échéance du paiement</th>
       <th>Ações</th>
     </tr>
 
     <% @orders.each do |order| %>
        <tr>
         <td><%= order.id %></td>
+        <td><%= order.id_by_org %></td>
         <td><%= order.date %></td>
         <td><%= link_to order.client.name, client_path(order.client) %></td>
         <td><%= order.client.mail %></td>
+        <td><%= order.status %></td>
         <% if order.total_price_ht.present? %>
-          <td><%= order.total_price_ht %></td>
+          <td><%= order.total_price_ht %>€</td>
         <%else%>
           <td>Erreur calcul prix</td>
         <% end %>
+        <% if order.payment_terms.present? %>
+          <td><%= order.payment_terms %></td>
+        <%else%>
+          <td>delais non définis</td>
+        <% end %>
+         <% if order.payment_due_date.present? %>
+          <td><%= order.payment_due_date %></td>
+        <%else%>
+          <td>facture non validée</td>
+        <% end %>
         <td>
           <%= link_to 'Mostrar', order_path(order), class: 'btn-show' %>
+          <% if order.status == 'brouillon' %>
+            <%= link_to 'Valider', validate_order_path(order), data: { 'turbo-method': :patch }, class: "btn btn-success" %>
+          <% end %>
           <%= link_to 'Editar', edit_order_path(order), class: 'btn-edit' %>
           <%= link_to 'Excluir', order_path(order), method: :delete, data: { confirm: 'Séguro que si?' }, class: 'btn btn-delete' %>
         </td>
