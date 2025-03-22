@@ -1,20 +1,33 @@
 class Order < ApplicationRecord
   before_save :set_payment_due_date, if: :status_changed_to_validated?
   before_save :set_id_by_org, if: :status_changed_to_validated?
-
+  before_save :calculate_total_price_ht
 
   belongs_to :client
   belongs_to :organisation
+
   has_many :order_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :order_items
+
   accepts_nested_attributes_for :order_items, allow_destroy: true 
 
-  before_save :calculate_total_price_ht
   STATES = ["brouillon", "validé"]
+  PAYMENT_STATUSES = ['Payé', 'En attente'].freeze
+  TERMS = [0, 15, 30, 45, 90]
+
+  validates :payment_status, inclusion: { in: PAYMENT_STATUSES }
   validates :status, inclusion: { in: STATES }
   validates :payment_terms, numericality: { only_integer: true }
 
-  TERMS = [0, 15, 30, 45, 90]
+
+
+  def paid?
+    payment_status == 'Payé'
+  end
+
+  def pending?
+    payment_status == 'En attente'
+  end
    
   private
 

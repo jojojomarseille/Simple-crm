@@ -33,6 +33,7 @@
       <th>Price</th>
       <th>Délais de paiement</th>
       <th>Date d'échéance du paiement</th>
+      <th>Payment statut</th>
       <th>Ações</th>
     </tr>
 
@@ -59,13 +60,24 @@
         <%else%>
           <td>facture non validée</td>
         <% end %>
+
+        <% if order.payment_status.present? %>
+          <td><%= order.payment_status %></td>
+        <%else%>
+          <td>statut de paiement indisponible</td>
+        <% end %>
+
         <td>
-          <%= link_to 'Mostrar', order_path(order), class: 'btn-show' %>
+          <% if order.payment_status == "En attente"%>
+            <%= link_to 'marqué comme payé', registar_payment_order_path(order), data: { 'turbo-method': :patch }, class: 'btn-edit' %>
+          <% end %>
           <% if order.status == 'brouillon' %>
             <%= link_to 'Valider', validate_order_path(order), data: { 'turbo-method': :patch }, class: "btn btn-success" %>
+            <%= link_to 'Editar', edit_order_path(order), class: 'btn-edit' %>
+            <%= link_to 'Excluir', order_path(order), method: :delete, data: { confirm: 'Séguro que si?' }, class: 'btn btn-delete' %>
+          <% else %>
+            <%= link_to 'Mostrar', order_path(order), class: 'btn-show' %>
           <% end %>
-          <%= link_to 'Editar', edit_order_path(order), class: 'btn-edit' %>
-          <%= link_to 'Excluir', order_path(order), method: :delete, data: { confirm: 'Séguro que si?' }, class: 'btn btn-delete' %>
         </td>
       </tr>
     <% end %>

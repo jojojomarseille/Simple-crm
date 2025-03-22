@@ -26,7 +26,9 @@
     <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
   </div>
 
-  <%= f.submit "Créer Commande", class: "btn btn-primary" %>
+  <%# <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary" %> 
+  <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
+  <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
 
  <!-- Placeholder pour le template -->
   <div id="template-container" style="display: none;">

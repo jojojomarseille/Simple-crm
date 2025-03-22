@@ -2,8 +2,8 @@ require 'csv'
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_client, only: [:new, :create]
-  before_action :set_order, only: [:show, :edit, :update, :destroy, :validate]
-  before_action :set_organisation, only: [:new, :create, :index, :new_with_client_selection, :create_with_client_selection]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :validate, :registar_payment]
+  before_action :set_organisation, only: [:new, :create, :edit, :index, :new_with_client_selection, :create_with_client_selection]
   before_action :set_clients_and_products, only: [:new_with_client_selection, :create_with_client_selection]
 
   def new
@@ -12,12 +12,21 @@ class OrdersController < ApplicationController
   end
 
   def new_with_client_selection
-    puts "#{Order.inspect}"
+    puts "#{@order.inspect}"
     @order = Order.new
     @order.order_items.build
   end
 
   def edit
+  end
+
+  def registar_payment
+    if @order.update(payment_status: "Payé")
+      redirect_to orders_path, notice: 'Payment enregistré avec succès.'
+    else
+      puts "order: #{@order.inspect}"
+      redirect_to orders_path, alert: 'Erreur lors de la mise a jour du statut de paiement de la commande.'
+    end
   end
 
   def validate
@@ -41,6 +50,12 @@ class OrdersController < ApplicationController
     @order.organisation = current_user.organisation
     @order.user_id = current_user.id
 
+    if params[:commit] == "validate"
+      @order.status = "validé"
+    else
+      @order.status = "brouillon"
+    end
+
     if @order.save
       redirect_to @order, notice: 'Order was successfully created.'
     else
@@ -53,6 +68,12 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user_id = current_user.id
     @order.organisation_id = current_user.organisation_id
+
+    if params[:commit] == "validate"
+      @order.status = "validé"
+    else
+      @order.status = "brouillon"
+    end
 
     puts "Order: #{@order.inspect}"
     if @order.save

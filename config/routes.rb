@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     post 'create_with_client_selection', on: :collection
     member do
       patch 'validate'
+      patch 'registar_payment'
     end
   end
   
