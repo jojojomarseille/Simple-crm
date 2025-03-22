@@ -5,7 +5,7 @@
     <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
       <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
         <%= form.label :order_sort, "Ordenar por", class: "label-sort" %>
-        <%= form.select :order_sort, options_for_select([['Cliente', 'client.name'], ['Data', 'date'], ['Total price ht', 'total_price_ht']], selected: params[:order_sort]), { include_blank: false }, class: "select-sort" %>
+        <%= form.select :order_sort, options_for_select([['Cliente', 'client_id'], ['Data', 'date'], ['Total price ht', 'total_price_ht'], ['ID', 'id_by_org'], ['Status', 'status'], ['Statut Payment', 'payment_status']], selected: params[:order_sort]), { include_blank: false }, class: "select-sort" %>
         <%= form.label :direction, "Direção", class: "label-sort" %>
         <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
         <%= form.label :per_page, 'Produtos por página' %>
@@ -24,7 +24,7 @@
 <div class="table-container">
   <table class="index-table">
     <tr>
-      <th>ID</th>
+      <%# <th>ID</th> %>
       <th>ID by org</th>
       <th>Data</th>
       <th>Cliente</th>
@@ -39,12 +39,12 @@
 
     <% @orders.each do |order| %>
        <tr>
-        <td><%= order.id %></td>
+        <%# <td><%= order.id %> 
         <td><%= order.id_by_org %></td>
         <td><%= order.date %></td>
         <td><%= link_to order.client.name, client_path(order.client) %></td>
         <td><%= order.client.mail %></td>
-        <td><%= order.status %></td>
+        <td class="<%= order.status == 'validé' ? 'status-validated' : 'status-draft' %>"><%= order.status %></td>
         <% if order.total_price_ht.present? %>
           <td><%= order.total_price_ht %>€</td>
         <%else%>
@@ -62,21 +62,34 @@
         <% end %>
 
         <% if order.payment_status.present? %>
-          <td><%= order.payment_status %></td>
+          <td class="<%= order.payment_status == 'Payé' ? 'status-paid' : 'status-pending' %>"><%= order.payment_status %></td>
         <%else%>
           <td>statut de paiement indisponible</td>
         <% end %>
 
         <td>
-          <% if order.payment_status == "En attente"%>
-            <%= link_to 'marqué comme payé', registar_payment_order_path(order), data: { 'turbo-method': :patch }, class: 'btn-edit' %>
-          <% end %>
           <% if order.status == 'brouillon' %>
-            <%= link_to 'Valider', validate_order_path(order), data: { 'turbo-method': :patch }, class: "btn btn-success" %>
-            <%= link_to 'Editar', edit_order_path(order), class: 'btn-edit' %>
-            <%= link_to 'Excluir', order_path(order), method: :delete, data: { confirm: 'Séguro que si?' }, class: 'btn btn-delete' %>
+            <%= link_to validate_order_path(order), data: { 'turbo-method': :patch }, title: 'Valider la commande' do %>
+              <i class="fas fa-check"></i>
+            <% end %>
+            <%= link_to edit_order_path(order), title: 'Modifier' do %>
+              <i class="fas fa-edit"></i> 
+            <% end %>
+            <%= link_to order_path(order), method: :delete, data: { confirm: 'Êtes-vous sûr ?' }, title: 'Supprimer' do %>
+              <i class="fas fa-trash"></i> 
+            <% end %>
           <% else %>
-            <%= link_to 'Mostrar', order_path(order), class: 'btn-show' %>
+            <% if order.payment_status == "En attente"%>
+              <%= link_to registar_payment_order_path(order), data: { 'turbo-method': :patch }, title: 'Marquer comme payé' do %>
+                <i class="fas fa-money-bill-wave"></i>
+              <% end %>
+            <% end %>
+            <%= link_to order_path(order), title: 'voir' do %>
+              <i class="fas fa-eye"></i>
+            <% end %>
+            <%= link_to order_path(order, format: :pdf), title: 'Télécharger facture pdf' do %>
+              <i class="fas fa-file-pdf"></i>
+            <% end %>
           <% end %>
         </td>
       </tr>

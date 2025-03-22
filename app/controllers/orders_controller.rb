@@ -11,8 +11,38 @@ class OrdersController < ApplicationController
     @order.order_items.build
   end
 
+  def show
+    @order = Order.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = Prawn::Document.new
+        pdf.text "Facture pour la commande n° #{@order.id_by_org}", size: 18, style: :bold
+
+        # Ajoutez ici le reste du code pour générer le PDF
+        pdf.move_down 20
+        pdf.text "Date de la commande: #{@order.created_at.strftime('%d/%m/%Y')}"
+        pdf.text "Client: #{@order.client.name}"
+
+        # Ajouter une table pour les articles de la commande
+        pdf.move_down 20
+        data = [["Article", "Quantité", "Prix Unitaire", "Total"]]
+        @order.order_items.each do |item|
+          data << [item.product.name, item.quantity, item.price, item.quantity*item.price ]
+        end
+
+        pdf.table(data, header: true, width: 500)
+
+        # Ajouter le total de la commande
+        pdf.move_down 20
+        pdf.text "Total de la commande: #{@order.total_price_ht} €", size: 16, style: :bold
+
+        send_data pdf.render, filename: "facture_#{@order.id_by_org}.pdf", type: "application/pdf"
+      end
+    end
+  end
+
   def new_with_client_selection
-    puts "#{@order.inspect}"
     @order = Order.new
     @order.order_items.build
   end
@@ -24,7 +54,6 @@ class OrdersController < ApplicationController
     if @order.update(payment_status: "Payé")
       redirect_to orders_path, notice: 'Payment enregistré avec succès.'
     else
-      puts "order: #{@order.inspect}"
       redirect_to orders_path, alert: 'Erreur lors de la mise a jour du statut de paiement de la commande.'
     end
   end
@@ -88,7 +117,7 @@ class OrdersController < ApplicationController
     direction = params[:direction] || 'asc' 
     @per_page = params[:per_page] || 10
 
-    valid_order_columns = ['date', 'total_price_ht']
+    valid_order_columns = ['date', 'total_price_ht', 'id_by_org', 'client_id', 'status', 'payment_status']
 
     if valid_order_columns.include?(order_sort) && %w[asc desc].include?(direction)
       @orders = Order.where(organisation_id: @organisation.id)
@@ -149,7 +178,6 @@ class OrdersController < ApplicationController
   def set_clients_and_products
     @clients = Client.where(organisation_id: current_user.organisation_id)
     @products = Product.where(organisation_id: current_user.organisation_id)
-    puts "@client: #{@clients.inspect} et @product: #{@products.inspect}"
   end
 
   def set_organisation
