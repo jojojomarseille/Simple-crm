@@ -1029,7 +1029,7 @@ p {
 }
 
 /* les status */
-/* app/assets/stylesheets/orders.css */
+
 .status-validated {
   background-color: #d4edda; /* Vert clair */
   color: #155724;           /* Vert foncé */
@@ -1053,3 +1053,4 @@ p {
   color: #721c24;           /* Rouge foncé */
   font-weight: bold;
 }
+

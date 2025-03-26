@@ -24,6 +24,15 @@
   <strong>date d'exigibilitée:</strong>
   <%= @order.payment_due_date %>
 </p>
+
+<% if @order.status == 'validé' && @order.validation_date.present? %>
+    <p>Date de validation: <%= @order.validation_date.strftime('%d/%m/%Y') %></p>
+  <% end %>
+
+  <!-- Afficher la date de paiement si le statut de paiement est "payé" -->
+  <% if @order.payment_status == 'Payé' && @order.payment_due_date.present? %>
+    <p>Date de paiement: <%= @order.payment_due_date.strftime('%d/%m/%Y') %></p>
+  <% end %>
 <% end %>
 <p>
   <strong>Total Price:</strong>

@@ -69,18 +69,18 @@
 
         <td>
           <% if order.status == 'brouillon' %>
-            <%= link_to validate_order_path(order), data: { 'turbo-method': :patch }, title: 'Valider la commande' do %>
+            <%= button_to validate_order_path(order), method: :patch, title: 'Valider la commande', style: 'background: none; border: none; padding: 0; font: inherit; color: inherit; cursor: pointer; outline: inherit;' do %>
               <i class="fas fa-check"></i>
             <% end %>
             <%= link_to edit_order_path(order), title: 'Modifier' do %>
               <i class="fas fa-edit"></i> 
             <% end %>
-            <%= link_to order_path(order), method: :delete, data: { confirm: 'Êtes-vous sûr ?' }, title: 'Supprimer' do %>
+            <%= button_to order_path(order), method: :delete, data: { confirm: 'Êtes-vous sûr ?', turbo_confirm: 'Êtes-vous sûr ?' }, title: 'Supprimer', style: 'background: none; border: none; padding: 0; font: inherit; color: inherit; cursor: pointer; outline: inherit;' do %>
               <i class="fas fa-trash"></i> 
             <% end %>
           <% else %>
             <% if order.payment_status == "En attente"%>
-              <%= link_to registar_payment_order_path(order), data: { 'turbo-method': :patch }, title: 'Marquer comme payé' do %>
+              <%= button_to registar_payment_order_path(order), method: :patch, title: 'Marquer comme payé', style: 'background: none; border: none; padding: 0; font: inherit; color: inherit; cursor: pointer; outline: inherit;' do %>
                 <i class="fas fa-money-bill-wave"></i>
               <% end %>
             <% end %>

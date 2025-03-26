@@ -20,8 +20,9 @@
   <div class="list-container">
     <div id="list">
       <%= f.fields_for :order_items do |f| %>
-        <%= render partial: "order_item_fields", locals: { f: f } %>
-      <% end %>
+        <%= render partial: "order_item_fields", locals: { f: f } %> 
+      <% end %> 
+      
     </div>
     <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
   </div>
@@ -33,7 +34,7 @@
  <!-- Placeholder pour le template -->
   <div id="template-container" style="display: none;">
     <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
-      <%= render partial: 'order_item_fields', locals: { f: f } %>
+      <%= render partial: 'order_item_fields', locals: { f: f } %> 
     <% end %>
   </div>
 

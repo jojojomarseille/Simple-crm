@@ -1,9 +1,10 @@
 require 'csv'
+require 'mini_magick'
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_client, only: [:new, :create]
   before_action :set_order, only: [:show, :edit, :update, :destroy, :validate, :registar_payment]
-  before_action :set_organisation, only: [:new, :create, :edit, :index, :new_with_client_selection, :create_with_client_selection]
+  before_action :set_organisation, only: [:new, :create, :show, :edit, :index, :new_with_client_selection, :create_with_client_selection]
   before_action :set_clients_and_products, only: [:new_with_client_selection, :create_with_client_selection]
 
   def new
@@ -13,11 +14,41 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    puts "order: #{@order}"
     respond_to do |format|
       format.html
       format.pdf do
         pdf = Prawn::Document.new
-        pdf.text "Facture pour la commande n° #{@order.id_by_org}", size: 18, style: :bold
+        logo_path = @organisation.logo.path
+        image = MiniMagick::Image.open(logo_path)
+        logo_converted_path = logo_path.sub(/\.avif$/, '.png')
+        image.format('png')
+        image.write(logo_converted_path)
+       
+
+        if File.exist?(logo_path)
+          pdf.image logo_converted_path, width: 100, height: 100, position: :left
+        else
+          Rails.logger.error("Logo file not found at path: #{logo_converted_path}")
+        end
+
+        pdf.text "Facture n° #{@order.id_by_org}", size: 18, style: :bold
+
+        pdf.move_down 10
+        pdf.text "#{@organisation.business_name}", size: 12
+        pdf.text "#{@organisation.address}", size: 12
+        pdf.text "#{@organisation.address_line_2}" unless @organisation.address_line_2.blank?
+        pdf.text "#{@organisation.postal_code} #{@organisation.city}", size: 12
+        pdf.text "#{@organisation.country}", size: 12
+
+        pdf.move_down 10
+        pdf.bounding_box([pdf.bounds.right - 200, pdf.cursor], width: 200) do
+          pdf.text "Client:", size: 12, style: :bold
+          pdf.text "#{@order.client.name}", size: 12
+          pdf.text "#{@order.client.address}", size: 12
+          pdf.text "#{@order.client.postal_code} #{@order.client.city}", size: 12
+          pdf.text "#{@order.client.country}", size: 12
+        end
 
         # Ajoutez ici le reste du code pour générer le PDF
         pdf.move_down 20
@@ -45,9 +76,23 @@ class OrdersController < ApplicationController
   def new_with_client_selection
     @order = Order.new
     @order.order_items.build
+
+    @products_last_prices = Product.includes(:prices)
+                                   .map do |product|
+                                     last_price = product.prices.order(created_at: :desc).first
+                                     [product.id, last_price&.amount]
+                                   end
+                                   .to_h
+
   end
 
   def edit
+  end
+
+  def destroy
+    @order = Order.find(params[:id])
+    @order.destroy
+    redirect_to orders_path, notice: 'La commande a été supprimée avec succès.'
   end
 
   def registar_payment
@@ -104,7 +149,6 @@ class OrdersController < ApplicationController
       @order.status = "brouillon"
     end
 
-    puts "Order: #{@order.inspect}"
     if @order.save
       redirect_to order_path(@order), notice: 'La commande a été créée avec succès.'
     else
@@ -115,7 +159,7 @@ class OrdersController < ApplicationController
   def index
     order_sort = params[:order_sort] || 'name'  
     direction = params[:direction] || 'asc' 
-    @per_page = params[:per_page] || 10
+    @per_page = params[:per_page] || 20
 
     valid_order_columns = ['date', 'total_price_ht', 'id_by_org', 'client_id', 'status', 'payment_status']
 

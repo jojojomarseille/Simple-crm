@@ -46,8 +46,11 @@
         </td>
       </tr>
     </table>
-
-    <%= link_to 'Add Sale', new_client_order_path(@client), class: 'btn btn-success' %>
+    <% if Product.where(organisation_id: @organisation.id).count >= 1 %>
+      <%= link_to 'Add Sale', new_client_order_path(@client), class: 'btn btn-success' %>
+    <% else %>
+      <p> Ajouter des produits pour pouvoir enregistrer des ventes</p>
+    <% end %>
 
     <h2>Sales</h2>
     <ul>

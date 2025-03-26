@@ -2,6 +2,8 @@ class Order < ApplicationRecord
   before_save :set_payment_due_date, if: :status_changed_to_validated?
   before_save :set_id_by_org, if: :status_changed_to_validated?
   before_save :calculate_total_price_ht
+  before_save :set_validation_date
+  before_save :set_payment_date
 
   belongs_to :client
   belongs_to :organisation
@@ -33,10 +35,12 @@ class Order < ApplicationRecord
 
   def set_id_by_org
     if status == 'validé'
-      puts "set_id_by_org est appelé"
       last_order = Order.where(organisation_id: organisation_id, status: 'validé').order(id_by_org: :desc).first
-      puts "last order: #{last_order.inspect} and last order id by org: #{last_order.id_by_org}"
-      self.id_by_org = last_order.id_by_org.nil? ? 1 : last_order.id_by_org + 1 
+      if last_order.nil?
+        self.id_by_org = 1
+      else
+        self.id_by_org = last_order.id_by_org.nil? ? 1 : last_order.id_by_org + 1 
+      end
     end
   end
 
@@ -50,6 +54,19 @@ class Order < ApplicationRecord
 
   def status_changed_to_validated?
     status_changed? && status == 'validé' && status_was == 'brouillon'
+  end
+
+  def set_validation_date
+    if status_changed? && status == 'validé'
+      self.validation_date = Time.current
+    end
+  end
+  
+  def set_payment_date
+    puts "set_paymentdate hited"
+    if payment_status_changed? && payment_status == 'Payé'
+      self.payment_date = Time.current
+    end
   end
 
 end

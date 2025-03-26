@@ -2,7 +2,7 @@ require 'csv'
 class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_action :set_organisation, only: [:new, :create, :index]
+  before_action :set_organisation, only: [:new, :create, :index, :show]
 
   # 📋 Listar todos os clientes
   def index
