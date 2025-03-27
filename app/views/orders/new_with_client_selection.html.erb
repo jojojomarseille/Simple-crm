@@ -11,22 +11,30 @@
     <%= f.datetime_select :date %>
   </div>
 
+    <div class="form-group">
+    <%= f.label :payment_terms, "Delais de paiements" %>
+    <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "form-control" %>
+  </div>
+
   <h2>Items de la commande</h2>
   <div class="list-container">
     <div id="list">
       <%= f.fields_for :order_items do |f| %>
-        <%= render partial: "order_item_fields", locals: { f: f } %>
-      <% end %>
+        <%= render partial: "order_item_fields", locals: { f: f } %> 
+      <% end %> 
+      
     </div>
     <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
   </div>
 
-  <%= f.submit "Créer Commande", class: "btn btn-primary" %>
+  <%# <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary" %> 
+  <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
+  <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
 
  <!-- Placeholder pour le template -->
   <div id="template-container" style="display: none;">
     <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
-      <%= render partial: 'order_item_fields', locals: { f: f } %>
+      <%= render partial: 'order_item_fields', locals: { f: f } %> 
     <% end %>
   </div>
 

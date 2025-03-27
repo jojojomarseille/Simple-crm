@@ -68,6 +68,11 @@
         </div>
 
         <div class="form-group">
+          <%= org_form.label :capital %>
+          <%= org_form.text_field :capital, class: 'custom-input' %>
+        </div>
+
+        <div class="form-group">
           <%= org_form.label :creation_date %>
           <%= org_form.date_select :creation_date, class: 'custom-input' %>
         </div>

@@ -1020,3 +1020,37 @@ p {
   color: #fff; /* Texte en blanc pour la page actuelle */
   pointer-events: none; /* Désactive l'interaction */
 }
+
+/*logo de l'orga dans le form pour afficher les infos user et orga */
+.organisation-logo-infos {
+  width: 400px;
+  height: 400px;
+  object-fit: cover; /* Garder le ratio */
+}
+
+/* les status */
+
+.status-validated {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724;           /* Vert foncé */
+  font-weight: bold;
+}
+
+.status-paid {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724;           /* Vert foncé */
+  font-weight: bold;
+}
+
+.status-draft {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+  font-weight: bold;
+}
+
+.status-pending {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+  font-weight: bold;
+}
+

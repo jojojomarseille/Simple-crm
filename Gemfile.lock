@@ -288,6 +288,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kaminari
+  mini_magick
   prawn
   prawn-table
   puma (~> 5.0)

@@ -3,10 +3,37 @@
   <%= @order.date %>
 </p>
 <p>
-  <strong>Numeros:</strong>
+  <strong>id gé:</strong>
   <%= @order.id %>
 </p>
+<p>
+  <strong>ID by org:</strong>
+  <%= @order.id_by_org %>
+</p>
+<p>
+  <strong>status:</strong>
+  <%= @order.status %>
+</p>
+<p>
+  <strong>delais de payment:</strong>
+  <%= @order.payment_terms %>
+</p>
 
+<% if @order.status == "validé"%>
+<p>
+  <strong>date d'exigibilitée:</strong>
+  <%= @order.payment_due_date %>
+</p>
+
+<% if @order.status == 'validé' && @order.validation_date.present? %>
+    <p>Date de validation: <%= @order.validation_date.strftime('%d/%m/%Y') %></p>
+  <% end %>
+
+  <!-- Afficher la date de paiement si le statut de paiement est "payé" -->
+  <% if @order.payment_status == 'Payé' && @order.payment_due_date.present? %>
+    <p>Date de paiement: <%= @order.payment_due_date.strftime('%d/%m/%Y') %></p>
+  <% end %>
+<% end %>
 <p>
   <strong>Total Price:</strong>
   <%= number_to_currency(@order.total_price_ht) %>
@@ -18,4 +45,4 @@
     <li><%= item.product.name %>: <%= item.quantity %> x <%= number_to_currency(item.price) %></li>
   <% end %>
 </ul>
- <%= link_to 'Comandes', orders_path %>
+ <%= link_to 'Commandes', orders_path %>
