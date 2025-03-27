@@ -5,9 +5,18 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  
+
   # Route pour l'édition des informations utilisateur
-  get 'user/edit', to: 'users#edit', as: 'edit_user'
-  patch 'user', to: 'users#update'
+  # les deux routes ci dessous etaient utilisées pour mettre a jour le user depuis les setting de l'orga
+  # get 'user/edit', to: 'users#edit', as: 'edit_user'
+  # patch 'user', to: 'users#update'
+  get 'users_index', to: 'users#index', as: 'users_index'
+
+  get 'users/new_collaborator', to: 'users#new_collaborator', as: 'new_collaborator'
+  post 'users/create_collaborator', to: 'users#create_collaborator', as: 'create_collaborator'
+
+  resources :users, only: [:show, :edit, :update, :destroy]
 
   # Routes pour edit de orga
   resource :organisation, only: [:edit, :update]

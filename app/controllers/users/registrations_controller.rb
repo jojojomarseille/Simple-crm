@@ -11,43 +11,31 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super do |resource|
+      if resource.persisted?
+        # Sauvegarder l'organisation associée
+        resource.organisation.save if resource.organisation
 
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
+        # Définir le statut de l'utilisateur
+        if resource.organisation.users.count == 1
+          resource.update(status: 'org_admin')
+        else
+          resource.update(status: 'collaborateur')
+        end
+      end
+    end
+  end
 
-  # PUT /resource
-  # def update
-  #   super
-  # end
-
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
-
+ 
   protected
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :phone, :birthdate, organisation_attributes: [:status, :creation_date, :business_name, :address, :address_line_2, :postal_code, :city, :country, :identification_number, :vat_number]])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :phone, :status, :birthdate, organisation_attributes: [:status, :creation_date, :business_name, :capital, :address, :address_line_2, :postal_code, :city, :country, :identification_number, :vat_number]])
   end
 
   def build_organisation
-    puts "Building organisation for new user..."
+    puts "Building organisation appelé"
     resource.build_organisation unless resource.organisation
     puts resource.organisation.inspect
   end
