@@ -1,124 +1,45 @@
-<div class="login-container">
-  <div class="login-box">
-  
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <h2>Créer un compte </h2>
-    <% if resource.errors.any? %>
-      <div class="custom-error-container">
-        <h2><%= pluralize(resource.errors.count, "erro") %> impediram o salvamento deste formulário:</h2>
-        <ul>
-          <% resource.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
 
-    <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'custom-input', autofocus: true, autocomplete: "email" %>
+<div class="sign-up-header" style="min-width: 100%; height: 50px; text-align: center;">
+  <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 40px; margin: 0;">Créez votre compte</p>
+</div>
+<div class="sign-up-header" style="min-width: 100%; display: flex; justify-content: center; padding-top: 30px; padding-bottom: 30px">
+  <%= image_tag('progress-bar-sign-up-1.png', alt: 'Progress bar step 1/4', class: 'centered-image', style: "width: 457px") %>
+</div>
+<div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
+
+  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+
+    <div style="text-align: center; height: 150px">
+      <p class="create-account-text" style="font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Génerez vos factures et suivez vos paiements sur un seul outil</p>
     </div>
-
-     <div class="form-group">
-      <%= f.label :firstname %>
-      <%= f.text_field :firstname, class: 'custom-input', autofocus: true, autocomplete: "firstname" %>
+    <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
+      <%= image_tag('undraw_in-the-office_e7pg.svg', alt: 'mindfull', class: 'centered-image', style: "width: 457px") %>
     </div>
+  </div>
 
-     <div class="form-group">
-      <%= f.label :lastname %>
-      <%= f.text_field :lastname, class: 'custom-input', autocomplete: "lastname" %>
-    </div>
+  <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
+    <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post do |f| %>
+      <%= render 'devise/shared/error_messages', resource: @user %>
 
-    <div class="form-group">
-      <%= f.label :birthdate %>
-      <%= f.date_select :birthdate, class: 'custom-input' %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :phone %>
-      <%= f.text_field :phone, class: 'custom-input', autocomplete: "phone" %>
-    </div>
-
-
-    <div class="form-group">
-      <%= f.label :password %>
-      <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %>
-      <%= f.password_field :password, class: 'custom-input', autocomplete: "new-password" %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, class: 'custom-input', autocomplete: "new-password" %>
-    </div>
-
-        <!-- Champs pour l'organisation -->
-      <%= f.fields_for :organisation do |org_form| %>
-        <h3>Organisation Details</h3>
-
-        <div class="form-group">
-          <%= org_form.label :business_name %>
-          <%= org_form.text_field :business_name, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :status %>
-          <%= org_form.text_field :status, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :capital %>
-          <%= org_form.text_field :capital, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :creation_date %>
-          <%= org_form.date_select :creation_date, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :address %>
-          <%= org_form.text_field :address, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :address_line_2 %>
-          <%= org_form.text_field :address_line_2, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :postal_code %>
-          <%= org_form.text_field :postal_code, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :city %>
-          <%= org_form.text_field :city, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :country %>
-          <%= org_form.text_field :country, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :identification_number %>
-          <%= org_form.text_field :identification_number, class: 'custom-input' %>
-        </div>
-
-        <div class="form-group">
-          <%= org_form.label :vat_number %>
-          <%= org_form.text_field :vat_number, class: 'custom-input' %>
-        </div>
-
-      <% end %>
-
-      <div class="form-group">
-        <%= f.submit "Sign up", class: 'custom-button' %>
+      <div class="form-group-sub">
+        <%= f.label :email, class: 'sub-custom-label' %>
+        <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email" %>
       </div>
 
+      <div class="form-group-sub">
+        <%= f.label :password, class: 'sub-custom-label' %>
+        <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= f.label :password_confirmation, class: 'sub-custom-label' %>
+        <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= f.submit "Suivant", class: 'sub-custom-button' %>
+      </div>
     <% end %>
   </div>
-</div>
 
+</div>

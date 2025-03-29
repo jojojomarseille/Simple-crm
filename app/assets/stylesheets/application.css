@@ -561,7 +561,7 @@ p {
   align-items: center;
   position: fixed; /* Rendre la barre fixe */
   top: 0;          /* Colle la barre en haut de la page */
-  left: 30px;         /* Commence à gauche */
+  left: 0px;         /* Commence à gauche */
   z-index: 998;  /* Assure que la barre est au-dessus des autres éléments */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ajoute une ombre (optionnel) */
   background-color: #E4E9F7;
@@ -835,7 +835,8 @@ p {
 }
 
 .yield{
- padding-left: 100px;
+ /* padding-left: 100px; */
+ padding-left: 30px;
  padding-right: 30px;
  min-height: 86vh;
 }
@@ -1028,7 +1029,7 @@ p {
   object-fit: cover; /* Garder le ratio */
 }
 
-/* les status */
+/* les status dans les index*/
 
 .status-validated {
   background-color: #d4edda; /* Vert clair */
@@ -1054,3 +1055,44 @@ p {
   font-weight: bold;
 }
 
+/* subscription form*/ 
+.form-group-sub {
+  margin-bottom: 15px; /* Espacement entre les groupes de champs */
+  width: 80%;
+  max-width: 662px;
+  padding-left: 30px;
+}
+
+.sub-custom-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600; /* Semi-bold, utilisez 700 pour bold */
+  font-size: 20px;
+}
+
+.sub-custom-input {
+  width: 590px;
+  height: 88px;
+  border: 1px solid black;
+  border-radius: 0; /* Pas de bordure arrondie */
+  padding: 0 10px; /* Ajoute un peu d'espace à l'intérieur du champ */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur et la hauteur */
+}
+
+.sub-custom-button {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600; /* Semi-bold */
+  font-size: 26px;
+  color: #FFA01C;
+  background-color: transparent; /* Pas de fond */
+  border: none; /* Pas de bordure */
+  cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+  display: flex;
+  align-items: center; /* Centre verticalement le texte et la flèche */
+}
+
+.sub-custom-button::after {
+  content: '→'; /* Utilise une flèche pleine */
+  margin-left: 8px; /* Espace entre le texte et la flèche */
+  font-size: 26px; /* Taille de la flèche */
+  color: #FFA01C;
+}

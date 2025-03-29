@@ -8,9 +8,9 @@ class User < ApplicationRecord
          
   has_many :orders, dependent: :destroy
 
-  validates :status, inclusion: { in: ['org_admin', 'collaborateur'] }, allow_nil: false
+  # validates :status, inclusion: { in: ['org_admin', 'collaborateur'] }, allow_nil: false
 
-  before_validation :set_default_status, on: :create
+  # before_validation :set_default_status, on: :create
 
   def collaborateur?
     status == 'collaborateur'
@@ -21,6 +21,7 @@ class User < ApplicationRecord
   end
 
   def set_default_status
+    puts "set_defult_status called"
     self.status ||= 'collaborateur' # Définir une valeur par défaut avant la validation
   end
 end

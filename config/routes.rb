@@ -5,7 +5,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  
+  devise_scope :user do
+    get 'users/registrations/step1', to: 'users/registrations#new', as: 'step1_users_registrations'
+    post 'users/registrations/step2', to: 'users/registrations#step2', as: 'step2_users_registrations'
+    post 'users/registrations/step3', to: 'users/registrations#step3', as: 'step3_users_registrations'
+    post 'users/registrations/step4', to: 'users/registrations#step4', as: 'step4_users_registrations'
+  end
 
   # Route pour l'édition des informations utilisateur
   # les deux routes ci dessous etaient utilisées pour mettre a jour le user depuis les setting de l'orga

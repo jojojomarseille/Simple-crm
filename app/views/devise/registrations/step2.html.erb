@@ -1,0 +1,67 @@
+<div class="sign-up-header" style="min-width: 100%; height: 50px; text-align: center;">
+  <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 40px; margin: 0;">Créez votre compte</p>
+</div>
+<div class="sign-up-header" style="min-width: 100%; display: flex; justify-content: center; padding-top: 30px; padding-bottom: 30px">
+  <%= image_tag('progress-bar-sign-up-2.png', alt: 'progress bar step 2/4', class: 'centered-image', style: "width: 457px") %>
+</div>
+<div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
+
+  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+
+    <div style="text-align: center; height: 150px">
+      <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Dites nous en plus sur vous</p>
+    </div>
+    <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
+      <%= image_tag('undraw_mindfulness_v3lv.svg', alt: 'mindfull', class: 'centered-image', style: "width: 457px") %>
+    </div>
+  </div>
+
+  <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
+   <%= form_for @user, as: :user, url: step3_users_registrations_path, method: :post do |f| %>
+      <%= render 'devise/shared/error_messages', resource: @user %>
+
+      <div class="form-group-sub">
+        <%= f.label :firstname, class: 'sub-custom-label' %>
+        <%= f.text_field :firstname, class: 'sub-custom-input', autofocus: true, autocomplete: "firstname" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :lastname, class: 'sub-custom-label' %>
+        <%= f.text_field :lastname, class: 'sub-custom-input', autocomplete: "lastname" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :phone, class: 'sub-custom-label' %>
+        <%= f.text_field :phone, class: 'sub-custom-input', autocomplete: "phone" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :birthdate, class: 'sub-custom-label' %>
+        <%= f.date_select :birthdate, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit "Suivant", class: 'sub-custom-button' %>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
