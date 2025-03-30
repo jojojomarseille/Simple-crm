@@ -3,6 +3,10 @@ class PagesController < ApplicationController
     def home
     end
 
+    def connected_home
+      
+    end
+
     def infos_user
       @user = current_user
       @organisation = @user.organisation

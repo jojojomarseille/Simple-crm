@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   # Rota para a pesquisa
   get 'search', to: 'home#search', as: 'search' 
   get 'infos_user', to: 'pages#infos_user', as: 'infos_user'
+  get 'connected_home', to: 'pages#connected_home', as: 'connected_home'
 
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'

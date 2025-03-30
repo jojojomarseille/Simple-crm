@@ -18,7 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session[:registration_params] ||= {}
     session[:registration_params].merge!(user_params.to_h)
     @user = User.new(session[:registration_params])
-    render :step1 unless @user.valid?(:step1)
+    render :new unless @user.valid?(:step1)
   end
 
   def step3
@@ -78,7 +78,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if @user.save
       session[:registration_params] = nil
       sign_in(@user)
-      redirect_to root_path, notice: 'Inscription réussie.'
+      redirect_to connected_home_path, notice: 'Inscription réussie.'
     else
       render :step4
     end

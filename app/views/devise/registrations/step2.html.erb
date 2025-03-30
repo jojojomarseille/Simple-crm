@@ -35,9 +35,10 @@
         <%= f.text_field :phone, class: 'sub-custom-input', autocomplete: "phone" %>
       </div>
 
+     
       <div class="form-group">
         <%= f.label :birthdate, class: 'sub-custom-label' %>
-        <%= f.date_select :birthdate, class: 'sub-custom-input' %>
+        <%= f.text_field :birthdate, class: 'datepicker-input sub-custom-input', placeholder: 'AAAA-MM-JJ' %>
       </div>
 
       <div class="form-group">
@@ -47,6 +48,65 @@
   </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  flatpickr(".datepicker-input", {
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+    minDate: "1900-01-01",
+    onChange: function(selectedDates, dateStr, instance) {
+      instance.setDate(dateStr, true);
+    },
+    locale: {
+      firstDayOfWeek: 1 // Commence la semaine le lundi
+    }
+  });
+});
+</script>
+
+<style>
+    .datepicker-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0; /* Pas de bordure arrondie */
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+/* Styles pour Flatpickr */
+.flatpickr-calendar {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.selected:hover {
+  background: #FFA01C;
+  border-color: #FFA01C;
+  color: white;
+}
+
+.flatpickr-month {
+  background: white;
+  color: #FFA01C;
+}
+
+.flatpickr-current-month .numInputWrapper span {
+  color: #FFA01C;
+}
+
+.flatpickr-day.today {
+  border-color: #FFA01C;
+  color: #FFA01C;
+}
+
+</style>
 
 
 

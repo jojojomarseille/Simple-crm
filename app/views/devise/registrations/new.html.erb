@@ -24,16 +24,24 @@
       <div class="form-group-sub">
         <%= f.label :email, class: 'sub-custom-label' %>
         <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email" %>
+        <span id="email-error" class="error-message"></span>
       </div>
 
       <div class="form-group-sub">
         <%= f.label :password, class: 'sub-custom-label' %>
         <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password" %>
+        <div class="password-criteria">
+          <span class="criterion" id="criterion-uppercase"><span class="icon">✖</span> Minimum une majuscule</span>
+          <span class="criterion" id="criterion-length"><span class="icon">✖</span> Minimum 8 caractères</span>
+          <span class="criterion" id="criterion-number"><span class="icon">✖</span> Minimum un chiffre</span>
+          <span class="criterion" id="criterion-lowercase"><span class="icon">✖</span> Minimum une minuscule</span>
+        </div>
       </div>
 
       <div class="form-group-sub">
         <%= f.label :password_confirmation, class: 'sub-custom-label' %>
         <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password" %>
+        <span class="criterion" id="criterion-match"><span class="icon">✖</span> Les mots de passe doivent correspondre</span>
       </div>
 
       <div class="form-group-sub">
@@ -43,3 +51,101 @@
   </div>
 
 </div>
+
+<style>
+  /*css validation mail*/
+  .error-message {
+  color: red;
+  font-size: 12px;
+  display: none; /* Masque le message d'erreur par défaut */
+}
+
+/* css pour les message de validation du mot de passe*/
+.password-criteria {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  color: #FFA01C;
+  margin-top: 5px;
+}
+
+.criterion {
+  display: block;
+  margin-top: 5px;
+}
+
+.criterion .icon {
+  margin-right: 5px;
+}
+
+.criterion.valid .icon {
+  color: green;
+  content: '✔';
+}
+
+.criterion:not(.valid) .icon {
+  color: red;
+  content: '✖';
+}
+
+</style>
+
+<%# js pour checker le mail %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const emailInput = document.querySelector('.sub-custom-input[type="email"]');
+  const emailError = document.getElementById('email-error');
+
+  emailInput.addEventListener('blur', function() {
+    const emailValue = emailInput.value;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailPattern.test(emailValue)) {
+      emailError.style.display = 'none'; // Cache le message d'erreur
+    } else {
+      emailError.style.display = 'block'; // Affiche le message d'erreur
+      emailError.textContent = 'Format de l\'email invalide';
+    }
+  });
+});
+</script>
+<%# js pour checker le mot de passe %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
+  const criteria = {
+    uppercase: document.getElementById('criterion-uppercase'),
+    length: document.getElementById('criterion-length'),
+    number: document.getElementById('criterion-number'),
+    lowercase: document.getElementById('criterion-lowercase')
+  };
+
+  passwordInput.addEventListener('input', function() {
+    const passwordValue = passwordInput.value;
+
+    // Vérifie chaque critère
+    criteria.uppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
+    criteria.length.classList.toggle('valid', passwordValue.length >= 8);
+    criteria.number.classList.toggle('valid', /\d/.test(passwordValue));
+    criteria.lowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
+  });
+});
+</script>
+<%# js pour checker la correspondance entres les deux mots de passes %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
+  const confirmPasswordInput = document.querySelector('.sub-custom-input[name="user[password_confirmation]"]');
+  const matchCriterion = document.getElementById('criterion-match');
+
+  confirmPasswordInput.addEventListener('blur', function() {
+    const passwordValue = passwordInput.value;
+    const confirmPasswordValue = confirmPasswordInput.value;
+
+    if (passwordValue === confirmPasswordValue && passwordValue !== "") {
+      matchCriterion.classList.add('valid');
+    } else {
+      matchCriterion.classList.remove('valid');
+    }
+  });
+});
+</script>
