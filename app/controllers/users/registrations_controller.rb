@@ -84,6 +84,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def autocomplete
+    query = params[:query]
+    @base_companies = BaseCompany.where('name ILIKE ?', "%#{query}%").limit(6)
+    render json: @base_companies.map { |company| { id: company.id, name: company.name } }
+  end
  
   protected
 

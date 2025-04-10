@@ -25,34 +25,133 @@
       <%= f.fields_for :organisation do |org_form| %>
         <div class="form-group-sub">
           <%= org_form.label :country, class: 'sub-custom-label' %>
-          <%= org_form.text_field :country, class: 'sub-custom-input' %>
+          <%= org_form.select :country, [['🇫🇷 France', 'France'], ['🇵🇹 Portugal', 'Portugal'], ['🇧🇷 Brazil', 'Brazil']], { include_blank: 'Pays' }, class: 'sub-custom-input country-select' %>
         </div>
 
-        <div class="form-group-sub">
+        <div class="form-group-sub" id="status-field" style="display: none;">
           <%= org_form.label :status, class: 'sub-custom-label' %>
-          <%= org_form.text_field :status, class: 'sub-custom-input' %>
+          <%= org_form.select :status, [
+                ['Entreprise Individuelle (EI)', 'Entreprise Individuelle'],
+                ['Auto-entrepreneur', 'Auto-entrepreneur'],
+                ['Société à Responsabilité Limitée (SARL)', 'SARL'],
+                ['Entreprise Unipersonnelle à Responsabilité Limitée (EURL)', 'EURL'],
+                ['Société par Actions Simplifiée (SAS)', 'SAS'],
+                ['Société par Actions Simplifiée Unipersonnelle (SASU)', 'SASU'],
+                ['Société Anonyme (SA)', 'SA'],
+                ['Société en Nom Collectif (SNC)', 'SNC'],
+                ['Société Civile (SC)', 'SC'],
+                ['Société en Commandite Simple (SCS)', 'SCS'],
+                ['Association avec numeros de siret', 'ASSO-SIRET'],
+                ['Association sans numeros de siret', 'ASSO-WITHOUT-SIRET']
+            ], { include_blank: 'Statut juridique' }, class: 'sub-custom-input' %>
         </div>
 
         <div class="form-group-sub">
+          <%= org_form.label :name, class: 'sub-custom-label' %>
+          <%= text_field_tag :organisation_search, '', placeholder: 'Rechercher votre entreprise...', class: 'sub-custom-input', id: 'organisation-search', data: { controller: "autocomplete" } %>
+        </div>
+
+        <div class="form-group-sub" id="identification-field" style="display: none;">
           <%= org_form.label :identification_number, class: 'sub-custom-label' %>
           <%= org_form.text_field :identification_number, class: 'sub-custom-input' %>
         </div>
 
-        <div class="form-group-sub">
+        <div class="form-group-sub" id="vat-field" style="display: none;">
           <%= org_form.label :vat_number, class: 'sub-custom-label' %>
           <%= org_form.text_field :vat_number, class: 'sub-custom-input' %>
         </div>
       <% end %>
 
-      <div class="form-group-sub">
+      <div class="form-group-sub", style="display: none;">
         <%= f.submit "Suivant", class: 'sub-custom-button' %>
       </div>
+
+      <div id="country-message" style="display: none; color: red;"></div>
     <% end %>
   </div>
 
 </div>
 
+<script>
+// document.addEventListener('DOMContentLoaded', function() {
+//   const countrySelect = document.querySelector('.country-select');
+//   const statusField = document.getElementById('status-field');
+//   const identificationField = document.getElementById('identification-field');
+//   const vatField = document.getElementById('vat-field');
+//   const countryMessage = document.getElementById('country-message');
 
+//   countrySelect.addEventListener('change', function() {
+//     const selectedCountry = countrySelect.value;
+
+//     if (selectedCountry === 'France') {
+//         console.log("France selected")
+//       statusField.style.display = 'block';
+//       identificationField.style.display = 'block';
+//       vatField.style.display = 'block';
+//       countryMessage.style.display = 'none';
+//     } else {
+//       statusField.style.display = 'none';
+//       identificationField.style.display = 'none';
+//       vatField.style.display = 'none';
+//       countryMessage.style.display = 'block';
+//       countryMessage.textContent = "Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.";
+//     }
+//   });
+// });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const countrySelect = document.querySelector('.country-select');
+  const statusSelect = document.querySelector('select[name="organisation[status]"]');
+  const searchField = document.getElementById('organisation-search');
+  const identificationField = document.getElementById('identification-field');
+  const vatField = document.getElementById('vat-field');
+  const countryMessage = document.getElementById('country-message');
+
+  // Montrer ou cacher les champs en fonction du pays
+  countrySelect.addEventListener('change', function() {
+    const selectedCountry = countrySelect.value;
+
+    if (selectedCountry === 'France') {
+      console.log("France selected");
+      statusSelect.closest('.form-group-sub').style.display = 'block';
+      countryMessage.style.display = 'none';
+    } else {
+      statusSelect.closest('.form-group-sub').style.display = 'none';
+      searchField.closest('.form-group-sub').style.display = 'none';
+      identificationField.style.display = 'none';
+      vatField.style.display = 'none';
+      countryMessage.style.display = 'block';
+      countryMessage.textContent = "Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.";
+    }
+  });
+
+  // Gérer l'affichage du champ de recherche basé sur le statut
+  statusSelect.addEventListener('change', function() {
+    const selectedStatus = statusSelect.value;
+    
+    // Montrer le champ de recherche seulement si ce n'est pas une association sans SIRET
+    if (selectedStatus !== 'ASSO-WITHOUT-SIRET') {
+      searchField.closest('.form-group-sub').style.display = 'block';
+    } else {
+      searchField.closest('.form-group-sub').style.display = 'none';
+      identificationField.style.display = 'none';
+      vatField.style.display = 'none';
+    }
+  });
+
+  // Simuler le remplissage automatique après sélection (pour illustration)
+  searchField.addEventListener('change', function() {
+    // Suppose qu'une entreprise a été sélectionnée
+    const organisationSelected = searchField.value;
+    if (organisationSelected) {
+      identificationField.style.display = 'block';
+      vatField.style.display = 'block';
+      // Il faudrait aussi remplir les champs de données ici si besoin
+    }
+  });
+
+
+</script>
 
 
 

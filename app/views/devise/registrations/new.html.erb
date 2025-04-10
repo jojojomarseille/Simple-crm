@@ -7,7 +7,7 @@
 </div>
 <div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+  <div class="sign-up-left" style="min-width: 50%; display: flex; margin-top: 40px; flex-direction: column">
 
     <div style="text-align: center; height: 150px">
       <p class="create-account-text" style="font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Génerez vos factures et suivez vos paiements sur un seul outil</p>
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
+  <div class="sign-up-right" style="min-width: 50%; padding-top: 40px">
     <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post do |f| %>
       <%= render 'devise/shared/error_messages', resource: @user %>
 
@@ -41,10 +41,10 @@
       <div class="form-group-sub">
         <%= f.label :password_confirmation, class: 'sub-custom-label' %>
         <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password" %>
-        <span class="criterion" id="criterion-match"><span class="icon">✖</span> Les mots de passe doivent correspondre</span>
+        <span class="criterion" id="criterion-match"><span class="icon">✖</span>Correspondance des mots de passes</span>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group-sub" style="display: flex; justify-content: right; padding-right: 35px; margin-top: 100px">
         <%= f.submit "Suivant", class: 'sub-custom-button' %>
       </div>
     <% end %>
@@ -79,12 +79,12 @@
 
 .criterion.valid .icon {
   color: green;
-  content: '✔';
+  /* content: '✔'; */
 }
 
 .criterion:not(.valid) .icon {
   color: red;
-  content: '✖';
+  /* content: '✖'; */
 }
 
 </style>
@@ -107,9 +107,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-</script>
-<%# js pour checker le mot de passe %>
-<script>
+
+// js pour checker le mot de passe 
+
 document.addEventListener('DOMContentLoaded', function() {
   const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
   const criteria = {
@@ -123,28 +123,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordValue = passwordInput.value;
 
     // Vérifie chaque critère
-    criteria.uppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
-    criteria.length.classList.toggle('valid', passwordValue.length >= 8);
-    criteria.number.classList.toggle('valid', /\d/.test(passwordValue));
-    criteria.lowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
+    // criteria.uppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
+    // criteria.length.classList.toggle('valid', passwordValue.length >= 8);
+    // criteria.number.classList.toggle('valid', /\d/.test(passwordValue));
+    // criteria.lowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
+    updateCriterion(criteria.uppercase, /[A-Z]/.test(passwordValue));
+    updateCriterion(criteria.length, passwordValue.length >= 8);
+    updateCriterion(criteria.number, /\d/.test(passwordValue));
+    updateCriterion(criteria.lowercase, /[a-z]/.test(passwordValue));
   });
+
+  function updateCriterion(criterionElement, isValid) {
+    const iconElement = criterionElement.querySelector('.icon');
+    if (isValid) {
+      criterionElement.classList.add('valid');
+      iconElement.textContent = '✔';
+      iconElement.style.color = 'green';
+    } else {
+      criterionElement.classList.remove('valid');
+      iconElement.textContent = '✖';
+      iconElement.style.color = 'red';
+    }
+  }
+
 });
-</script>
-<%# js pour checker la correspondance entres les deux mots de passes %>
-<script>
+
+//js pour checker la correspondance entres les deux mots de passes 
+
 document.addEventListener('DOMContentLoaded', function() {
   const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
   const confirmPasswordInput = document.querySelector('.sub-custom-input[name="user[password_confirmation]"]');
   const matchCriterion = document.getElementById('criterion-match');
 
-  confirmPasswordInput.addEventListener('blur', function() {
+  confirmPasswordInput.addEventListener('input', function() {
     const passwordValue = passwordInput.value;
     const confirmPasswordValue = confirmPasswordInput.value;
+    const iconElement = matchCriterion.querySelector('.icon');
 
     if (passwordValue === confirmPasswordValue && passwordValue !== "") {
       matchCriterion.classList.add('valid');
+      iconElement.textContent = '✔';
+      iconElement.style.color = 'green';
     } else {
       matchCriterion.classList.remove('valid');
+      iconElement.textContent = '✖';
+      iconElement.style.color = confirmPasswordValue ? 'red' : 'grey';
     }
   });
 });

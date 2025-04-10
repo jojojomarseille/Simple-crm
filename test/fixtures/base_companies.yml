@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  siret: MyString
+  siren: MyString
+  denomination_sociale: MyString
+  marque: MyString
+  adresse: MyString
+  code_postal: MyString
+  statut: MyString
+  pays: MyString
+  date_derniere_modification: 2025-04-04 00:30:52
+  date_creation: 2025-04-04 00:30:52
+
+two:
+  siret: MyString
+  siren: MyString
+  denomination_sociale: MyString
+  marque: MyString
+  adresse: MyString
+  code_postal: MyString
+  statut: MyString
+  pays: MyString
+  date_derniere_modification: 2025-04-04 00:30:52
+  date_creation: 2025-04-04 00:30:52

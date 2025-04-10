@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     post 'users/registrations/step2', to: 'users/registrations#step2', as: 'step2_users_registrations'
     post 'users/registrations/step3', to: 'users/registrations#step3', as: 'step3_users_registrations'
     post 'users/registrations/step4', to: 'users/registrations#step4', as: 'step4_users_registrations'
+    get 'users/registrations/autocomplete', to: 'users/registrations#autocomplete', as: :autocomplete_base_companies
   end
 
   # Route pour l'édition des informations utilisateur
@@ -48,5 +49,11 @@ Rails.application.routes.draw do
   end
   
   resources :orders, only: [:show, :edit, :update, :destroy, :index]
+  
+  resources :base_companies do
+    collection do
+      get :autocomplete
+    end
+  end
   
 end
