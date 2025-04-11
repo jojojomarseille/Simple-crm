@@ -2,6 +2,7 @@
   "dependencies": {
     "@hotwired/turbo-rails": "^8.0.13",
     "@nathanvda/cocoon": "^1.2.14",
+    "flatpickr": "^4.6.13",
     "intl-tel-input": "^25.3.1",
     "jquery": "^3.7.1"
   }

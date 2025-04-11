@@ -5,18 +5,29 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  # devise_scope :user do
+  #   get 'users/registrations/step1', to: 'users/registrations#new', as: 'step1_users_registrations'
+  #   post 'users/registrations/step2', to: 'users/registrations#step2', as: 'step2_users_registrations'
+  #   post 'users/registrations/step3', to: 'users/registrations#step3', as: 'step3_users_registrations'
+  #   post 'users/registrations/step4', to: 'users/registrations#step4', as: 'step4_users_registrations'
+  #   get 'users/registrations/autocomplete', to: 'users/registrations#autocomplete', as: :autocomplete_base_companies
+  # end
+
   devise_scope :user do
+    # Routes pour les formulaires initiaux (GET)
     get 'users/registrations/step1', to: 'users/registrations#new', as: 'step1_users_registrations'
+    get 'users/registrations/step2', to: 'users/registrations#step2_get', as: 'step2_users_registrations_get'
+    get 'users/registrations/step3', to: 'users/registrations#step3_get', as: 'step3_users_registrations_get'
+    get 'users/registrations/step4', to: 'users/registrations#step4_get', as: 'step4_users_registrations_get'
+    
+    # Routes pour soumettre les formulaires (POST)
     post 'users/registrations/step2', to: 'users/registrations#step2', as: 'step2_users_registrations'
     post 'users/registrations/step3', to: 'users/registrations#step3', as: 'step3_users_registrations'
     post 'users/registrations/step4', to: 'users/registrations#step4', as: 'step4_users_registrations'
+    
     get 'users/registrations/autocomplete', to: 'users/registrations#autocomplete', as: :autocomplete_base_companies
   end
 
-  # Route pour l'édition des informations utilisateur
-  # les deux routes ci dessous etaient utilisées pour mettre a jour le user depuis les setting de l'orga
-  # get 'user/edit', to: 'users#edit', as: 'edit_user'
-  # patch 'user', to: 'users#update'
   get 'users_index', to: 'users#index', as: 'users_index'
 
   get 'users/new_collaborator', to: 'users#new_collaborator', as: 'new_collaborator'

@@ -1058,7 +1058,7 @@ p {
 /* subscription form*/ 
 .form-group-sub {
   margin-bottom: 15px; /* Espacement entre les groupes de champs */
-  width: 80%;
+  /* width: 80%; */
   max-width: 662px;
   padding-left: 30px;
 }

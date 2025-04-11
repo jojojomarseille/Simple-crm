@@ -7,25 +7,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     @user = User.new
-    puts "new (step 1)called"
   end
 
   def step2
-    puts "step 2 called"
-    # @user = User.new(user_params)
-    # render :new unless @user.valid?(:step1)
-    puts "registration params: #{session[:registration_params]}"
     session[:registration_params] ||= {}
     session[:registration_params].merge!(user_params.to_h)
     @user = User.new(session[:registration_params])
     render :new unless @user.valid?(:step1)
-    # if @user.valid?(:step1)
-    #   # Pour Turbo, vous devez utiliser un redirect_to plutôt qu'un render
-    #   redirect_to step2
-    # else
-    #   # En cas d'erreur, redirigez avec une notification d'erreur
-    #   redirect_to step1_users_registrations_path, alert: "Veuillez corriger les erreurs avant de continuer"
-    # end
+  end
+
+  def step2_get
+    puts "step2 GET called"
+    if session[:registration_params].blank?
+      redirect_to new_user_registration_path, alert: "Veuillez d'abord compléter l'étape 1"
+      return
+    end
+
+    @user = User.new(session[:registration_params])
+    render :step2
   end
 
   def step3
@@ -37,6 +36,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
     render :step2 unless @user.valid?(:step2)
   end
 
+  # Gère le GET pour step3
+  def step3_get
+    puts "step3 GET called"
+    if session[:registration_params].blank?
+      redirect_to new_user_registration_path, alert: "Veuillez d'abord compléter l'étape 1"
+      return
+    end
+  
+    @user = User.new(session[:registration_params])
+    # Vérifiez si les étapes précédentes sont valides
+    unless @user.valid?(:step1) && @user.valid?(:step2)
+      redirect_to step2_users_registrations_get_path, alert: "Veuillez compléter correctement les étapes précédentes"
+      return
+    end
+  
+    render :step3
+  end
+
   def step4
     puts "step 4"
     puts "registration_params: #{session[:registration_params]}"
@@ -45,6 +62,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = User.new(session[:registration_params])
     @user.build_organisation unless @user.organisation
     render :step3 unless @user.valid?(:step3)
+  end
+  
+  # Gère le GET pour step4
+  def step4_get
+    puts "step4 GET called"
+    if session[:registration_params].blank?
+      redirect_to new_user_registration_path, alert: "Veuillez d'abord compléter l'étape 1"
+      return
+    end
+  
+    @user = User.new(session[:registration_params])
+    # Vérifiez si les étapes précédentes sont valides
+    unless @user.valid?(:step1) && @user.valid?(:step2) && @user.valid?(:step3)
+      redirect_to step3_users_registrations_get_path, alert: "Veuillez compléter correctement les étapes précédentes"
+      return
+    end
+  
+    render :step4
   end
 
   # def create
