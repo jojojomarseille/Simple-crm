@@ -39,6 +39,9 @@ gem "carrierwave"
 gem 'mini_magick'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+#pour les champs de numeros de telephones
+gem 'intl-tel-input-rails'
+
 
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -76,6 +79,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'hotwire-livereload'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"

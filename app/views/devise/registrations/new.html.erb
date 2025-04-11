@@ -17,38 +17,48 @@
     </div>
   </div>
 
-  <div class="sign-up-right" style="min-width: 50%; padding-top: 40px">
-    <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post do |f| %>
-      <%= render 'devise/shared/error_messages', resource: @user %>
+  <div class="sign-up-right" style="min-width: 50%; padding-top: 40px" data-controller="registration-validator">
+  <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
+    <%= render 'devise/shared/error_messages', resource: @user %>
 
-      <div class="form-group-sub">
-        <%= f.label :email, class: 'sub-custom-label' %>
-        <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email" %>
-        <span id="email-error" class="error-message"></span>
-      </div>
+    <div class="form-group-sub">
+      <%= f.label :email, class: 'sub-custom-label' %>
+      <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email", data: { action: "blur->registration-validator#validateEmail" } %>
+      <span id="email-error" class="error-message"></span>
+    </div>
 
-      <div class="form-group-sub">
-        <%= f.label :password, class: 'sub-custom-label' %>
-        <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password" %>
-        <div class="password-criteria">
-          <span class="criterion" id="criterion-uppercase"><span class="icon">✖</span> Minimum une majuscule</span>
-          <span class="criterion" id="criterion-length"><span class="icon">✖</span> Minimum 8 caractères</span>
-          <span class="criterion" id="criterion-number"><span class="icon">✖</span> Minimum un chiffre</span>
-          <span class="criterion" id="criterion-lowercase"><span class="icon">✖</span> Minimum une minuscule</span>
-        </div>
+    <div class="form-group-sub">
+      <%= f.label :password, class: 'sub-custom-label' %>
+      <div class="password-input-container">
+        <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#validatePassword" } %>
+        <button type="button" class="password-toggle" data-target="password" data-action="click->registration-validator#togglePassword">
+          <i class="fa fa-eye"></i>
+        </button>
       </div>
+      <div class="password-criteria">
+        <span class="criterion" id="criterion-uppercase"><span class="icon">✖</span> Minimum une majuscule</span>
+        <span class="criterion" id="criterion-length"><span class="icon">✖</span> Minimum 8 caractères</span>
+        <span class="criterion" id="criterion-number"><span class="icon">✖</span> Minimum un chiffre</span>
+        <span class="criterion" id="criterion-lowercase"><span class="icon">✖</span> Minimum une minuscule</span>
+      </div>
+    </div>
 
-      <div class="form-group-sub">
-        <%= f.label :password_confirmation, class: 'sub-custom-label' %>
-        <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password" %>
-        <span class="criterion" id="criterion-match"><span class="icon">✖</span>Correspondance des mots de passes</span>
+    <div class="form-group-sub">
+      <%= f.label :password_confirmation, class: 'sub-custom-label' %>
+      <div class="password-input-container">
+        <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#checkPasswordMatch" } %>
+        <button type="button" class="password-toggle" data-target="password_confirmation" data-action="click->registration-validator#togglePassword">
+          <i class="fa fa-eye"></i>
+        </button>
       </div>
+      <span class="criterion" id="criterion-match"><span class="icon">✖</span>Correspondance des mots de passes</span>
+    </div>
 
-      <div class="form-group-sub" style="display: flex; justify-content: right; padding-right: 35px; margin-top: 100px">
-        <%= f.submit "Suivant", class: 'sub-custom-button' %>
-      </div>
-    <% end %>
-  </div>
+    <div class="form-group-sub" style="display: flex; justify-content: right; padding-right: 35px; margin-top: 100px">
+      <%= f.submit "Suivant", class: 'sub-custom-button' %>
+    </div>
+  <% end %>
+</div>
 
 </div>
 
@@ -75,100 +85,41 @@
 
 .criterion .icon {
   margin-right: 5px;
+  color: grey;
 }
 
 .criterion.valid .icon {
   color: green;
-  /* content: '✔'; */
 }
 
-.criterion:not(.valid) .icon {
+.criterion:not(.valid):not(.empty) .icon {
   color: red;
-  /* content: '✖'; */
 }
+
+/*pour le ptit oeuil qui montre les caracteres que l'on écris*/
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  font-size: 16px;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
 
 </style>
 
-<%# js pour checker le mail %>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const emailInput = document.querySelector('.sub-custom-input[type="email"]');
-  const emailError = document.getElementById('email-error');
-
-  emailInput.addEventListener('blur', function() {
-    const emailValue = emailInput.value;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (emailPattern.test(emailValue)) {
-      emailError.style.display = 'none'; // Cache le message d'erreur
-    } else {
-      emailError.style.display = 'block'; // Affiche le message d'erreur
-      emailError.textContent = 'Format de l\'email invalide';
-    }
-  });
-});
-
-// js pour checker le mot de passe 
-
-document.addEventListener('DOMContentLoaded', function() {
-  const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
-  const criteria = {
-    uppercase: document.getElementById('criterion-uppercase'),
-    length: document.getElementById('criterion-length'),
-    number: document.getElementById('criterion-number'),
-    lowercase: document.getElementById('criterion-lowercase')
-  };
-
-  passwordInput.addEventListener('input', function() {
-    const passwordValue = passwordInput.value;
-
-    // Vérifie chaque critère
-    // criteria.uppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
-    // criteria.length.classList.toggle('valid', passwordValue.length >= 8);
-    // criteria.number.classList.toggle('valid', /\d/.test(passwordValue));
-    // criteria.lowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
-    updateCriterion(criteria.uppercase, /[A-Z]/.test(passwordValue));
-    updateCriterion(criteria.length, passwordValue.length >= 8);
-    updateCriterion(criteria.number, /\d/.test(passwordValue));
-    updateCriterion(criteria.lowercase, /[a-z]/.test(passwordValue));
-  });
-
-  function updateCriterion(criterionElement, isValid) {
-    const iconElement = criterionElement.querySelector('.icon');
-    if (isValid) {
-      criterionElement.classList.add('valid');
-      iconElement.textContent = '✔';
-      iconElement.style.color = 'green';
-    } else {
-      criterionElement.classList.remove('valid');
-      iconElement.textContent = '✖';
-      iconElement.style.color = 'red';
-    }
-  }
-
-});
-
-//js pour checker la correspondance entres les deux mots de passes 
-
-document.addEventListener('DOMContentLoaded', function() {
-  const passwordInput = document.querySelector('.sub-custom-input[type="password"]');
-  const confirmPasswordInput = document.querySelector('.sub-custom-input[name="user[password_confirmation]"]');
-  const matchCriterion = document.getElementById('criterion-match');
-
-  confirmPasswordInput.addEventListener('input', function() {
-    const passwordValue = passwordInput.value;
-    const confirmPasswordValue = confirmPasswordInput.value;
-    const iconElement = matchCriterion.querySelector('.icon');
-
-    if (passwordValue === confirmPasswordValue && passwordValue !== "") {
-      matchCriterion.classList.add('valid');
-      iconElement.textContent = '✔';
-      iconElement.style.color = 'green';
-    } else {
-      matchCriterion.classList.remove('valid');
-      iconElement.textContent = '✖';
-      iconElement.style.color = confirmPasswordValue ? 'red' : 'grey';
-    }
-  });
-});
-</script>

@@ -6,7 +6,7 @@
 </div>
 <div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+  <div class="sign-up-left" style="min-width: 50%; display: flex; margin-top: 40px; flex-direction: column">
 
     <div style="text-align: center; height: 150px">
       <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Dites nous en plus sur vous</p>
@@ -17,10 +17,10 @@
   </div>
 
   <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
-   <%= form_for @user, as: :user, url: step3_users_registrations_path, method: :post do |f| %>
+   <%= form_for @user, as: :user, url: step3_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
       <%= render 'devise/shared/error_messages', resource: @user %>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= f.label :firstname, class: 'sub-custom-label' %>
         <%= f.text_field :firstname, class: 'sub-custom-input', autofocus: true, autocomplete: "firstname" %>
       </div>
@@ -30,10 +30,22 @@
         <%= f.text_field :lastname, class: 'sub-custom-input', autocomplete: "lastname" %>
       </div>
 
+
       <div class="form-group">
         <%= f.label :phone, class: 'sub-custom-label' %>
-        <%= f.text_field :phone, class: 'sub-custom-input', autocomplete: "phone" %>
-      </div>
+        <div class="phone-input-container" data-controller="phone">
+        <%= telephone_field_tag :phone_visible, nil, 
+                           class: 'sub-custom-input phone-input', 
+                           autocomplete: "tel", 
+                           data: { phone_target: "input" } %>
+    
+        <%= f.hidden_field :phone, 
+                       data: { phone_target: "hidden" } %>
+    
+          <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide</div>
+        </div>
+        <small class="form-text text-muted">Ex: sélectionnez votre pays puis entrez votre numéro</small>
+      /div>
 
      
       <div class="form-group">
@@ -41,7 +53,7 @@
         <%= f.text_field :birthdate, class: 'datepicker-input sub-custom-input', placeholder: 'AAAA-MM-JJ' %>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="display: flex; justify-content: right; width: 590px; margin-top: 100px">
         <%= f.submit "Suivant", class: 'sub-custom-button' %>
       </div>
     <% end %>
@@ -63,13 +75,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
 </script>
 
 <style>
     .datepicker-input {
-  width: 100%;
+  width: 590px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   border-radius: 0; /* Pas de bordure arrondie */
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
@@ -105,6 +118,47 @@ document.addEventListener('DOMContentLoaded', function() {
   border-color: #FFA01C;
   color: #FFA01C;
 }
+
+
+/*phone*/
+
+// En SCSS
+.phone-input-container {
+  position: relative;
+  
+  .iti {
+    width: 100%;
+  }
+  
+  .phone-input {
+    padding-left: 90px !important;
+  }
+  
+  .iti__flag-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .invalid-feedback {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .is-invalid ~ .invalid-feedback {
+    display: block;
+  }
+  
+  .is-invalid {
+    border-color: #dc3545;
+  }
+  
+  .is-valid {
+    border-color: #28a745;
+  }
+}
+
 
 </style>
 

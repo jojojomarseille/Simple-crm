@@ -19,6 +19,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session[:registration_params].merge!(user_params.to_h)
     @user = User.new(session[:registration_params])
     render :new unless @user.valid?(:step1)
+    # if @user.valid?(:step1)
+    #   # Pour Turbo, vous devez utiliser un redirect_to plutôt qu'un render
+    #   redirect_to step2
+    # else
+    #   # En cas d'erreur, redirigez avec une notification d'erreur
+    #   redirect_to step1_users_registrations_path, alert: "Veuillez corriger les erreurs avant de continuer"
+    # end
   end
 
   def step3

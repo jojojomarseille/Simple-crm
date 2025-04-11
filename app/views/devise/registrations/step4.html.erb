@@ -19,7 +19,7 @@
   </div>
 
   <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
-   <%= form_for @user, as: :user, url: user_registration_path, method: :post do |f| %>
+   <%= form_for @user, as: :user, url: user_registration_path, method: :post, data: { turbo: false } do |f| %>
       <%= render 'devise/shared/error_messages', resource: @user %>
 
       <%= f.fields_for :organisation do |org_form| %>
