@@ -56,14 +56,30 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def step4
     puts "step 4"
-    puts "registration_params: #{session[:registration_params]}"
-    puts "user_params: #{user_params}"
+    # puts "registration_params: #{session[:registration_params]}"
+    # puts "user_params: #{user_params}"
     session[:registration_params].merge!(user_params.to_h)
     @user = User.new(session[:registration_params])
+    
+     # Si on a un ID d'entreprise, récupérer les données
+    if params.dig(:user, :organisation_attributes, :base_company_id).present?
+      base_company_id = params[:user][:organisation_attributes][:base_company_id]
+      base_company = BaseCompany.find_by(id: base_company_id)
+    
+      if base_company
+        # Stocker l'ID dans les paramètres de session
+        session[:registration_params]["organisation_attributes"]["base_company_id"] = base_company_id
+      
+        # Rediriger vers le GET avec l'ID pour pré-remplissage
+        redirect_to step4_users_registrations_get_path(base_company_id: base_company_id)
+        return
+      end
+    end
+
     @user.build_organisation unless @user.organisation
     render :step3 unless @user.valid?(:step3)
   end
-  
+
   # Gère le GET pour step4
   def step4_get
     puts "step4 GET called"
@@ -79,29 +95,35 @@ class Users::RegistrationsController < Devise::RegistrationsController
       return
     end
   
+    # Pré-remplir les champs si on a un ID d'entreprise
+      base_company_id = params[:base_company_id] || session[:registration_params].dig("organisation_attributes", "base_company_id")
+      if base_company_id.present?
+        @base_company = BaseCompany.find_by(id: base_company_id)
+        if @base_company
+          # Pré-remplir les attributs de l'organisation
+          @user.organisation ||= @user.build_organisation
+          @user.organisation.assign_attributes(
+            business_name: @base_company.denomination_sociale,
+            identification_number: @base_company.siret,
+            address: @base_company.adresse,
+            postal_code: @base_company.code_postal,
+            country: @base_company.pays,
+            capital: @base_company.capital,
+            city: @base_company.city,
+            creation_date: @base_company.date_creation,
+            # Autres champs selon les données disponibles
+            base_company_id: @base_company.id
+          )
+        end
+      end
+
     render :step4
   end
 
-  # def create
-  #   super do |resource|
-  #     if resource.persisted?
-  #       # Sauvegarder l'organisation associée
-  #       resource.organisation.save if resource.organisation
-
-  #       # Définir le statut de l'utilisateur
-  #       if resource.organisation.users.count == 1
-  #         resource.update(status: 'org_admin')
-  #       else
-  #         resource.update(status: 'collaborateur')
-  #       end
-  #     end
-  #   end
-  # end
-
   def create
     puts "step create"
-    puts "registration_params avant merge: #{session[:registration_params]}"
-    puts "user_params: #{user_params}"
+    # puts "registration_params avant merge: #{session[:registration_params]}"
+    # puts "user_params: #{user_params}"
     # session[:registration_params].merge!(user_params.to_h)
     
     # Fusionner les attributs de l'utilisateur et de l'organisation
@@ -113,10 +135,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     end
 
-    puts "registration_params apres merge: #{session[:registration_params]}"
+    # puts "registration_params apres merge: #{session[:registration_params]}"
     @user = User.new(session[:registration_params])
-    puts "@user a ce stade: #{@user}"
+    # puts "@user a ce stade: #{@user}"
     @user.status = 'org_admin'
+
+    # Assurez-vous que l'ID de BaseCompany est bien assigné
+    if session[:registration_params].dig("organisation_attributes", "base_company_id").present?
+      base_company_id = session[:registration_params]["organisation_attributes"]["base_company_id"]
+      @user.organisation.base_company_id = base_company_id
+    end
+
     if @user.save
       session[:registration_params] = nil
       sign_in(@user)
@@ -126,11 +155,33 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def autocomplete
-    query = params[:query]
-    @base_companies = BaseCompany.where('name ILIKE ?', "%#{query}%").limit(6)
-    render json: @base_companies.map { |company| { id: company.id, name: company.name } }
+  def company_details
+    base_company_id = params[:id]
+    @base_company = BaseCompany.find_by(id: base_company_id)
+    
+    if @base_company
+      render json: { 
+        business_name: @base_company.denomination_sociale,
+        identification_number: @base_company.siret,
+        address: @base_company.adresse,
+        postal_code: @base_company.code_postal,
+        country: @base_company.pays,
+        capital: @base_company.capital,
+        city: @base_company.city,
+        creation_date: @base_company.date_creation,
+        base_company_id: @base_company.id
+        # Autres champs selon votre modèle BaseCompany
+      }
+    else
+      render json: { error: "Entreprise non trouvée" }, status: :not_found
+    end
   end
+
+  # def autocomplete
+  #   query = params[:query]
+  #   @base_companies = BaseCompany.where('name ILIKE ?', "%#{query}%").limit(6)
+  #   render json: @base_companies.map { |company| { id: company.id, name: company.name } }
+  # end
  
   protected
 
@@ -140,33 +191,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :firstname, :lastname, :birthdate, :phone,
-                                 organisation_attributes: [:business_name, :status, :capital, :creation_date, :address, :address_line_2, :postal_code, :logo, :city, :country, :identification_number, :vat_number])
+                                 organisation_attributes: [:business_name, :status, :capital, :creation_date, :address, :address_line_2, :postal_code, :logo, :city, :country, :identification_number, :vat_number, :base_company_id])
   end
 
-
-  # def build_organisation
-  #   puts "Building organisation appelé"
-  #   build_organisation
-  #   puts resource.organisation.inspect
-  # end
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
-
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
 end

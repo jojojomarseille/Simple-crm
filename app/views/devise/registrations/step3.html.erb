@@ -8,27 +8,36 @@
 
 <div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+  <div class="sign-up-left" style="min-width: 50%; display: flex; padding-top: 40px; flex-direction: column">
 
-    <div style="text-align: center; height: 150px">
+    <div style="text-align: center">
       <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
     </div>
     <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
-      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image', style: "width: 457px") %>
+      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image', style: "width: 400px") %>
+    </div>
+    <div style="padding-left: 20%; padding-top: 35px;">
+      <%= link_to "Retour", step2_users_registrations_get_path, class: 'sub-custom-button-return', style: 'text-decoration: none;', data: { turbo: false } %>
     </div>
   </div>
 
   <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
-   <%= form_for @user, as: :user, url: step4_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
+   <%= form_for @user, as: :user, url: step4_users_registrations_path, method: :post, data: { turbo: false, controller: "organisation-form" } do |f| %>
       <%= render 'devise/shared/error_messages', resource: @user %>
 
       <%= f.fields_for :organisation do |org_form| %>
         <div class="form-group-sub">
           <%= org_form.label :country, class: 'sub-custom-label' %>
-          <%= org_form.select :country, [['🇫🇷 France', 'France'], ['🇵🇹 Portugal', 'Portugal'], ['🇧🇷 Brazil', 'Brazil']], { include_blank: 'Pays' }, class: 'sub-custom-input country-select' %>
+          <%= org_form.select :country, [['🇫🇷 France', 'France'], ['🇵🇹 Portugal', 'Portugal'], ['🇧🇷 Brazil', 'Brazil']], 
+                              { prompt: 'Sélectionnez un pays', selected: nil }, 
+                              class: 'sub-custom-input country-select',
+                              data: { 
+                                organisation_form_target: "countrySelect",
+                                action: "change->organisation-form#countryChanged" 
+                              } %>
         </div>
 
-        <div class="form-group-sub" id="status-field" style="display: none;">
+        <div class="form-group-sub" style="display: none;" data-organisation-form-target="statusField">
           <%= org_form.label :status, class: 'sub-custom-label' %>
           <%= org_form.select :status, [
                 ['Entreprise Individuelle (EI)', 'Entreprise Individuelle'],
@@ -43,115 +52,87 @@
                 ['Société en Commandite Simple (SCS)', 'SCS'],
                 ['Association avec numeros de siret', 'ASSO-SIRET'],
                 ['Association sans numeros de siret', 'ASSO-WITHOUT-SIRET']
-            ], { include_blank: 'Statut juridique' }, class: 'sub-custom-input' %>
+            ], { include_blank: 'Statut juridique', selected: nil }, 
+            class: 'sub-custom-input',
+            data: { 
+              organisation_form_target: "statusSelect",
+              action: "change->organisation-form#statusChanged" 
+            } %>
         </div>
 
-        <div class="form-group-sub">
-          <%= org_form.label :name, class: 'sub-custom-label' %>
-          <%= text_field_tag :organisation_search, '', placeholder: 'Rechercher votre entreprise...', class: 'sub-custom-input', id: 'organisation-search', data: { controller: "autocomplete" } %>
+        <div class="form-group-sub" style="display: none;" data-organisation-form-target="searchField">
+          <%= org_form.label :name, "Recherche d'entreprise", class: 'sub-custom-label' %>
+          <%= text_field_tag :organisation_search, '', 
+                            placeholder: 'Rechercher votre entreprise...', 
+                            class: 'sub-custom-input', 
+                            id: 'organisation-search',
+                            data: { 
+                              action: "input->organisation-form#search",
+                              organisation_form_target: "searchFieldInput" 
+                            } %>
+          <div class="search-results" data-organisation-form-target="searchResults"></div>
+          <small class="form-text text-muted">Saisissez au moins 3 caractères pour rechercher votre entreprise</small>
         </div>
+      <% end %>  
 
-        <div class="form-group-sub" id="identification-field" style="display: none;">
-          <%= org_form.label :identification_number, class: 'sub-custom-label' %>
-          <%= org_form.text_field :identification_number, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub" id="vat-field" style="display: none;">
-          <%= org_form.label :vat_number, class: 'sub-custom-label' %>
-          <%= org_form.text_field :vat_number, class: 'sub-custom-input' %>
-        </div>
-      <% end %>
-
-      <div class="form-group-sub", style="display: none;">
+      <div class="form-group-sub" style="display: flex; justify-content: right; width: 590px; margin-top: 100px" data-organisation-form-target="submitButton">
         <%= f.submit "Suivant", class: 'sub-custom-button' %>
       </div>
 
-      <div id="country-message" style="display: none; color: red;"></div>
+      <div id="country-message" data-organisation-form-target="countryMessage" style="display: none; color: red;"></div>
     <% end %>
   </div>
 
 </div>
+<style>
+  /* app/assets/stylesheets/organisation_search.css */
+.search-results {
+  position: absolute;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-<script>
-// document.addEventListener('DOMContentLoaded', function() {
-//   const countrySelect = document.querySelector('.country-select');
-//   const statusField = document.getElementById('status-field');
-//   const identificationField = document.getElementById('identification-field');
-//   const vatField = document.getElementById('vat-field');
-//   const countryMessage = document.getElementById('country-message');
+.company-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-//   countrySelect.addEventListener('change', function() {
-//     const selectedCountry = countrySelect.value;
+.company-results li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
 
-//     if (selectedCountry === 'France') {
-//         console.log("France selected")
-//       statusField.style.display = 'block';
-//       identificationField.style.display = 'block';
-//       vatField.style.display = 'block';
-//       countryMessage.style.display = 'none';
-//     } else {
-//       statusField.style.display = 'none';
-//       identificationField.style.display = 'none';
-//       vatField.style.display = 'none';
-//       countryMessage.style.display = 'block';
-//       countryMessage.textContent = "Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.";
-//     }
-//   });
-// });
+.company-results li:hover, .company-results li:focus {
+  background-color: #f5f5f5;
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-  const countrySelect = document.querySelector('.country-select');
-  const statusSelect = document.querySelector('select[name="organisation[status]"]');
-  const searchField = document.getElementById('organisation-search');
-  const identificationField = document.getElementById('identification-field');
-  const vatField = document.getElementById('vat-field');
-  const countryMessage = document.getElementById('country-message');
+.company-results li:last-child {
+  border-bottom: none;
+}
 
-  // Montrer ou cacher les champs en fonction du pays
-  countrySelect.addEventListener('change', function() {
-    const selectedCountry = countrySelect.value;
+.no-results {
+  padding: 15px;
+  color: #888;
+  text-align: center;
+  font-style: italic;
+}
 
-    if (selectedCountry === 'France') {
-      console.log("France selected");
-      statusSelect.closest('.form-group-sub').style.display = 'block';
-      countryMessage.style.display = 'none';
-    } else {
-      statusSelect.closest('.form-group-sub').style.display = 'none';
-      searchField.closest('.form-group-sub').style.display = 'none';
-      identificationField.style.display = 'none';
-      vatField.style.display = 'none';
-      countryMessage.style.display = 'block';
-      countryMessage.textContent = "Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.";
-    }
-  });
+.form-text {
+  font-size: 12px;
+  margin-top: 4px;
+}
 
-  // Gérer l'affichage du champ de recherche basé sur le statut
-  statusSelect.addEventListener('change', function() {
-    const selectedStatus = statusSelect.value;
-    
-    // Montrer le champ de recherche seulement si ce n'est pas une association sans SIRET
-    if (selectedStatus !== 'ASSO-WITHOUT-SIRET') {
-      searchField.closest('.form-group-sub').style.display = 'block';
-    } else {
-      searchField.closest('.form-group-sub').style.display = 'none';
-      identificationField.style.display = 'none';
-      vatField.style.display = 'none';
-    }
-  });
+</style>
 
-  // Simuler le remplissage automatique après sélection (pour illustration)
-  searchField.addEventListener('change', function() {
-    // Suppose qu'une entreprise a été sélectionnée
-    const organisationSelected = searchField.value;
-    if (organisationSelected) {
-      identificationField.style.display = 'block';
-      vatField.style.display = 'block';
-      // Il faudrait aussi remplir les champs de données ici si besoin
-    }
-  });
-
-
-</script>
 
 
 

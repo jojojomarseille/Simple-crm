@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_03_233052) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_12_194144) do
   create_table "base_companies", force: :cascade do |t|
     t.string "siret"
     t.string "siren"
@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_03_233052) do
     t.datetime "date_creation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "capital", precision: 15, scale: 2
+    t.string "city"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -90,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_03_233052) do
     t.datetime "updated_at", null: false
     t.string "logo"
     t.string "capital"
+    t.integer "base_company_id"
+    t.index ["base_company_id"], name: "index_organisations_on_base_company_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -136,6 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_03_233052) do
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "organisations"
   add_foreign_key "orders", "users"
+  add_foreign_key "organisations", "base_companies"
   add_foreign_key "prices", "products"
   add_foreign_key "products", "organisations"
   add_foreign_key "users", "organisations"

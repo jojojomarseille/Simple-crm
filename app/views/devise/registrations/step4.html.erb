@@ -16,54 +16,72 @@
     <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
       <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image', style: "width: 457px") %>
     </div>
+    <div style="padding-left: 20%; padding-top: 35px;">
+      <%= link_to "Retour", step3_users_registrations_get_path, class: 'sub-custom-button-return', style: 'text-decoration: none;', data: { turbo: false } %>
+    </div>
   </div>
 
   <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
-   <%= form_for @user, as: :user, url: user_registration_path, method: :post, data: { turbo: false } do |f| %>
-      <%= render 'devise/shared/error_messages', resource: @user %>
+  <%= form_for @user, as: :user, url: user_registration_path, method: :post, 
+              data: { turbo: false, controller: "organisation-form", step: "4" } do |f| %>
+    <%= render 'devise/shared/error_messages', resource: @user %>
 
-      <%= f.fields_for :organisation do |org_form| %>
-        <div class="form-group-sub">
-          <%= org_form.label :business_name, class: 'sub-custom-label' %>
-          <%= org_form.text_field :business_name, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :logo, class: 'sub-custom-label' %>
-          <%= org_form.file_field :logo, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :capital, class: 'sub-custom-label' %>
-          <%= org_form.text_field :capital, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :creation_date, class: 'sub-custom-label' %>
-          <%= org_form.date_select :creation_date, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :address, class: 'sub-custom-label' %>
-          <%= org_form.text_field :address, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :postal_code, class: 'sub-custom-label' %>
-          <%= org_form.text_field :postal_code, class: 'sub-custom-input' %>
-        </div>
-
-        <div class="form-group-sub">
-          <%= org_form.label :city, class: 'sub-custom-label' %>
-          <%= org_form.text_field :city, class: 'sub-custom-input' %>
-        </div>
-      <% end %>
+    <%= f.fields_for :organisation do |org_form| %>
+      <div class="form-group-sub">
+        <%= org_form.label :business_name, class: 'sub-custom-label' %>
+        <%= org_form.text_field :business_name, class: 'sub-custom-input' %>
+      </div>
 
       <div class="form-group-sub">
-        <%= f.submit "Terminer", class: 'sub-custom-button' %>
+        <%= org_form.label :identification_number, "N° SIRET", class: 'sub-custom-label' %>
+        <%= org_form.text_field :identification_number, class: 'sub-custom-input' %>
       </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :logo, class: 'sub-custom-label' %>
+        <%= org_form.file_field :logo, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :capital, class: 'sub-custom-label' %>
+        <%= org_form.text_field :capital, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :creation_date, class: 'sub-custom-label' %>
+        <%= org_form.text_field :creation_date, 
+                              class: 'sub-custom-input flatpickr-input', 
+                              data: { 
+                                controller: "flatpickr",
+                                flatpickr_date_format: "Y-m-d",
+                                flatpickr_allow_input: true
+                              } %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :address, class: 'sub-custom-label' %>
+        <%= org_form.text_field :address, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :postal_code, class: 'sub-custom-label' %>
+        <%= org_form.text_field :postal_code, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-sub">
+        <%= org_form.label :city, class: 'sub-custom-label' %>
+        <%= org_form.text_field :city, class: 'sub-custom-input' %>
+      </div>
+      
+      <%# id de base company associée %>
+      <%= org_form.hidden_field :base_company_id %>
     <% end %>
-  </div>
+
+    <div class="form-group-sub">
+      <%= f.submit "Terminer", class: 'sub-custom-button' %>
+    </div>
+  <% end %>
+</div>
 
 </div>
 

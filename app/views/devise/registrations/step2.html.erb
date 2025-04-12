@@ -8,11 +8,14 @@
 
   <div class="sign-up-left" style="min-width: 50%; display: flex; margin-top: 40px; flex-direction: column">
 
-    <div style="text-align: center; height: 150px">
+    <div style="text-align: center; height: 100px">
       <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Dites nous en plus sur vous</p>
     </div>
     <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
-      <%= image_tag('undraw_mindfulness_v3lv.svg', alt: 'mindfull', class: 'centered-image', style: "width: 457px") %>
+      <%= image_tag('undraw_mindfulness_v3lv.svg', alt: 'mindfull', class: 'centered-image', style: "width: 400px") %>
+    </div>
+    <div style="padding-left: 20%; padding-top: 35px;">
+      <%= link_to "Retour", new_user_registration_path, class: 'sub-custom-button-return', style: 'text-decoration: none;', data: { turbo: false } %>
     </div>
   </div>
 
@@ -73,22 +76,6 @@
 
 </div>
 
-<script>
-// document.addEventListener('DOMContentLoaded', function() {
-//   flatpickr(".datepicker-input", {
-//     dateFormat: "Y-m-d",
-//     maxDate: "today",
-//     minDate: "1900-01-01",
-//     onChange: function(selectedDates, dateStr, instance) {
-//       instance.setDate(dateStr, true);
-//     },
-//     locale: {
-//       firstDayOfWeek: 1 // Commence la semaine le lundi
-//     }
-//   });
-// });
-
-</script>
 
 <style>
     .datepicker-input {
@@ -170,7 +157,6 @@
     border-color: #28a745;
   }
 }
-
 
 </style>
 
