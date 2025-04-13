@@ -31,7 +31,7 @@
       <%= f.label :password, class: 'sub-custom-label' %>
       <div class="password-input-container">
         <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#validatePassword" } %>
-        <button type="button" class="password-toggle" data-target="password" data-action="click->registration-validator#togglePassword">
+        <button type="button" class="password-toggle" data-target="password" data-action="click->registration-validator#togglePassword" tabindex="-1">
           <i class="fa fa-eye"></i>
         </button>
       </div>
@@ -47,7 +47,7 @@
       <%= f.label :password_confirmation, class: 'sub-custom-label' %>
       <div class="password-input-container">
         <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#checkPasswordMatch" } %>
-        <button type="button" class="password-toggle" data-target="password_confirmation" data-action="click->registration-validator#togglePassword">
+        <button type="button" class="password-toggle" data-target="password_confirmation" data-action="click->registration-validator#togglePassword" tabindex="-1">
           <i class="fa fa-eye"></i>
         </button>
       </div>

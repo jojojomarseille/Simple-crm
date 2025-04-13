@@ -27,48 +27,50 @@
     <%= render 'devise/shared/error_messages', resource: @user %>
 
     <%= f.fields_for :organisation do |org_form| %>
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :business_name, class: 'sub-custom-label' %>
         <%= org_form.text_field :business_name, class: 'sub-custom-input' %>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :identification_number, "N° SIRET", class: 'sub-custom-label' %>
         <%= org_form.text_field :identification_number, class: 'sub-custom-input' %>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :logo, class: 'sub-custom-label' %>
-        <%= org_form.file_field :logo, class: 'sub-custom-input' %>
+        <%= org_form.file_field :logo %>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :capital, class: 'sub-custom-label' %>
         <%= org_form.text_field :capital, class: 'sub-custom-input' %>
       </div>
+     
+      <div data-controller="datepicker">
+        <div class="form-group">
+          <%= org_form.label :creation_date, class: 'sub-custom-label' %>
+          <%= org_form.text_field :creation_date, 
+                                class: 'sub-custom-input', 
+                                data: { 
+                                       datepicker_target: "input"
+                                      },
+                                value: org_form.object.creation_date&.strftime('%Y-%m-%d') %>
+          </small>
+        </div>
+      <div>
 
-      <div class="form-group-sub">
-        <%= org_form.label :creation_date, class: 'sub-custom-label' %>
-        <%= org_form.text_field :creation_date, 
-                              class: 'sub-custom-input flatpickr-input', 
-                              data: { 
-                                controller: "flatpickr",
-                                flatpickr_date_format: "Y-m-d",
-                                flatpickr_allow_input: true
-                              } %>
-      </div>
-
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :address, class: 'sub-custom-label' %>
         <%= org_form.text_field :address, class: 'sub-custom-input' %>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :postal_code, class: 'sub-custom-label' %>
         <%= org_form.text_field :postal_code, class: 'sub-custom-input' %>
       </div>
 
-      <div class="form-group-sub">
+      <div class="form-group">
         <%= org_form.label :city, class: 'sub-custom-label' %>
         <%= org_form.text_field :city, class: 'sub-custom-input' %>
       </div>
@@ -77,13 +79,46 @@
       <%= org_form.hidden_field :base_company_id %>
     <% end %>
 
-    <div class="form-group-sub">
+    <div class="form-group">
       <%= f.submit "Terminer", class: 'sub-custom-button' %>
     </div>
   <% end %>
 </div>
 
 </div>
+
+<style>
+  /* Styles pour Flatpickr */
+.flatpickr-calendar {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.selected:hover {
+  background: #FFA01C;
+  border-color: #FFA01C;
+  color: white;
+}
+
+.flatpickr-month {
+  background: white;
+  color: #FFA01C;
+}
+
+.flatpickr-current-month .numInputWrapper span {
+  color: #FFA01C;
+}
+
+.flatpickr-day.today {
+  border-color: #FFA01C;
+  color: #FFA01C;
+}
+</style>
 
 
 

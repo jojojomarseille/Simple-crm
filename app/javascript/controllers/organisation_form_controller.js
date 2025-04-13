@@ -10,7 +10,10 @@ export default class extends Controller {
     "searchField", 
     "searchFieldInput",
     "searchResults",
-    "baseCompanyId" // Champ caché pour stocker l'ID
+    "baseCompanyId", 
+    "selectedCompanyInfo",
+    "countryErrorMessage",
+    "submitButton"
   ]
 
   connect() {
@@ -51,18 +54,53 @@ export default class extends Controller {
   countryChanged() {
     const selectedCountry = this.countrySelectTarget.value
     
-    if (selectedCountry === 'France') {
-      this.statusFieldTarget.style.display = 'block'
-      this.resetSearchAndResults()
-    } else {
-      this.statusFieldTarget.style.display = 'none'
-      if (this.hasSearchFieldTarget) {
-        this.searchFieldTarget.style.display = 'none'
+    if (this.hasCountryErrorMessageTarget) {
+        this.countryErrorMessageTarget.style.display = 'none'
       }
-      
-      // Afficher un message pour les autres pays
-      alert("Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.")
-    }
+
+      // Gérer le bouton suivant
+        if (this.hasSubmitButtonTarget) {
+            if (selectedCountry === 'France') {
+            // Afficher le bouton pour la France
+            this.submitButtonTarget.style.display = 'flex'
+            } else if (selectedCountry) {
+            // Cacher le bouton pour les autres pays
+            this.submitButtonTarget.style.display = 'none'
+            } else {
+            // Si aucun pays n'est sélectionné, cacher aussi le bouton
+            this.submitButtonTarget.style.display = 'none'
+            }
+        }
+
+      if (selectedCountry === 'France') {
+        // Pour la France, afficher les champs normaux
+        this.statusFieldTarget.style.display = 'block'
+        this.resetSearchAndResults()
+      } else if (selectedCountry) {
+        // Pour les autres pays (mais seulement si un pays est sélectionné)
+        this.statusFieldTarget.style.display = 'none'
+        
+        if (this.hasSearchFieldTarget) {
+          this.searchFieldTarget.style.display = 'none'
+        }
+        
+        // Afficher le message d'erreur inline
+        if (this.hasCountryErrorMessageTarget) {
+          this.countryErrorMessageTarget.style.display = 'block'
+          
+          // Animation subtile pour attirer l'attention (facultatif)
+          this.countryErrorMessageTarget.classList.add('animate-attention')
+          setTimeout(() => {
+            this.countryErrorMessageTarget.classList.remove('animate-attention')
+          }, 500)
+        }
+      } else {
+        // Si aucun pays n'est sélectionné (option 'prompt')
+        this.statusFieldTarget.style.display = 'none'
+        if (this.hasSearchFieldTarget) {
+          this.searchFieldTarget.style.display = 'none'
+        }
+      }
   }
   
   statusChanged() {
@@ -99,67 +137,110 @@ export default class extends Controller {
       if (this.hasSearchResultsTarget) {
         this.searchResultsTarget.style.display = 'none'
       }
+      if (this.hasNoResultsMessageTarget) {
+        this.noResultsMessageTarget.style.display = 'none'
+      }
       return
     }
     
     fetch(`/api/base_companies/search?query=${encodeURIComponent(query)}`)
-      .then(response => {
+        .then(response => {
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
         return response.json()
-      })
-      .then(data => {
+        })
+        .then(data => {
         this.displaySearchResults(data)
-      })
-      .catch(error => {
-        console.error("Erreur lors de la recherche:", error)
-        if (this.hasSearchResultsTarget) {
-          this.searchResultsTarget.innerHTML = '<div>Une erreur est survenue. Veuillez réessayer ou saisir les données manuellement.</div>'
-          this.searchResultsTarget.style.display = 'block'
+        })
+        .catch(error => {
+            console.error("Erreur lors de la recherche:", error)
+            if (this.hasSearchResultsTarget) {
+              this.searchResultsTarget.innerHTML = `
+                <div class="search-result-item text-danger">
+                  <i class="fas fa-exclamation-triangle"></i> 
+                  Une erreur est survenue lors de la recherche.
+                </div>
+                <div class="search-result-item not-in-list-option" data-action="click->organisation-form#createNewCompany">
+                  <i class="fas fa-plus-circle"></i> Mon entreprise n'est pas dans la liste
+                </div>
+              `
+              this.searchResultsTarget.style.display = 'block'
+            }
+          })
+    }
+  
+    displaySearchResults(companies) {
+        if (!this.hasSearchResultsTarget) return
+        
+        let resultsList = '';
+        
+        // Afficher les entreprises trouvées
+        if (companies.length > 0) {
+          resultsList = companies.map(company => {
+            return `<div class="search-result-item" data-action="click->organisation-form#selectCompany" data-company-id="${company.id}">
+              <div class="company-name">${company.denomination_sociale || 'N/A'}</div>
+              <div class="company-details">
+                SIRET: ${company.siret || 'N/A'} 
+                <br>
+                ${company.adresse || ''} ${company.code_postal || ''}
+              </div>
+            </div>`
+          }).join('')
+          
+          // Ajouter un message si peu de résultats
+          if (companies.length < 3) {
+            resultsList += `<div class="search-result-item text-muted pt-2 pb-2">
+              <small>Continuez à taper pour affiner les résultats</small>
+            </div>`
+          }
+        } else {
+          // Message si aucune entreprise trouvée
+          resultsList = `<div class="search-result-item text-muted">
+            Aucune entreprise trouvée avec ces critères.
+          </div>`
         }
-      })
-  }
-  
-  displaySearchResults(companies) {
-    if (!this.hasSearchResultsTarget) return
-    
-    if (companies.length === 0) {
-      this.searchResultsTarget.innerHTML = '<div>Aucune entreprise trouvée. Veuillez affiner votre recherche ou saisir les données manuellement.</div>'
-    } else {
-      const resultsList = companies.map(company => {
-        return `<div class="search-result-item" data-action="click->organisation-form#selectCompany" data-company-id="${company.id}">
-          <strong>${company.denomination_sociale || 'N/A'}</strong><br>
-          SIRET: ${company.siret || 'N/A'} - ${company.adresse || ''} ${company.code_postal || ''}
+        
+        // Toujours ajouter l'option "Mon entreprise n'est pas dans la liste" à la fin
+        resultsList += `<div class="search-result-item not-in-list-option" data-action="click->organisation-form#createNewCompany">
+          <i class="fas fa-plus-circle"></i> Mon entreprise n'est pas dans la liste
         </div>`
-      }).join('')
+        
+        this.searchResultsTarget.innerHTML = resultsList
+        this.searchResultsTarget.style.display = 'block'
+      }
       
-      this.searchResultsTarget.innerHTML = resultsList
-    }
-    
-    this.searchResultsTarget.style.display = 'block'
-  }
   
-  selectCompany(event) {
-    const companyId = event.currentTarget.dataset.companyId
-    
-    if (this.hasBaseCompanyIdTarget) {
-      this.baseCompanyIdTarget.value = companyId
-    } else {
-      // Si le target n'existe pas, créer un champ caché
-      const hiddenField = document.createElement('input')
-      hiddenField.type = 'hidden'
-      hiddenField.name = 'user[organisation_attributes][base_company_id]'
-      hiddenField.value = companyId
-      hiddenField.dataset.organisationFormTarget = "baseCompanyId"
-      this.element.appendChild(hiddenField)
-    }
-    
-    // Soumettre le formulaire si nous sommes à l'étape 3
-    if (this.element.dataset.step === "3") {
-      // Optionnel: vous pouvez afficher un message de confirmation avant de continuer
-      alert("Entreprise sélectionnée! Vous allez maintenant passer à l'étape suivante pour compléter les informations.")
-      this.element.submit()
-    }
-  }
+      selectCompany(event) {
+        const companyId = event.currentTarget.dataset.companyId
+        const companyName = event.currentTarget.querySelector('.company-name').textContent
+        
+        // Cacher les résultats de recherche
+        this.searchResultsTarget.style.display = 'none'
+        
+        // Stocker l'ID de l'entreprise sélectionnée
+        this.baseCompanyIdTarget.value = companyId
+        
+        // Afficher un message de confirmation
+        if (this.hasSelectedCompanyInfoTarget) {
+          this.selectedCompanyInfoTarget.innerHTML = `
+            <i class="fas fa-check-circle"></i> Votre entreprise : <strong>${companyName}</strong>
+            <button type="button" class="sub-step3-close" data-action="click->organisation-form#clearSelection">
+              <span>&times;</span>
+            </button>
+          `
+          this.selectedCompanyInfoTarget.style.display = 'block'
+        }
+        
+        // Pré-remplir les données de l'entreprise
+        this.prefillFormWithCompanyData(companyId)
+        
+        // Facultatif: effacer la recherche
+        this.searchFieldInputTarget.value = ''
+
+        const nextButton = document.querySelector(".step-navigation-next-btn")
+        if (nextButton) {
+            nextButton.focus()
+        }
+      }
   
   prefillFormWithCompanyData(companyId) {
     // Récupérer les données de l'entreprise via une requête AJAX
@@ -176,6 +257,52 @@ export default class extends Controller {
         console.error("Erreur lors du chargement des données de l'entreprise:", error)
       })
   }
+
+  clearSelection() {
+    if (this.hasBaseCompanyIdTarget) {
+      this.baseCompanyIdTarget.value = ''
+    }
+    
+    if (this.hasSelectedCompanyInfoTarget) {
+      this.selectedCompanyInfoTarget.style.display = 'none'
+    }
+    
+    // Réinitialiser les champs pré-remplis si nécessaire
+    // this.resetPrefillFields()
+  }
+
+  createNewCompany() {
+    // Effacer tout ID d'entreprise sélectionné
+    if (this.hasBaseCompanyIdTarget) {
+      this.baseCompanyIdTarget.value = ''
+    }
+    
+    // Cacher les résultats de recherche
+    if (this.hasSearchResultsTarget) {
+      this.searchResultsTarget.style.display = 'none'
+    }
+    
+    if (this.hasSelectedCompanyInfoTarget) {
+      this.selectedCompanyInfoTarget.innerHTML = `
+        <i class="fas fa-plus-circle"></i> Vous allez devoir renseigner manuellement les informations de votre entreprise
+        <button type="button" class="sub-step3-close" data-action="click->organisation-form#clearSelection">
+          <span>&times;</span>
+        </button>
+      `
+      this.selectedCompanyInfoTarget.style.display = 'block'
+    }
+    
+    // Si vous êtes à l'étape 3, vous pouvez passer à l'étape suivante ici
+    if (this.element.dataset.step === "3") {
+      // Passer à l'étape suivante
+      // Si vous avez un bouton "next", vous pouvez déclencher son clic
+      const nextButton = document.querySelector(".step-navigation-next-btn")
+      if (nextButton) {
+        nextButton.click()
+      }
+    }
+  }
+  
   
   prefillFields(company) {
     // Remplir les champs avec les données de l'entreprise
@@ -186,6 +313,9 @@ export default class extends Controller {
       'postal_code': company.code_postal,
       // Autres mappings selon votre structure
     }
+
+   
+      
     
     Object.entries(fieldsMap).forEach(([fieldName, value]) => {
       const field = document.querySelector(`input[name="user[organisation_attributes][${fieldName}]"]`)
