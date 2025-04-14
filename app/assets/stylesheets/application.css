@@ -84,11 +84,24 @@ p {
 .form-group {
   margin-bottom: 15px;
   padding: 5px 0;
+  text-align: left;
 }
 
 .form-group label {
   font-size: 14px;
   font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group-step4 {
+  padding: 5px 0;
+  text-align: left;
+}
+
+.form-group-step4 label {
+  font-size: 12px;
+  font-weight: 500;
   display: block;
   margin-bottom: 5px;
 }
@@ -182,17 +195,6 @@ p {
 
 .form-container form {
   width: 100%;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-size: 14px;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 5px;
 }
 
 .form-input {
@@ -512,12 +514,6 @@ p {
 .login-title {
   margin-bottom: 20px;
   color: #333;
-}
-
-/* Grupos de formulário */
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
 }
 
 /* Labels */

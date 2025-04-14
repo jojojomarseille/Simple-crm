@@ -1,125 +1,64 @@
 
-<div class="sign-up-header" style="min-width: 100%; height: 50px; text-align: center;">
-  <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 40px; margin: 0;">Créez votre compte</p>
+<div class="sign-up-header sign-up-header-step1 ">
+  <p class="create-account-text sub-main-title">Créez votre compte</p>
 </div>
-<div class="sign-up-header" style="min-width: 100%; display: flex; justify-content: center; padding-top: 30px; padding-bottom: 30px">
-  <%= image_tag('progress-bar-sign-up-1.png', alt: 'Progress bar step 1/4', class: 'centered-image', style: "width: 457px") %>
+<div class="sign-up-header-ariane sign-up-header-ariane-step1">
+  <%= image_tag('progress-bar-sign-up-1.png', alt: 'Progress bar step 1/4', class: 'centered-image centered-image-ariane-step1') %>
 </div>
-<div class="sign-up-step-container" style="min-width: 100%; height: 86vh; display: flex">
+<div class="sign-up-step-container sign-up-step-container-step1">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; margin-top: 40px; flex-direction: column">
+  <div class="sign-up-left sign-up-left-step1">
 
-    <div style="text-align: center; height: 150px">
-      <p class="create-account-text" style="font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Génerez vos factures et suivez vos paiements sur un seul outil</p>
+    <div class="create-account-text-container">
+      <p class="create-account-text text-step1" >Génerez vos factures et suivez vos paiements sur un seul outil</p>
     </div>
-    <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
-      <%= image_tag('undraw_in-the-office_e7pg.svg', alt: 'mindfull', class: 'centered-image', style: "width: 457px") %>
+    <div class="sign-up-header sign-up-header-visual-step1">
+      <%= image_tag('undraw_in-the-office_e7pg.svg', alt: 'mindfull', class: 'centered-image centered-image-main-visual-step1') %>
     </div>
   </div>
 
-  <div class="sign-up-right" style="min-width: 50%; padding-top: 40px" data-controller="registration-validator">
-  <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
-    <%= render 'devise/shared/error_messages', resource: @user %>
+  <div class="sign-up-right sign-up-right-step1" data-controller="registration-validator">
+    <%= form_for @user, as: :user, url: step2_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
+      <%= render 'devise/shared/error_messages', resource: @user %>
 
-    <div class="form-group-sub">
-      <%= f.label :email, class: 'sub-custom-label' %>
-      <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email", data: { action: "blur->registration-validator#validateEmail" } %>
-      <span id="email-error" class="error-message"></span>
-    </div>
-
-    <div class="form-group-sub">
-      <%= f.label :password, class: 'sub-custom-label' %>
-      <div class="password-input-container">
-        <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#validatePassword" } %>
-        <button type="button" class="password-toggle" data-target="password" data-action="click->registration-validator#togglePassword" tabindex="-1">
-          <i class="fa fa-eye"></i>
-        </button>
+      <div class="form-group-sub">
+        <%= f.label :email, class: 'sub-custom-label' %>
+        <%= f.email_field :email, class: 'sub-custom-input', autofocus: true, autocomplete: "email", data: { action: "blur->registration-validator#validateEmail" } %>
+        <span id="email-error" class="error-message"></span>
       </div>
-      <div class="password-criteria">
-        <span class="criterion" id="criterion-uppercase"><span class="icon">✖</span> Minimum une majuscule</span>
-        <span class="criterion" id="criterion-length"><span class="icon">✖</span> Minimum 8 caractères</span>
-        <span class="criterion" id="criterion-number"><span class="icon">✖</span> Minimum un chiffre</span>
-        <span class="criterion" id="criterion-lowercase"><span class="icon">✖</span> Minimum une minuscule</span>
-      </div>
-    </div>
 
-    <div class="form-group-sub">
-      <%= f.label :password_confirmation, class: 'sub-custom-label' %>
-      <div class="password-input-container">
-        <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#checkPasswordMatch" } %>
-        <button type="button" class="password-toggle" data-target="password_confirmation" data-action="click->registration-validator#togglePassword" tabindex="-1">
-          <i class="fa fa-eye"></i>
-        </button>
+      <div class="form-group-sub">
+        <%= f.label :password, class: 'sub-custom-label' %>
+        <div class="password-input-container">
+          <%= f.password_field :password, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#validatePassword" } %>
+          <button type="button" class="password-toggle" data-target="password" data-action="click->registration-validator#togglePassword" tabindex="-1" >
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+        <div class="password-criteria">
+          <span class="criterion" id="criterion-uppercase"><span class="icon">✖</span> Minimum une majuscule</span>
+          <span class="criterion" id="criterion-length"><span class="icon">✖</span> Minimum 8 caractères</span>
+          <span class="criterion" id="criterion-number"><span class="icon">✖</span> Minimum un chiffre</span>
+          <span class="criterion" id="criterion-lowercase"><span class="icon">✖</span> Minimum une minuscule</span>
+        </div>
       </div>
-      <span class="criterion" id="criterion-match"><span class="icon">✖</span>Correspondance des mots de passes</span>
-    </div>
 
-    <div class="form-group-sub" style="display: flex; justify-content: right; padding-right: 35px; margin-top: 100px">
-      <%= f.submit "Suivant", class: 'sub-custom-button' %>
-    </div>
-  <% end %>
+      <div class="form-group-sub">
+        <%= f.label :password_confirmation, class: 'sub-custom-label' %>
+        <div class="password-input-container">
+          <%= f.password_field :password_confirmation, class: 'sub-custom-input', autocomplete: "new-password", data: { action: "input->registration-validator#checkPasswordMatch" } %>
+          <button type="button" class="password-toggle" data-target="password_confirmation" data-action="click->registration-validator#togglePassword" tabindex="-1">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+        <span class="criterion" id="criterion-match"><span class="icon">✖</span>Correspondance des mots de passes</span>
+      </div>
+
+      <div class="form-group-sub sub-form-next-1" >
+        <%= f.submit "Suivant", class: 'sub-custom-button' %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
-</div>
-
-<style>
-  /*css validation mail*/
-  .error-message {
-  color: red;
-  font-size: 12px;
-  display: none; /* Masque le message d'erreur par défaut */
-}
-
-/* css pour les message de validation du mot de passe*/
-.password-criteria {
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  color: #FFA01C;
-  margin-top: 5px;
-}
-
-.criterion {
-  display: block;
-  margin-top: 5px;
-}
-
-.criterion .icon {
-  margin-right: 5px;
-  color: grey;
-}
-
-.criterion.valid .icon {
-  color: green;
-}
-
-.criterion:not(.valid):not(.empty) .icon {
-  color: red;
-}
-
-/*pour le ptit oeuil qui montre les caracteres que l'on écris*/
-.password-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-  padding: 0;
-  font-size: 16px;
-}
-
-.password-toggle:hover {
-  color: #333;
-}
-
-
-</style>
 
