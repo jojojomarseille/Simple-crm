@@ -1,28 +1,28 @@
-<div class="sign-up-header" style="min-width: 100%; height: 50px; text-align: center;">
-  <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 40px; margin: 0;">Créez votre compte</p>
+<div class="sign-up-header-step2">
+  <p class="create-account-text sub-main-title">Créez votre compte</p>
 </div>
 
-<div class="sign-up-header" style="min-width: 100%; display: flex; justify-content: center; padding-top: 30px; padding-bottom: 30px">
-  <%= image_tag('progress-bar-sign-up-4.png', alt: 'progress bar step 4/4', class: 'centered-image', style: "width: 457px") %>
+<div class="sign-up-header-ariane">
+  <%= image_tag('progress-bar-sign-up-4.png', alt: 'progress bar step 4/4', class: 'centered-image-ariane-step1') %>
 </div>
 
-<div class="sign-up-step-container" style="min-width: 100%; height: 78vh; display: flex">
+<div class="sign-up-step-container-step4">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; justify-content: center; flex-direction: column">
+  <div class="sign-up-left-step4">
 
-    <div style="text-align: center; height: 150px; padding-top: 50px">
-      <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
+    <div class="left-text-container-step4">
+      <p class="create-account-text text-step1">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
     </div>
-    <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 100px">
-      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image', style: "width: 400px") %>
+    <div class="sign-up-header-visual-step4">
+      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image-main-visual-step1') %>
     </div>
-    <div style="padding-left: 20%; padding-top: 140px;">
-      <%= link_to "Retour", step3_users_registrations_get_path, class: 'sub-custom-button-return', style: 'text-decoration: none;', data: { turbo: false } %>
+    <div class="sub-form-return-step4">
+      <%= link_to "Retour", step3_users_registrations_get_path, class: 'sub-custom-button-return no-deco', data: { turbo: false } %>
     </div>
   </div>
 
-  <div class="sign-up-right" style="min-width: 50%; padding-top: 30px">
-  <%= form_for @user, as: :user, url: user_registration_path, method: :post, 
+  <div class="sign-up-right-step2">
+    <%= form_for @user, as: :user, url: user_registration_path, method: :post, 
               data: { turbo: false, controller: "organisation-form", step: "4" } do |f| %>
     <%= render 'devise/shared/error_messages', resource: @user %>
 
@@ -56,7 +56,7 @@
                                        datepicker_target: "input"
                                       },
                                 value: org_form.object.creation_date&.strftime('%Y-%m-%d') %>
-          </small>
+          <%# </small> %>
         </div>
       <div>
 
@@ -79,46 +79,13 @@
       <%= org_form.hidden_field :base_company_id %>
     <% end %>
 
-    <div class="form-group-step4" style="display: flex; justify-content: right; width: 590px;">
+    <div class="form-group-step4 sub-form-next-step4" >
       <%= f.submit "Terminer", class: 'sub-custom-button' %>
     </div>
   <% end %>
 </div>
 
-</div>
 
-<style>
-  /* Styles pour Flatpickr */
-.flatpickr-calendar {
-  border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto', sans-serif;
-}
-
-.flatpickr-day.selected,
-.flatpickr-day.startRange.endRange,
-.flatpickr-day.selected.inRange,
-.flatpickr-day.selected:focus,
-.flatpickr-day.selected:hover {
-  background: #FFA01C;
-  border-color: #FFA01C;
-  color: white;
-}
-
-.flatpickr-month {
-  background: white;
-  color: #FFA01C;
-}
-
-.flatpickr-current-month .numInputWrapper span {
-  color: #FFA01C;
-}
-
-.flatpickr-day.today {
-  border-color: #FFA01C;
-  color: #FFA01C;
-}
-</style>
 
 
 

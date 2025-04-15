@@ -1,27 +1,27 @@
-<div class="sign-up-header" style="min-width: 100%; height: 50px; text-align: center;">
-  <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 40px; margin: 0;">Créez votre compte</p>
+<div class="sign-up-header-step2">
+  <p class="create-account-text sub-main-title" >Créez votre compte</p>
 </div>
 
-<div class="sign-up-header" style="min-width: 100%; display: flex; justify-content: center; padding-top: 30px; padding-bottom: 30px">
-  <%= image_tag('progress-bar-sign-up-3.png', alt: 'progress bar step 3/4', class: 'centered-image', style: "width: 457px") %>
+<div class="sign-up-header-ariane" >
+  <%= image_tag('progress-bar-sign-up-3.png', alt: 'progress bar step 3/4', class: 'centered-image-ariane-step1') %>
 </div>
 
-<div class="sign-up-step-container" style="min-width: 100%; height: 70vh; display: flex">
+<div class="sign-up-step-container-step1">
 
-  <div class="sign-up-left" style="min-width: 50%; display: flex; padding-top: 40px; flex-direction: column">
+  <div class="sign-up-left-step1" >
 
-    <div style="text-align: center">
-      <p class="create-account-text" style="color: #FFA01C; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 32px; margin: 0; width: 460px; margin: auto">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
+    <div class="left-text-container-step3">
+      <p class="create-account-text text-step1">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
     </div>
-    <div class="sign-up-header" style="display: flex; justify-content: center; padding-top: 30px">
-      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image', style: "width: 400px") %>
+    <div class="sign-up-header-visual-step2" >
+      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image-main-visual-step1') %>
     </div>
-    <div style="padding-left: 20%; padding-top: 35px;">
-      <%= link_to "Retour", step2_users_registrations_get_path, class: 'sub-custom-button-return', style: 'text-decoration: none;', data: { turbo: false } %>
+    <div class="sub-form-return-step1">
+      <%= link_to "Retour", step2_users_registrations_get_path, class: 'sub-custom-button-return sub-custom-button-return-step2', data: { turbo: false } %>
     </div>
   </div>
 
-  <div class="sign-up-right" style="min-width: 50%; padding-top: 30px; position: relative">
+  <div class="sign-up-right-step3">
    <%= form_for @user, as: :user, url: step4_users_registrations_path, method: :post, data: { turbo: false, controller: "organisation-form" } do |f| %>
       <%= render 'devise/shared/error_messages', resource: @user %>
 
@@ -35,12 +35,12 @@
                                 organisation_form_target: "countrySelect",
                                 action: "change->organisation-form#countryChanged" 
                               } %>
-          <div class="country-error-message alert alert-warning mt-2" style="display: none; width: 590px;" data-organisation-form-target="countryErrorMessage">
+          <div class="country-error-message alert alert-warning mt-2 sub-form-err-mess-step3" data-organisation-form-target="countryErrorMessage">
             Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.
           </div>
         </div>
 
-        <div class="form-group" style="display: none;" data-organisation-form-target="statusField">
+        <div class="form-group no-display"  data-organisation-form-target="statusField">
           <%= org_form.label :status, class: 'sub-custom-label' %>
           <%= org_form.select :status, [
                 ['Entreprise Individuelle (EI)', 'Entreprise Individuelle'],
@@ -63,7 +63,7 @@
             } %>
         </div>
 
-        <div class="form-group" style="display: none;" data-organisation-form-target="searchField">
+        <div class="form-group no-display" data-organisation-form-target="searchField">
           <%= org_form.label :name, "Recherche d'entreprise", class: 'sub-custom-label' %>
           <%= text_field_tag :organisation_search, '', 
                             placeholder: 'Rechercher votre entreprise...', 
@@ -74,7 +74,7 @@
                               organisation_form_target: "searchFieldInput" 
                             } %>
           
-          <!-- Conteneur des résultats de recherche -->
+          <!-- resultats recherche -->
           <div class="search-results" data-organisation-form-target="searchResults"></div>
           <div>
             <small class="form-text text-muted">Saisissez au moins 3 caractères pour rechercher votre entreprise</small>
@@ -83,160 +83,25 @@
           <%= hidden_field_tag 'user[organisation_attributes][base_company_id]', '', 
                             data: { organisation_form_target: "baseCompanyId" } %>
           
-          <!-- Message de confirmation de sélection -->
-          <div class="selected-company-info" style="display: none; margin-top: 10px;" 
+          <!-- confirmation de sélection -->
+          <div class="selected-company-info " 
               data-organisation-form-target="selectedCompanyInfo"></div>
         </div>
 
         
       <% end %>  
 
-      <div id="country-message" data-organisation-form-target="countryMessage" style="display: none; color: red;"></div> 
+      <div id="country-message" data-organisation-form-target="countryMessage" class="no-display" ></div> 
       
-      <div class="form-group-sub" style="display: flex; justify-content: right; width: 590px; position: absolute; top: 62vh" data-organisation-form-target="submitButton">
+      <div class="form-group-sub sub-form-next-step3" data-organisation-form-target="submitButton">
         <%= f.submit "Suivant", class: 'sub-custom-button' %>
       </div>
     
     <% end %>
   </div>
   
-
 </div>
 
-<style>
-  /* app/assets/stylesheets/organisation_search.css */
-.search-results {
-  position: absolute;
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-top: none;
-  z-index: 1000;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.company-results {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.company-results li {
-  padding: 10px 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.company-results li:hover, .company-results li:focus {
-  background-color: #f5f5f5;
-}
-
-.company-results li:last-child {
-  border-bottom: none;
-}
-
-.no-results {
-  padding: 15px;
-  color: #888;
-  text-align: center;
-  font-style: italic;
-}
-
-.form-text {
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-.search-results-container {
-  position: relative;
-  margin-top: 5px;
-}
-
-.search-results {
-  max-height: 300px;
-  width: 590px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: white;
-  z-index: 1000;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.search-result-item {
-  padding: 10px 15px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.search-result-item:hover {
-  background-color: #f5f8ff;
-}
-
-.search-result-item:last-child {
-  border-bottom: none;
-}
-
-.search-result-item .company-name {
-  font-weight: bold;
-  color: #333;
-}
-
-.search-result-item .company-details {
-  color: #666;
-  font-size: 0.9em;
-}
-
-.not-in-list-option {
-  padding: 12px 15px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #ddd;
-  cursor: pointer;
-  text-align: center;
-  color: #2c5282;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.not-in-list-option:hover {
-  background-color: #edf2ff;
-}
-
-.selected-company-info {
-  animation: fadeIn 0.3s ease-in;
-  width: 590px;
-}
-
-.sub-step3-close {
-  border: none;
-  background-color: white;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.country-error-message {
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.animate-attention {
-  animation: pulse 0.5s ease;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; transform: scale(0.97); }
-  50% { opacity: 1; transform: scale(1.02); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-
-</style>
 
 
 
