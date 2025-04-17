@@ -1,30 +1,32 @@
-<div class="sidebar close" style="z-index: 999">
+<div data-controller="sidebar">
+  <div class="sidebar close" style="z-index: 999" data-sidebar-target="sidebar">
     <div class="logo-details">
-      <a class="link_name" style="margin-top: 60px; text-decoration:none" href=".">
-        <i class='bx bxl-c-plus-plus'></i>
+      <!-- Bouton de toggle pour la sidebar entière -->
+      <i class='bx bx-menu' style="cursor: pointer;" data-action="click->sidebar#toggleSidebar" data-sidebar-target="menuToggle"></i>
+      <%=link_to connected_home_path, class: "link_name", style: "text-decoration:none" do %>
         <span class="logo_name">Super CRM</span>
-      </a>
+      <%end%>
     </div>
     <ul class="nav-links">
       <li>
         <a href="#">
-          <i class='bx bx-grid-alt' ></i>
+          <i class='bx bx-grid-alt'></i>
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Category</a></li>
+          <li><a class="link_name" href="#">Produits</a></li>
         </ul>
       </li>
       <li>
         <div class="iocn-link">
           <a href="#">
-            <i class='bx bx-collection' ></i>
-            <span class="link_name">Category</span>
+            <i class='bx bx-collection'></i>
+            <span class="link_name">Clients</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Categorias</a></li>
+          <li><a class="link_name" href="#">Clients</a></li>
           <li><%= link_to 'Produtos', products_path %></li>
           <li><%= link_to 'Clientes', clients_path %></li>
           <li><%= link_to 'Vendas', orders_path %></li>
@@ -32,44 +34,44 @@
       </li>
       <li>
         <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-book-alt' ></i>
-            <span class="link_name">Posts</span>
+          <a href="/orders">
+            <i class='bx bx-book-alt'></i>
+            <span class="link_name">ventes</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Posts</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
+          <li><a class="link_name" href="#">Ventes</a></li>
+          <li><a href="#">Ventes</a></li>
+          <li><a href="#">Nouvelles ventes</a></li>
+          <li><a href="#">placeholder</a></li>
         </ul>
       </li>
-      <li>
+      <%# <li>
         <a href="#">
-          <i class='bx bx-pie-chart-alt-2' ></i>
+          <i class='bx bx-pie-chart-alt-2'></i>
           <span class="link_name">Analytics</span>
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#">Analytics</a></li>
         </ul>
-      </li>
-      <li>
+      </li> %>
+      <%# <li>
         <a href="#">
-          <i class='bx bx-line-chart' ></i>
+          <i class='bx bx-line-chart'></i>
           <span class="link_name">Chart</span>
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#">Chart</a></li>
         </ul>
-      </li>
-      <li>
+      </li> %>
+      <%# <li>
         <div class="iocn-link">
           <a href="#">
-            <i class='bx bx-plug' ></i>
+            <i class='bx bx-plug'></i>
             <span class="link_name">Plugins</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
         </div>
         <ul class="sub-menu">
           <li><a class="link_name" href="#">Plugins</a></li>
@@ -77,17 +79,17 @@
           <li><a href="#">Pigments</a></li>
           <li><a href="#">Box Icons</a></li>
         </ul>
-      </li>
+      </li> %>
       <li>
         <a href="#">
-          <i class='bx bx-compass' ></i>
+          <i class='bx bx-compass'></i>
           <span class="link_name">Equipe</span>
         </a>
         <ul class="sub-menu blank">
           <li><%= link_to 'Equipe', users_index_path %></li>
         </ul>
       </li>
-      <li>
+      <%# <li>
         <a href="#">
           <i class='bx bx-history'></i>
           <span class="link_name">History</span>
@@ -95,10 +97,10 @@
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#">History</a></li>
         </ul>
-      </li>
+      </li> %>
       <li>
         <a href="#">
-          <i class='bx bx-cog' ></i>
+          <i class='bx bx-cog'></i>
           <span class="link_name">Setting</span>
         </a>
         <ul class="sub-menu blank">
@@ -106,21 +108,21 @@
         </ul>
       </li>
       <li>
-    <div class="profile-details">
-      <div class="profile-content">
-         <% if user_signed_in? && current_user.organisation.logo.present? %>
-           <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation", class: "organisation-logo-lat-bar" %>
-         <%else%>
-           <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
-         <% end %>
-        
-      </div>
-      <div class="name-job">
-        <div class="profile_name">Prem Shahi</div>
-        <div class="job">Web Desginer</div>
-      </div>
-      <i class='bx bx-log-out' ></i>
-    </div>
-  </li>
-</ul>
+        <div class="profile-details">
+          <div class="profile-content">
+            <% if user_signed_in? && current_user.organisation.logo.present? %>
+              <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation", class: "organisation-logo-lat-bar" %>
+            <% else %>
+              <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
+            <% end %>
+          </div>
+          <div class="name-job">
+            <div class="profile_name">Prem Shahi</div>
+            <div class="job">Web Desginer</div>
+          </div>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
