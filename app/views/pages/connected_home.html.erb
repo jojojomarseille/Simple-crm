@@ -1,1 +1,179 @@
-<h1>Connected homepage </h1>
+<!-- Dans app/views/pages/home.html.erb -->
+
+<div data-controller="dashboard" data-dashboard-saved-order="<%= @dashboard_blocks_order.to_json if @dashboard_blocks_order %>">
+  
+  <div class="dashboard-grid" data-dashboard-target="gridContainer">
+    <!-- Bloc 1: Informations personnelles -->
+    <div class="dashboard-block" data-block-id="personal_info">
+      <div class="block-header">
+        <h3 class="block-title">Infos Personnelles</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        <div class="user-profile">
+          <div class="profile-pic">
+            <img src="https://via.placeholder.com/64" alt="Photo de profil">
+          </div>
+          <div class="profile-info">
+            <h4><%= current_user&.firstname || "John Doe" %></h4>
+            <p><%= current_user&.email || "john@example.com" %></p>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <a href="#" class="btn btn-primary">Modifier profil</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bloc 2: Activité Récente -->
+    <div class="dashboard-block" data-block-id="recent_activity">
+      <div class="block-header">
+        <h3 class="block-title">Activité Récente (place holder)</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        <ul class="activity-list">
+          <li class="activity-item">
+            <div class="activity-icon"><i class='bx bx-check-circle'></i></div>
+            <div class="activity-details">
+              <p class="activity-text">Tâche "Rédaction du rapport" complétée</p>
+              <p class="activity-time">Il y a 2 heures</p>
+            </div>
+          </li>
+          <li class="activity-item">
+            <div class="activity-icon"><i class='bx bx-file'></i></div>
+            <div class="activity-details">
+              <p class="activity-text">Nouveau document "Budget Q3" créé</p>
+              <p class="activity-time">Hier, 17:30</p>
+            </div>
+          </li>
+          <li class="activity-item">
+            <div class="activity-icon"><i class='bx bx-message-alt-detail'></i></div>
+            <div class="activity-details">
+              <p class="activity-text">Nouveau commentaire de Marie sur "Projet XYZ"</p>
+              <p class="activity-time">23/10/2023</p>
+            </div>
+          </li>
+        </ul>
+        <a href="#" class="view-all">Voir toutes les activités</a>
+      </div>
+    </div>
+    
+    <!-- Bloc 3: Statistiques -->
+    <div class="dashboard-block" data-block-id="statistics">
+      <div class="block-header">
+        <h3 class="block-title">Statistiques</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        <div class="stats-container">
+          <div class="stat-item">
+            <h4 class="stat-value">24</h4>
+            <p class="stat-label">Projets en cours</p>
+          </div>
+          <div class="stat-item">
+            <h4 class="stat-value">68%</h4>
+            <p class="stat-label">Tâches complétées</p>
+          </div>
+          <div class="stat-item">
+            <h4 class="stat-value">12</h4>
+            <p class="stat-label">Évènements à venir</p>
+          </div>
+        </div>
+        <div class="chart-container">
+          <!-- Placeholder pour un graphique -->
+          <div class="chart-placeholder">
+            <p>Graphique d'activité</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-block" data-block-id="products">
+      <div class="block-header">
+        <h3 class="block-title">Produits</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+       
+      </div>
+    </div>
+
+    <div class="dashboard-block" data-block-id="clients">
+      <div class="block-header">
+        <h3 class="block-title">Clients</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        
+      </div>
+    </div>
+
+    <div class="dashboard-block" data-block-id="orders">
+      <div class="block-header">
+        <h3 class="block-title">Ventes</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+      </div>
+    </div>
+
+    <div class="dashboard-block" data-block-id="team">
+      <div class="block-header">
+        <h3 class="block-title">Equipe</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        
+      </div>
+    </div>
+    
+    <!-- Bloc 4: Tâches à faire -->
+    <div class="dashboard-block" data-block-id="todo">
+      <div class="block-header">
+        <h3 class="block-title">À faire (Placeholder)</h3>
+        <div class="drag-handle">
+          <i class='bx bx-move'></i>
+        </div>
+      </div>
+      <div class="block-content">
+        <ul class="todo-list">
+          <li class="todo-item">
+            <input type="checkbox" id="task1" class="todo-checkbox">
+            <label for="task1">Préparation de la réunion du lundi</label>
+          </li>
+          <li class="todo-item">
+            <input type="checkbox" id="task2" class="todo-checkbox">
+            <label for="task2">Révision des documents de projet</label>
+          </li>
+          <li class="todo-item">
+            <input type="checkbox" id="task3" class="todo-checkbox" checked>
+            <label for="task3" class="completed">Appel avec le client</label>
+          </li>
+          <li class="todo-item">
+            <input type="checkbox" id="task4" class="todo-checkbox">
+            <label for="task4">Mettre à jour le backlog</label>
+          </li>
+        </ul>
+        <div class="add-task">
+          <input type="text" placeholder="Ajouter une tâche..." class="task-input">
+          <button class="add-task-btn"><i class='bx bx-plus'></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

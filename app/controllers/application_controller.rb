@@ -10,5 +10,9 @@ class ApplicationController < ActionController::Base
         @products = Product.all
       end
     end
-  end
+
+    def after_sign_in_path_for(resource)
+      connected_home_path
+    end
+end
       

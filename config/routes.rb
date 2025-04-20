@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'search', to: 'home#search', as: 'search' 
   get 'infos_user', to: 'pages#infos_user', as: 'infos_user'
   get 'connected_home', to: 'pages#connected_home', as: 'connected_home'
+  post 'pages/save_dashboard_order', to: 'pages#save_dashboard_order'
 
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'
@@ -52,12 +53,6 @@ Rails.application.routes.draw do
   end
   
   resources :orders, only: [:show, :edit, :update, :destroy, :index]
-  
-  # resources :base_companies do
-  #   collection do
-  #     get :autocomplete
-  #   end
-  # end
 
   namespace :api do
     resources :base_companies, only: [] do

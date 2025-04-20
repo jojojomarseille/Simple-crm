@@ -1,18 +1,18 @@
 <section class="home-section">
-    <div class="home-content">
-      <div class="top-bar">   
-        <!-- Verificação de Login -->
-        <% if user_signed_in? %>
-          <span class="navbar-text">
-            Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> |
-          </span>
-          <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
-        <% else %>
-          <div class="d-flex">
-            <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-outline-primary btn-sm me-2' %>
-            <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-outline-success btn-sm' %>
-          </div>
-        <% end %>
-      </div>
+  <div class="home-content">
+    <div class="top-bar">   
+      <%= link_to 'Simple CRM', root_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% if user_signed_in? %>
+        <span class="navbar-text">
+          Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> 
+        </span>
+        <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
+      <% else %>
+        <div class="d-flex">
+          <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-outline-primary btn-sm me-2' %>
+          <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-outline-success btn-sm' %>
+        </div>
+      <% end %>
     </div>
-  </section>
+  </div>
+</section>
