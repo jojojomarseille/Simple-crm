@@ -1,7 +1,11 @@
 <section class="home-section">
   <div class="home-content">
     <div class="top-bar">   
-      <%= link_to 'Simple CRM', root_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% if user_signed_in? %>
+        <%= link_to 'Simple CRM', connected_home_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% else %>
+        <%= link_to 'Simple CRM', root_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% end %>
       <% if user_signed_in? %>
         <span class="navbar-text">
           Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> 

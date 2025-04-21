@@ -706,7 +706,7 @@ p {
 }
 
 .pagination span.current {
-  background-color: #000; /* Fond en noir pour la page actuelle */
+  background-color: #FFA01C; /* Fond en noir pour la page actuelle */
   color: #fff; /* Texte en blanc pour la page actuelle */
   pointer-events: none; /* Désactive l'interaction */
 }
@@ -718,31 +718,6 @@ p {
   object-fit: cover; /* Garder le ratio */
 }
 
-/* les status dans les index*/
-
-.status-validated {
-  background-color: #d4edda; /* Vert clair */
-  color: #155724;           /* Vert foncé */
-  font-weight: bold;
-}
-
-.status-paid {
-  background-color: #d4edda; /* Vert clair */
-  color: #155724;           /* Vert foncé */
-  font-weight: bold;
-}
-
-.status-draft {
-  background-color: #f8d7da; /* Rouge clair */
-  color: #721c24;           /* Rouge foncé */
-  font-weight: bold;
-}
-
-.status-pending {
-  background-color: #f8d7da; /* Rouge clair */
-  color: #721c24;           /* Rouge foncé */
-  font-weight: bold;
-}
 
 /* subscription form*/ 
 .form-group-sub {

@@ -14,15 +14,17 @@
       <div class="block-content">
         <div class="user-profile">
           <div class="profile-pic">
-            <img src="https://via.placeholder.com/64" alt="Photo de profil">
+            <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation" %>
           </div>
           <div class="profile-info">
-            <h4><%= current_user&.firstname || "John Doe" %></h4>
+            <h4><%= current_user&.firstname || "John " %></h4>
+            <h4><%= current_user&.lastname || "Doe" %></h4>
+            <h4><%= current_user&.phone || "Pas de numeros de telephone renseigné" %></h4>
             <p><%= current_user&.email || "john@example.com" %></p>
           </div>
         </div>
         <div class="action-buttons">
-          <a href="#" class="btn btn-primary">Modifier profil</a>
+          <a href="infos_user" class="btn btn-primary">Modifier profil</a>
         </div>
       </div>
     </div>
@@ -103,7 +105,8 @@
         </div>
       </div>
       <div class="block-content">
-       
+        <h4> Nombre de Produits de <%= Organisation.where(id: current_user.organisation_id).last.business_name %>: </h4>
+        <h4><%= Product.where(organisation_id: current_user.organisation_id).count %></h4>
       </div>
     </div>
 
@@ -115,7 +118,8 @@
         </div>
       </div>
       <div class="block-content">
-        
+        <h4> Nombre de clients de <%= Organisation.where(id: current_user.organisation_id).last.business_name %>: </h4>
+        <h4><%= Client.where(organisation_id: current_user.organisation_id).count %></h4>
       </div>
     </div>
 
@@ -127,6 +131,9 @@
         </div>
       </div>
       <div class="block-content">
+        <h4> Nombre de ventes de <%= Organisation.where(id: current_user.organisation_id).last.business_name %>: </h4>
+        <h4><%= Order.where(organisation_id: current_user.organisation_id).count %></h4>
+        <h4><%= Order.where(organisation_id: current_user.organisation_id).sum(:total_price_ht) %>€</h4>
       </div>
     </div>
 
@@ -138,6 +145,8 @@
         </div>
       </div>
       <div class="block-content">
+      <h4> Membres de l'organisation <%= Organisation.where(id: current_user.organisation_id).last.business_name %>: </h4>
+      <h4><%= Organisation.where(id: current_user.organisation_id).last.users.count %></h4>
         
       </div>
     </div>

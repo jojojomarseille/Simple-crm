@@ -18,23 +18,19 @@
   .index-table {
     width: 90%; /* Permite que a tabela se ajuste ao conteúdo */
     max-width: 100%;
+    /* border-collapse: unset; */
+  }
+
+  .index-table tr {
+    border-bottom: 1px solid #D4CCCC;
   }
   
   .index-table th,
   .index-table td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: none;
     text-align: left;
     box-sizing: border-box; /* Certifica-se que o padding não afete a largura total */
-  }
-  
-  /* Alternância de cores nas linhas */
-  .index-table tr:nth-child(odd) {
-    background-color: #fff; /* Branco */
-  }
-  
-  .index-table tr:nth-child(even) {
-    background-color: #f4f4f4; /* Cinza Claro */
   }
   
   /* Estilo do botão "Novo Cliente" */
@@ -95,3 +91,109 @@
     background-color: #c82333;
   }
   
+  .btn-new-entry {
+    display: inline-flex;
+    align-items: center;
+    background-color: #43e270; 
+    color: white;
+    padding: 5px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #fff; /* ou une autre couleur contrastant avec le bouton */
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .icon-circle i {
+    font-size: 12px;
+    color: #333; /* ou la couleur principale de votre bouton */
+  }
+
+  .btn-simple-index-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: white;
+    color: black;
+    padding: 5px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: none;
+
+  }
+
+  .download-symbol {
+    font-weight: bold;
+  }
+
+  .select-index-bar {
+    background-color: white;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  }
+
+  /* les status dans les index*/
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.85em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.status-validated {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724;           /* Vert foncé */
+}
+
+.status-draft {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+}
+
+
+
+.payment-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.85em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.status-paid {
+  background-color: #d4edda; /* Vert clair */
+  color: #155724;           /* Vert foncé */
+}
+
+.status-pending {
+  background-color: #f8d7da; /* Rouge clair */
+  color: #721c24;           /* Rouge foncé */
+}
+

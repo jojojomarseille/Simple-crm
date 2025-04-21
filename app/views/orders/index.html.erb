@@ -1,22 +1,33 @@
-<h1>Vendas</h1>
-
 <div class="index-top-container" style="justify-content: center">
-  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
-    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
-      <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
-        <%= form.label :order_sort, "Ordenar por", class: "label-sort" %>
-        <%= form.select :order_sort, options_for_select([['Cliente', 'client_id'], ['Data', 'date'], ['Total price ht', 'total_price_ht'], ['ID', 'id_by_org'], ['Status', 'status'], ['Statut Payment', 'payment_status']], selected: params[:order_sort]), { include_blank: false }, class: "select-sort" %>
-        <%= form.label :direction, "Direção", class: "label-sort" %>
-        <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
-        <%= form.label :per_page, 'Produtos por página' %>
-        <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
-        <%= form.submit "Aplicar", class: "btn-apply" %>
-      <% end %>
+  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; flex-direction: column; padding: 10px; border-radius: 10px">
+    <div class="index-title-container">
+      <h1>Ventes</h1>
     </div>
-    <div>
-      <%= link_to 'Télécharger le CSV', orders_path(format: :csv), class: 'btn btn-download' %> 
-      <%= link_to 'Télécharger le PDF', orders_path(format: :pdf), class: 'btn btn-download' %> 
-      <%= link_to 'Nova Venda', new_with_client_selection_orders_path, class: 'btn-new' %> 
+    <div class="index-functions-container" style="display:flex; justify-content: space-between;">
+      <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
+        <%= form_with(url: orders_path, method: :get, local: true, class: "sort-form") do |form| %>
+          <%= form.label :order_sort, "Ordenar por", class: "label-sort" %>
+          <%= form.select :order_sort, options_for_select([['Cliente', 'client_id'], ['Data', 'date'], ['Total price ht', 'total_price_ht'], ['ID', 'id_by_org'], ['Status', 'status'], ['Statut Payment', 'payment_status']], selected: params[:order_sort]), { include_blank: false }, class: "select-sort" %>
+          <%= form.label :direction, "Direção", class: "label-sort" %>
+          <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
+          <%= form.label :per_page, 'Produits par page' %>
+          <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false }, class:"select-index-bar" %>
+          <%= form.submit "Apliquer", class: "btn-simple-index-bar" %>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to orders_path(format: :csv), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> CSV
+        <% end %>
+
+        <%= link_to orders_path(format: :pdf), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> PDF
+        <% end %>
+
+        <%= link_to new_with_client_selection_orders_path, class: 'btn-new-entry' do %>
+          <span class="icon-circle"><i class="fas fa-plus"></i></span> Nouvelle vente
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
@@ -25,8 +36,8 @@
   <table class="index-table">
     <tr>
       <%# <th>ID</th> %>
-      <th>ID by org</th>
-      <th>Data</th>
+      <th>ID</th>
+      <th>Date</th>
       <th>Cliente</th>
       <th>Mail</th>
       <th>Statut</th>
@@ -41,10 +52,14 @@
        <tr>
         <%# <td><%= order.id %> 
         <td><%= order.id_by_org %></td>
-        <td><%= order.date %></td>
+        <td><%= order.date.to_date %></td>
         <td><%= link_to order.client.name, client_path(order.client) %></td>
         <td><%= order.client.mail %></td>
-        <td class="<%= order.status == 'validé' ? 'status-validated' : 'status-draft' %>"><%= order.status %></td>
+        <td>
+          <span class="status-badge <%= order.status == 'validé' ? 'status-validated' : 'status-draft' %>">
+            <%= order.status %>
+          </span>
+        </td>
         <% if order.total_price_ht.present? %>
           <td><%= order.total_price_ht %>€</td>
         <%else%>
@@ -62,7 +77,11 @@
         <% end %>
 
         <% if order.payment_status.present? %>
-          <td class="<%= order.payment_status == 'Payé' ? 'status-paid' : 'status-pending' %>"><%= order.payment_status %></td>
+          <td>
+            <span class="payment-badge <%= order.payment_status == 'Payé' ? 'status-paid' : 'status-pending' %>">
+              <%= order.payment_status %>
+            </span>
+          </td>
         <%else%>
           <td>statut de paiement indisponible</td>
         <% end %>
