@@ -104,6 +104,12 @@ export default class extends Controller {
     if (priceField && (!priceField.value || priceField.value === '0')) {
       priceField.value = productPrice
     }
+
+    if (productIdField) {
+        productIdField.value = productId;
+        // Déclencher l'événement change manuellement
+        productIdField.dispatchEvent(new Event('change', { bubbles: true }));
+    }
     
     // Masquer les résultats
     const autocompleteResults = item.querySelector('[data-order-items-target="autocompleteResults"]')
@@ -175,6 +181,12 @@ export default class extends Controller {
     if (priceField && (!priceField.value || priceField.value === '0')) {
       priceField.value = productPrice
     }
+
+    if (productIdField) {
+        productIdField.value = productId;
+        // Déclencher l'événement change manuellement
+        productIdField.dispatchEvent(new Event('change', { bubbles: true }));
+    }
     
     // Fermer le dropdown
     const dropdown = item.querySelector('[data-order-items-target="productDropdown"]')
@@ -185,7 +197,8 @@ export default class extends Controller {
     // Trouver les champs de prix et quantité dans cet élément
     const priceField = item.querySelector('input[name*="[price]"]')
     const quantityField = item.querySelector('input[name*="[quantity]"]')
-    
+    const productIdField = item.querySelector('input[name*="[product_id]"]')
+
     if (priceField) {
       priceField.dataset.action = (priceField.dataset.action || "") + " input->order-items#updateLineTotal"
     }
@@ -193,6 +206,11 @@ export default class extends Controller {
     if (quantityField) {
       quantityField.dataset.action = (quantityField.dataset.action || "") + " input->order-items#updateLineTotal"
     }
+
+    if (productIdField) {
+        productIdField.dataset.action = (productIdField.dataset.action || "") + " change->order-items#updateLineTotal"
+    }
+
     // Initialiser le total pour cette ligne
     this.updateLineTotalForItem(item)
   }
@@ -215,14 +233,6 @@ export default class extends Controller {
         }
     }
 
-
-  // Mettre à jour tous les totaux (utile lors du chargement initial)
-    //   updateAllLineTotals() {
-    //     const items = this.itemTargets
-    //     items.forEach(item => {
-    //       this.updateLineTotalForItem(item)
-    //     })
-    //   }
   updateAllLineTotals() {
     this.itemTargets.forEach(item => {
       this.updateLineTotalForItem(item)

@@ -64,8 +64,8 @@
       </div>
 
       <div class="form-actions" style="margin-top: 20px;">
-        <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
-        <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
+        <%= f.submit "Enregistrer en brouillon", class: "btn-draft-order-form", name: "commit", hidden_value: "draft" %>
+        <%= f.submit "Valider", class: "btn-val-order-form", name: "commit", hidden_value: "validate" %>
       </div>
     <% end %>
   </div>
@@ -74,6 +74,38 @@
 
 
 <style>
+  .btn-val-order-form {
+    display: inline-flex;
+    align-items: center;
+    background-color: #43e270; 
+    color: white;
+    padding: 5px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+   .btn-draft-order-form {
+    display: inline-flex;
+    align-items: center;
+    background-color: #4380E2; 
+    color: white;
+    padding: 5px 20px;
+    margin: 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
   .order-form-items-container {
     background-color: white;
     padding: 10px;
@@ -157,7 +189,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #28a745;
+    background-color: #7FE550;
     color: white;
     border: none;
     cursor: pointer;
@@ -166,7 +198,7 @@
   }
 
   .btn-add-item:hover {
-    background-color: #218838;
+    background-color:rgb(50, 130, 67);
   }
 
   .btn-remove {
@@ -315,7 +347,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #ff3b30; /* Rouge vif */
+  background-color: #EC6965; /* Rouge vif */
   color: white;
   border: none;
   display: flex;
@@ -357,6 +389,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.order-total-section {
+  display: flex;
+  justify-content: right;
+  padding: 20px;
 }
 
 </style>

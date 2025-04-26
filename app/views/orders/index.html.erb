@@ -1,7 +1,7 @@
 <div class="index-top-container">
   <div class="index-top-forms" >
     <div class="index-title-container">
-      <h1 class="page-title">Ventes</h1>
+      <h1>Ventes</h1>
     </div>
     <div class="index-functions-container">
       <div class="index-order-box">
@@ -60,7 +60,7 @@
           <td>Erreur calcul prix</td>
         <% end %>
         <% if order.payment_terms.present? %>
-          <td><%= order.payment_terms %> J</td>
+          <td><%= order.payment_terms %>J</td>
         <%else%>
           <td>non définis</td>
         <% end %>
