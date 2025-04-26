@@ -167,13 +167,13 @@
 }
 
 .status-validated {
-  background-color: #d4edda; /* Vert clair */
-  color: #155724;           /* Vert foncé */
+  background-color: #43E270; 
+  color: white;           
 }
 
 .status-draft {
-  background-color: #f8d7da; /* Rouge clair */
-  color: #721c24;           /* Rouge foncé */
+  background-color: #8C8C8C; 
+  color: white;           
 }
 
 
@@ -188,12 +188,72 @@
 }
 
 .status-paid {
-  background-color: #d4edda; /* Vert clair */
-  color: #155724;           /* Vert foncé */
+  background-color: #43E270; 
+  color: white;           
 }
 
 .status-pending {
-  background-color: #f8d7da; /* Rouge clair */
-  color: #721c24;           /* Rouge foncé */
+  background-color: #EC6965; 
+  color: white;           
 }
 
+
+.index-order-box {
+  display:flex; 
+  align-items: center; 
+  padding-left: 10px
+}
+
+.index-functions-container {
+  display:flex; 
+  justify-content: space-between;
+}
+
+.btn-style-cancelation {
+  background: none; 
+  border: none; 
+  padding: 0;  
+}
+
+.index-top-container {
+ justify-content: center
+}
+
+.index-top-forms {
+background-color: #E4E9F7; 
+width: 90%; 
+display: flex; 
+flex-direction: column; 
+padding: 10px; 
+border-radius: 10px;
+}
+
+.sortable-header {
+cursor: pointer;
+color: #333;
+text-decoration: none;
+position: relative;
+display: inline-block;
+width: 100%;
+padding-right: 15px;
+}
+
+.sortable-header:hover {
+color: #007bff;
+}
+
+/* Style pour un tableau responsive moderne */
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th {
+text-align: left;
+padding: 10px;
+/* background-color: #f8f9fa; */
+}
+
+th:hover {
+background-color: #e9ecef;
+}

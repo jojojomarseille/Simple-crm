@@ -7,31 +7,50 @@
     padding-right: 60px;
     /* padding-top: 15px; */
     align-items: center;
-    position: fixed; /* Rendre la barre fixe */
-    top: 0;          /* Colle la barre en haut de la page */
-    left: 70px;         /* Commence à gauche */
-    z-index: 998;  /* Assure que la barre est au-dessus des autres éléments */
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    background-color: #E4E9F7; */
+    position: fixed; 
+    top: 0;          
+    left: 70px;         
+    z-index: 998;  
+    /* transition: transform 0.4s ease, opacity 0.4s ease; Transition douce */
+    transition: transform 1s ease, opacity 1s ease, backdrop-filter 1s ease;
+    backdrop-filter: blur(0px);
+  }
+
+  .home-section {
+    position: relative; 
+  }
+
+  .scroll-down .top-bar {
+    transform: translateY(-100%); 
+    opacity: 0; 
+  }
+  .scroll-up .top-bar {
+    backdrop-filter: blur(5px); 
+    background-color: rgba(255, 255, 255, 0.8); 
   }
   
-  
-  
-  /* Botão de login */
-  .form-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #5686FF;
-    color: white;
-    border: none;
-    border-radius: 5px; /* Cantos arredondados */
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .form-button:hover {
-    background-color: #4575e6;
-  }
+
+  .btn-register {
+    background-color: #FFA01C;
+      color: white;
+      border: none;
+      font-weight: bold;
+    }
+    
+    .btn-log-in {
+      background-color: #7FE550;
+      color: white;
+      border: none;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+    
+    .btn-log-out {
+      background-color: #EC6965;
+      color: white;
+      border: none;
+      font-weight: bold;
+    }
   
   /* Links adicionais (Sign up e Forgot password) */
   .additional-links {

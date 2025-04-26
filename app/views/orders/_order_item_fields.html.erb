@@ -1,14 +1,27 @@
-<div class="list-item">
-  <div class="nested-fields">
-    <%= f.label :product_id, "Product" %>
-    <%= f.collection_select :product_id, Product.where(organisation_id: @organisation.id), :id, :name, prompt: 'Select a Product', include_blank: true %>
-
-    <%= f.label :quantity, "Quantity" %>
-    <%= f.number_field :quantity, min: 1, value: 1 %>
-
-    <%= f.label :price, "Prix" %>
-    <%= f.number_field :price, min: 1, value: 1 %>
-
-    <button type="button" class="button-remove">x</button>
+<div class="order-item-row" data-order-items-target="item">
+  <div class="product-field">
+    <% product_name = f.object.product ? f.object.product.name : "" %>
+    <%= text_field_tag "product_search_#{f.object_id}", product_name, class: "product-autocomplete", 
+                      placeholder: "Rechercher un produit...",
+                      data: { 
+                        order_items_target: "productField",
+                        action: "input->order-items#searchProducts"
+                      } %>
+    <%= f.hidden_field :product_id, data: { order_items_target: "productIdField" } %>
+    <div class="autocomplete-results" 
+         data-order-items-target="autocompleteResults">
+    </div>
+  </div>
+  
+  <div class="quantity-field">
+    <%= f.number_field :quantity, placeholder: "Qté", min: 1, class: "quantity-input" %>
+  </div>
+  
+  <div class="price-field">
+    <%= f.text_field :price, placeholder: "Prix", class: "price-input" %>
+  </div>
+  
+  <div class="actions-field">
+    <button type="button" class="remove-button" data-action="click->order-items#remove">×</button>
   </div>
 </div>

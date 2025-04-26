@@ -6,26 +6,27 @@ class ProductsController < ApplicationController
   before_action :set_organisation, only: [:new, :create, :index]
 
   def index
-    order = params[:order] || 'name'  
-    direction = params[:direction] || 'asc' 
+    sort_column = params[:sort] || 'id'
+    sort_direction = params[:direction] || 'asc'
     @per_page = params[:per_page] || 10
-
-    valid_order_attributes = %w[id name]
-
-    if order == 'price'
-      @products = Product.joins(:prices) 
-                        .where(organisation_id: current_user.organisation.id)
-                        .select('products.*, prices.amount AS price_amount') 
-                        .order("price_amount #{direction}")
-                        .page(params[:page]).per(@per_page)
-    elsif valid_order_attributes.include?(order) && %w[asc desc].include?(direction)
-      @products = Product.where(organisation_id: current_user.organisation.id)
-                         .order("#{order} #{direction}")
-                         .page(params[:page]).per(@per_page)
-    else
-      @products = Product.where(organisation_id: current_user.organisation.id)
-                         .page(params[:page]).per(@per_page)
+  
+    valid_order_columns = ['id', 'name', 'description', 'price']
+  
+    @products = Product.where(organisation_id: current_user.organisation.id)
+  
+    if valid_order_columns.include?(sort_column) && %w[asc desc].include?(sort_direction)
+      if sort_column == 'price'
+        # Tri spécial avec jointure pour la colonne prix
+        @products = @products.joins(:prices)
+                             .select('products.*, prices.amount AS price_amount')
+                             .order("price_amount #{sort_direction}")
+      else
+        # Tri standard pour les autres colonnes
+        @products = @products.order("#{sort_column} #{sort_direction}")
+      end
     end
+  
+    @products = @products.page(params[:page]).per(@per_page)
 
     respond_to do |format|
       format.html

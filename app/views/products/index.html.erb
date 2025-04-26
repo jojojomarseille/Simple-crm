@@ -1,24 +1,31 @@
-<h1>Produtos</h1>
-<div class="index-top-container" style="justify-content: center">
-  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
-    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
-      <%= form_with url: products_path, method: :get, local: true do |f| %>
-          <%= f.label :order, 'Ordenar por' %>
-          <%= f.select :order, options_for_select([['Nome', 'name'], ['Preço', 'price'], ['ID', 'id']], params[:order]) %>
-        
-          <%= f.label :direction, 'Direção' %>
-          <%= f.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], params[:direction] || 'asc') %>
 
-          <%= f.label :per_page, 'Produtos por página' %>
-          <%= f.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
-        
-          <%= f.submit 'Aplicar parametros', class: 'btn-sort' %>
-      <% end %>
+<div class="index-top-container" >
+  <div class="index-top-forms" >
+    <div class="index-title-container" >
+      <h1>Produtos</h1>
     </div>
-    <div>
-      <%= link_to 'Télécharger le CSV', products_path(format: :csv), class: 'btn btn-download' %>
-      <%= link_to 'Télécharger le PDF', products_path(format: :pdf), class: 'btn btn-download' %>
-      <%= link_to 'Novo Produto', new_product_path, class: 'btn-new' %>
+    <div class="index-functions-container">
+      <div class="index-order-box">
+        <%= form_with url: products_path, method: :get, local: true do |f| %>
+            <%= f.label :per_page, 'Produits par page' %>
+            <%= f.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false }, class:"select-index-bar",
+                   onchange: "this.form.submit();" %>
+            <%= hidden_field_tag :sort, params[:sort] %>
+            <%= hidden_field_tag :direction, params[:direction] %>
+        <% end %>
+      </div>
+    
+      <div>
+        <%= link_to products_path(format: :csv), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> CSV
+        <% end %>
+        <%= link_to products_path(format: :pdf), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> PDF
+        <% end %>
+        <%= link_to new_product_path, class: 'btn-new-entry' do %>
+          <span class="icon-circle"><i class="fas fa-plus"></i></span> Nouveau produit
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
@@ -26,12 +33,12 @@
 <div class="table-container">
   <table class="index-table">
     <tr>
-      <th>ID</th>
-      <th>Nome</th>
+      <th><%= sortable 'id', 'ID' %></th>
+      <th><%= sortable 'name', 'Nom' %></th>
       <th>Photo</th>
-      <th>Descrição</th>
-      <th>Preço</th>
-      <th>Ações</th>
+      <th><%= sortable 'description', 'Description' %></th>
+      <th><%= sortable 'price', 'Prix de vente ht' %></th>
+      <th>actions</th>
     </tr>
 
     <% @products.each do |product| %>

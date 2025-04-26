@@ -138,6 +138,11 @@ p {
   margin-bottom: 5px;
 }
 
+.page-title {
+  font-size: 32px;
+  color: #777;
+}
+
 /* Estilo do botão de envio */
 .btn-submit {
   background-color: #007bff;

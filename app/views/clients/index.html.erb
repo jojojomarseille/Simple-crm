@@ -1,25 +1,28 @@
-<h1>Clientes</h1>
-
-<div class="index-top-container" style="justify-content: center">
-  <div class="index-top-forms" style="background-color: #E4E9F7; width: 90%; display: flex; justify-content: space-between; padding: 10px; border-radius: 5px">
-    <div class="index-order-box" style="display:flex; align-items: center; padding-left: 10px">
-      <%= form_with(url: clients_path, method: :get, local: true, class: "sort-form") do |form| %>
-        <%= form.label :order, "Ordenar por", class: "label-sort" %>
-        <%= form.select :order, options_for_select([['Nome', 'name'], ['Tipo', 'client_type'], ['País', 'country']], selected: params[:order]), { include_blank: false }, class: "select-sort" %>
-
-        <%= form.label :direction, "Direção", class: "label-sort" %>
-        <%= form.select :direction, options_for_select([['Crescente', 'asc'], ['Decrescente', 'desc']], selected: params[:direction] || 'asc'), { include_blank: false }, class: "select-sort" %>
-
-        <%= form.label :per_page, 'Produtos por página' %>
-        <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false } %>
-
-        <%= form.submit "Aplicar", class: "btn-apply" %>
-      <% end %>
+<div class="index-top-container">
+  <div class="index-top-forms">
+    <div class="index-title-container">
+      <h1>Clients</h1>
     </div>
-    <div>
-      <%= link_to 'Télécharger le CSV', clients_path(format: :csv), class: 'btn btn-download' %>
-      <%= link_to 'Télécharger le PDF', clients_path(format: :pdf), class: 'btn btn-download' %>
-      <%= link_to 'Novo Cliente', new_client_path, class: 'btn-new' %> 
+    <div class="index-functions-container">
+      <div class="index-order-box">
+        <%= form_with(url: clients_path, method: :get, local: true) do |form| %>
+          <%= form.label :per_page, 'Produits par page' %>
+          <%= form.select :per_page, options_for_select([10, 20, 50], @per_page.to_i), { include_blank: false }, class:"select-index-bar", onchange: "this.form.submit();" %>
+          <%= hidden_field_tag :sort, params[:sort] %>
+          <%= hidden_field_tag :direction, params[:direction] %>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to clients_path(format: :csv), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> CSV
+        <% end %>
+        <%= link_to clients_path(format: :pdf), class: 'btn-simple-index-bar' do %>
+          <i class="fas fa-arrow-circle-down"></i> PDF
+        <% end %>
+        <%= link_to new_client_path, class: 'btn-new-entry' do %>
+          <span class="icon-circle"><i class="fas fa-plus"></i></span> Nouveau client
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
@@ -27,32 +30,32 @@
 <div class="table-container">
   <table class="index-table">
     <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Tipo</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th>Endereço</th>
-      <th>Cidade</th>
-      <th>País</th>
-      <th>Código Postal</th>
-      <th>Ações</th>
+      <th><%= sortable 'id_by_org', 'ID' %></th>
+      <th><%= sortable 'name', 'Nom' %></th>
+      <th><%= sortable 'client_type', 'Type' %></th>
+      <th><%= sortable 'mail', 'Email' %></th>
+      <th><%= sortable 'phone', 'Telephone' %></th>
+      <th><%= sortable 'address', 'Adresse' %></th>
+      <th><%= sortable 'city', 'Ville' %></th>
+      <th><%= sortable 'Country', 'Pays' %></th>
+      <th><%= sortable 'postal_code', 'Code postal'%></th>
+      <th>Actions</th>
     </tr>
 
     <% @clients.each do |client| %>
       <tr>
-        <td><%= client.id %></td>
-        <td><%= client.name %></td>
-        <td><%= client.client_type %></td>
-        <td><%= client.mail %></td>
-        <td><%= client.phone %></td>
-        <td><%= client.address %></td>
-        <td><%= client.city %></td>
-        <td><%= client.country %></td>
-        <td><%= client.postal_code %></td>
+        <td><%= link_to client.id, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.name, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.client_type, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.mail, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.phone, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.address, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.city, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.country, client_path(client), class: "cell-link" %></td>
+        <td><%= link_to client.postal_code, client_path(client), class: "cell-link" %></td>
         <td class="actions">
-          <%= link_to 'Mostrar', client, class: 'btn-show' %> |
-          <%= link_to 'Editar', edit_client_path(client), class: 'btn-edit' %> |
+          <%= link_to 'Mostrar', client, class: 'btn-show' %> 
+          <%= link_to 'Editar', edit_client_path(client), class: 'btn-edit' %> 
           <%= button_to 'Excluir', client, method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: 'btn btn-delete' %>
         </td>
       </tr>
@@ -60,3 +63,26 @@
   </table>
 </div>
 <%= paginate @clients %>
+
+
+<style>
+  .cell-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 6px 8px;
+}
+
+.cell-link:hover {
+  text-decoration: underline;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+td {
+  padding: 0; /* Supprime le padding des cellules pour que le lien occupe toute la cellule */
+}
+
+td.actions {
+  padding: 6px 8px; /* Restaure le padding pour la cellule d'actions */
+}
+</style>

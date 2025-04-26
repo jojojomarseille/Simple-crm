@@ -1,41 +1,236 @@
-<h1>Nouvelle Commande</h1>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Nouvelle Commande</h1>
+    <%= form_for @order, url: create_with_client_selection_orders_path do |f| %>
+      <div class="form-group">
+        <%= f.label :client_id, "Client" %>
+        <%= f.collection_select :client_id, Client.where(organisation_id: current_user.organisation_id), :id, :name, { prompt: "Sélectionnez un client" }, 
+                           { class: "select-index-bar" } %>
+      </div>
 
-<%= form_for @order, url: create_with_client_selection_orders_path do |f| %>
-  <div class="form-group">
-    <%= f.label :client_id, "Client" %>
-    <%= f.collection_select :client_id, Client.where(organisation_id: current_user.organisation_id), :id, :name, prompt: "Sélectionnez un client", class: "form-control" %>
-  </div>
+      <div>
+        <%= f.label :date %>
+        <%= f.date_select :date, {}, { class: "select-index-bar" } %>
+      </div>
 
-  <div>
-    <%= f.label :date %>
-    <%= f.datetime_select :date %>
-  </div>
+      <div class="form-group">
+        <%= f.label :payment_terms, "Delais de paiements" %>
+        <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "select-index-bar" %>
+      </div>
 
-    <div class="form-group">
-    <%= f.label :payment_terms, "Delais de paiements" %>
-    <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "form-control" %>
-  </div>
+      <div class="order-items-section" 
+           data-controller="order-items" 
+           data-order-items-organisation-id-value="<%= @organisation.id %>">
+        <div class="order-items-header">
+          <div class="header-product">Produit</div>
+          <div class="header-quantity">Quantité</div>
+          <div class="header-price">Prix (€)</div>
+          <div class="header-actions"></div>
+        </div>
+        
+        <div class="order-items-container" data-order-items-target="list">
+          <% if f.object.order_items.empty? %>
+            <%= f.fields_for :order_items, OrderItem.new, child_index: 0 do |item_form| %>
+              <%= render partial: "order_item_fields", locals: { f: item_form } %>
+            <% end %>
+          <% else %>
+            <%= f.fields_for :order_items do |item_form| %>
+              <%= render partial: "order_item_fields", locals: { f: item_form } %>
+            <% end %>
+          <% end %>
+        </div>
+        
+        <div class="order-items-footer">
+          <button type="button" class="btn-add-item" data-action="click->order-items#add">
+            Ajouter un produit
+          </button>
+        </div>
+        
+        <!-- Template caché pour nouveau produit -->
+        <div style="display: none;" data-order-items-target="template">
+          <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |item_form| %>
+            <%= render partial: 'order_item_fields', locals: { f: item_form } %> 
+          <% end %>
+        </div>
+      </div>
 
-  <h2>Items de la commande</h2>
-  <div class="list-container">
-    <div id="list">
-      <%= f.fields_for :order_items do |f| %>
-        <%= render partial: "order_item_fields", locals: { f: f } %> 
-      <% end %> 
-      
-    </div>
-    <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
-  </div>
-
-  <%# <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary" %> 
-  <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
-  <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
-
- <!-- Placeholder pour le template -->
-  <div id="template-container" style="display: none;">
-    <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
-      <%= render partial: 'order_item_fields', locals: { f: f } %> 
+      <div class="form-actions" style="margin-top: 20px;">
+        <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
+        <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
+      </div>
     <% end %>
   </div>
+</div>
 
-<% end %>
+
+
+<style>
+  .order-form-items-container {
+    background-color: white;
+    padding: 10px;
+  }
+
+    /* Structure générale */
+  .order-items-section {
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  /* En-têtes de colonnes */
+  .order-items-header {
+    display: flex;
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+    color: #555;
+  }
+
+  .order-items-header > div {
+    padding: 0 10px;
+  }
+
+  .header-product { flex: 3; }
+  .header-quantity { flex: 1; }
+  .header-price { flex: 1; }
+  .header-actions { width: 50px; }
+
+  /* Conteneur de lignes */
+  .order-items-container {
+    padding: 5px 0;
+  }
+
+  /* Style pour chaque ligne */
+  .order-item-row {
+    display: flex;
+    padding: 10px 15px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+  }
+
+  .order-item-row:hover {
+    background-color: #f9f9f9;
+  }
+
+  .order-item-row > div {
+    padding: 0 10px;
+  }
+
+  .product-field { flex: 3; position: relative; }
+  .quantity-field { flex: 1; }
+  .price-field { flex: 1; }
+  .actions-field { width: 50px; text-align: center; }
+
+  /* Inputs */
+  .order-item-row input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .order-item-row input:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+
+  /* Boutons */
+  .btn-add-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px 15px;
+    transition: background-color 0.3s;
+  }
+
+  .btn-add-item:hover {
+    background-color: #218838;
+  }
+
+  .btn-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    color: #dc3545;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-remove:hover {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  /* Autocomplétion */
+  .autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+  }
+
+  .autocomplete-results.show {
+    display: block;
+  }
+
+  .autocomplete-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .autocomplete-item:last-child {
+    border-bottom: none;
+  }
+
+  .autocomplete-item:hover {
+    background-color: #f5f5f5;
+  }
+
+  .autocomplete-item.selected {
+    background-color: #e9f2ff;
+  }
+
+  /* Footer et actions du formulaire */
+  .order-items-footer {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+
+</style>
