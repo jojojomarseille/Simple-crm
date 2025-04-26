@@ -38,6 +38,9 @@ Rails.application.routes.draw do
 
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'
+    collection do
+      get 'search'
+    end
   end 
   resources :clients do
     resources :orders, only: [:new, :create]
@@ -53,7 +56,7 @@ Rails.application.routes.draw do
   end
   
   resources :orders, only: [:show, :edit, :update, :destroy, :index]
-
+#pour les api (pour l'autocompletion notament)
   namespace :api do
     resources :base_companies, only: [] do
       collection do

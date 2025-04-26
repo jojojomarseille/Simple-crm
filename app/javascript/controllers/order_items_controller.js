@@ -1,233 +1,261 @@
+// app/javascript/controllers/order_items_controller.js
+
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["list", "template", "item", "productField", "productIdField", "autocompleteResults", "autocompleteResults"]
-  static values = { organisationId: Number }
+  static targets = ["container", "template", "item", "productField", "productIdField", "autocompleteResults", "productDropdown", "lineTotal", "quantityField", "priceField", "orderTotal"]
 
   connect() {
-    console.log("OrderItems controller connected, organisation ID:", this.organisationIdValue);
-    
-    // Initialiser avec au moins une ligne si aucune n'existe
-    if (this.itemTargets.length === 0) {
-      console.log("No items found, adding one");
-      this.add();
-    } else {
-      console.log("Found", this.itemTargets.length, "existing items");
-    }
-    
-    // Ajouter les événements de recherche pour les champs existants
-    this.productFieldTargets.forEach((field, index) => {
-      console.log("Setting up autocomplete for existing field", index);
-      this._setupAutocompleteField(field);
-    });
-    
-    // Afficher le bouton de suppression seulement s'il y a plus d'un élément
-    this._updateRemoveButtons();
+    console.log("OrderItems controller connected");
+    this.itemTargets.forEach(item => {
+        this.initializeLineItemEvents(item)
+      })
+    this.updateAllLineTotals()
+    this.element.addEventListener('order-items:lineTotalUpdated', this.updateOrderTotal.bind(this))
   }
-  
+
   add(event) {
-    if (event) event.preventDefault();
-    console.log("Adding new order item");
-    // Ajouter une nouvelle ligne
+    event.preventDefault()
+    console.log("Adding new order item")
+    
     const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
-    this.listTarget.insertAdjacentHTML('beforeend', content);
-    
-    // Initialiser l'autocomplétion sur le nouveau champ
-    const newField = this.productFieldTargets[this.productFieldTargets.length - 1];
-    console.log("Setting up autocomplete for new field");
-    this._setupAutocompleteField(newField);
-    
-    // Mettre le focus sur le nouveau champ produit
-    newField.focus();
-    
-    this._updateRemoveButtons();
+    this.containerTarget.insertAdjacentHTML('beforeend', content)
+    // Après avoir ajouté une nouvelle ligne, initialisons ses écouteurs d'événements
+    const newItem = this.containerTarget.lastElementChild
+    this.initializeLineItemEvents(newItem)
   }
-  
+
   remove(event) {
-    if (event) event.preventDefault();
-    console.log("Removing order item");
-    // Ne pas supprimer si c'est la dernière ligne
-    if (this.itemTargets.length <= 1) {
-      console.log("Can't remove the last item");
-      return;
+    console.log("Removing order item")
+    const item = event.target.closest('[data-order-items-target="item"]')
+    
+    // Si l'élément a un champ _destroy, le marquer pour destruction plutôt que de le supprimer
+    const destroyField = item.querySelector('input[name*="[_destroy]"]')
+    if (destroyField) {
+      destroyField.value = '1'
+      item.style.display = 'none'
+    } else {
+      item.remove()
+      this.dispatch("lineTotalUpdated")
     }
-    
-    const item = event.target.closest('[data-order-items-target="item"]');
-    item.remove();
-    console.log("Item removed, remaining:", this.itemTargets.length);
-    
-    this._updateRemoveButtons();
   }
-  
+
   searchProducts(event) {
-    const field = event.target;
-    const query = field.value.trim();
-    console.log("Searching products for query:", query);
+    const query = event.target.value.trim()
+    const autocompleteResults = event.target.closest('.product-field').querySelector('[data-order-items-target="autocompleteResults"]')
+    
+    console.log("Searching for products with query:", query)
     
     if (query.length < 2) {
-      console.log("Query too short, closing autocomplete");
-      this._closeAutocomplete(field);
-      return;
+      autocompleteResults.style.display = 'none'
+      return
     }
-    
-    console.log("Fetching products, organisation ID:", this.organisationIdValue);
-    fetch(`/api/products/search?q=${encodeURIComponent(query)}&organisation_id=${this.organisationIdValue}`)
-      .then(response => {
-        console.log("Search response status:", response.status);
-        if (!response.ok) {
-          throw new Error(`Server responded with ${response.status}`);
+
+    fetch(`/products/search?query=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(products => {
+        console.log("Products received:", products)
+        
+        autocompleteResults.innerHTML = ''
+        
+        if (products.length === 0) {
+          autocompleteResults.style.display = 'none'
+          return
         }
-        return response.json();
+        
+        products.forEach(product => {
+          const resultItem = document.createElement('div')
+          resultItem.className = 'autocomplete-item'
+          resultItem.textContent = product.name
+          resultItem.dataset.productId = product.id
+          resultItem.dataset.productName = product.name
+          resultItem.dataset.productPrice = product.price || 0
+          resultItem.dataset.action = 'click->order-items#selectProduct'
+          
+          autocompleteResults.appendChild(resultItem)
+        })
+        
+        autocompleteResults.style.display = 'block'
       })
-      .then(data => {
-        console.log("Products found:", data.length, data);
-        this._displayResults(data, this.autocompleteResultsTarget, field);
-      })      
       .catch(error => {
-        console.error("Error searching products:", error);
-      });
+        console.error('Error searching products:', error)
+        autocompleteResults.style.display = 'none'
+      })
   }
 
-  
-  
-  _displayResults(products, container, inputField) {
-    console.log("Displaying results in container:", container);
-    container.innerHTML = '';
+  selectProduct(event) {
+    event.preventDefault()
     
-    if (products.length === 0) {
-      console.log("No products found");
-      container.classList.remove('show');
-      return;
+    const productId = event.target.dataset.productId
+    const productName = event.target.dataset.productName
+    const productPrice = event.target.dataset.productPrice
+    
+    console.log(`Selecting product: ${productName} (ID: ${productId}, Price: ${productPrice})`)
+    
+    const item = event.target.closest('.order-item-row')
+    const productField = item.querySelector('[data-order-items-target="productField"]')
+    const productIdField = item.querySelector('[data-order-items-target="productIdField"]')
+    const priceField = item.querySelector('.price-input')
+    
+    productField.value = productName
+    productIdField.value = productId
+    
+    // Remplir le prix si vide
+    if (priceField && (!priceField.value || priceField.value === '0')) {
+      priceField.value = productPrice
     }
     
-    // Limiter à 5 résultats maximum
-    const limitedProducts = products.slice(0, 5);
-    console.log("Displaying", limitedProducts.length, "products");
-    
-    limitedProducts.forEach(product => {
-      const item = document.createElement('div');
-      item.classList.add('autocomplete-item');
-      item.textContent = product.name;
-      item.dataset.id = product.id;
-      item.dataset.price = product.price || '';
-      
-      item.addEventListener('click', () => {
-        console.log("Product selected via click:", product);
-        this._selectProduct(product, inputField);
-        container.classList.remove('show');
-      });
-      
-      container.appendChild(item);
-    });
-    
-    container.classList.add('show');
+    // Masquer les résultats
+    const autocompleteResults = item.querySelector('[data-order-items-target="autocompleteResults"]')
+    autocompleteResults.style.display = 'none'
   }
-  
-  _selectProduct(product, field) {
-    console.log("Selecting product:", product);
-    const row = field.closest('[data-order-items-target="item"]');
-    const productIdField = row.querySelector('[data-order-items-target="productIdField"]');
+
+  toggleProductDropdown(event) {
+    event.preventDefault()
+    console.log("Toggling product dropdown")
     
-    field.value = product.name;
-    if (productIdField) {
-      productIdField.value = product.id;
-      console.log("Updated product ID field:", productIdField.value);
+    const dropdown = event.target.closest('.product-field').querySelector('[data-order-items-target="productDropdown"]')
+    dropdown.classList.toggle('d-none')
+    
+    // Si on ouvre le dropdown, charger les produits s'ils ne sont pas déjà chargés
+    if (!dropdown.classList.contains('d-none') && dropdown.querySelector('.product-dropdown-list').children.length === 0) {
+      this.loadProductsForDropdown(dropdown)
     }
     
-    // Mettre à jour le prix si disponible
-    if (product.price) {
-      const priceField = row.querySelector('.price-input');
-      if (priceField && !priceField.value) {
-        priceField.value = product.price;
-        console.log("Updated price field:", priceField.value);
-      }
-    }
-    this._closeAutocomplete(field);
+    // Masquer les résultats d'autocomplétion si ouverts
+    const autocompleteResults = event.target.closest('.product-field').querySelector('[data-order-items-target="autocompleteResults"]')
+    autocompleteResults.style.display = 'none'
   }
-  
-  _closeAutocomplete(field) {
-    console.log("Closing autocomplete");
-    const container = field.nextElementSibling;
-    if (container) {
-      container.innerHTML = '';
-      container.classList.remove('show');
-    }
-  }
-  
-  _setupAutocompleteField(field) {
-    console.log("Setting up autocomplete events for field:", field);
+
+  loadProductsForDropdown(dropdown) {
+    console.log("Loading products for dropdown");
     
-    // Gérer la navigation au clavier (flèches haut/bas, entrée)
-    field.addEventListener('keydown', (e) => {
-      const container = field.nextElementSibling;
-      const items = container.querySelectorAll('.autocomplete-item');
-      
-      if (!container.classList.contains('show')) return;
-      
-      let selectedIndex = Array.from(items).findIndex(item => item.classList.contains('selected'));
-      console.log("Keyboard navigation, selected index:", selectedIndex);
-      
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault();
-          selectedIndex = (selectedIndex + 1) % items.length;
-          console.log("Arrow down, new index:", selectedIndex);
-          this._highlightItem(items, selectedIndex);
-          break;
-        case 'ArrowUp':
-          e.preventDefault();
-          selectedIndex = (selectedIndex - 1 + items.length) % items.length;
-          console.log("Arrow up, new index:", selectedIndex);
-          this._highlightItem(items, selectedIndex);
-          break;
-        case 'Enter':
-          e.preventDefault();
-          if (selectedIndex >= 0) {
-            console.log("Enter pressed on item:", selectedIndex);
-            const product = {
-              id: items[selectedIndex].dataset.id,
-              name: items[selectedIndex].textContent,
-              price: items[selectedIndex].dataset.price
-            };
-            this._selectProduct(product, field);
-            container.classList.remove('show');
-          }
-          break;
-        case 'Escape':
-          console.log("Escape pressed, closing autocomplete");
-          container.classList.remove('show');
-          break;
-      }
-    });
+    fetch('/products.json')
+      .then(response => response.json())
+      .then(products => {
+        console.log("Products loaded for dropdown:", products)
+        
+        const listContainer = dropdown.querySelector('.product-dropdown-list')
+        listContainer.innerHTML = ''
+        
+        products.forEach(product => {
+          const item = document.createElement('a')
+          item.href = '#'
+          item.className = 'product-dropdown-item'
+          item.dataset.productId = product.id
+          item.dataset.productName = product.name
+          item.dataset.productPrice = product.price || 0
+          item.dataset.action = 'click->order-items#selectProductFromDropdown'
+          item.textContent = product.name
+          
+          listContainer.appendChild(item)
+        })
+      })
+      .catch(error => console.error('Error loading products:', error))
+  }
+
+  selectProductFromDropdown(event) {
+    event.preventDefault()
     
-    // Fermer les résultats quand on clique ailleurs
-    document.addEventListener('click', (e) => {
-      if (!field.contains(e.target) && !field.nextElementSibling.contains(e.target)) {
-        console.log("Click outside autocomplete, closing results");
-        field.nextElementSibling.classList.remove('show');
-      }
-    });
+    const productId = event.target.dataset.productId
+    const productName = event.target.dataset.productName
+    const productPrice = event.target.dataset.productPrice
+    
+    console.log(`Selecting product from dropdown: ${productName} (ID: ${productId}, Price: ${productPrice})`)
+    
+    const item = event.target.closest('.order-item-row')
+    const productField = item.querySelector('[data-order-items-target="productField"]')
+    const productIdField = item.querySelector('[data-order-items-target="productIdField"]')
+    const priceField = item.querySelector('.price-input')
+    
+    productField.value = productName
+    productIdField.value = productId
+    
+    // Remplir le prix si vide
+    if (priceField && (!priceField.value || priceField.value === '0')) {
+      priceField.value = productPrice
+    }
+    
+    // Fermer le dropdown
+    const dropdown = item.querySelector('[data-order-items-target="productDropdown"]')
+    dropdown.classList.add('d-none')
   }
   
-  _highlightItem(items, index) {
-    console.log("Highlighting item at index:", index);
-    items.forEach(item => item.classList.remove('selected'));
-    if (index >= 0 && index < items.length) {
-      items[index].classList.add('selected');
-      items[index].scrollIntoView({ block: 'nearest' });
+  initializeLineItemEvents(item) {
+    // Trouver les champs de prix et quantité dans cet élément
+    const priceField = item.querySelector('input[name*="[price]"]')
+    const quantityField = item.querySelector('input[name*="[quantity]"]')
+    
+    if (priceField) {
+      priceField.dataset.action = (priceField.dataset.action || "") + " input->order-items#updateLineTotal"
+    }
+    
+    if (quantityField) {
+      quantityField.dataset.action = (quantityField.dataset.action || "") + " input->order-items#updateLineTotal"
+    }
+    // Initialiser le total pour cette ligne
+    this.updateLineTotalForItem(item)
+  }
+
+  // Calcule et met à jour le total pour une ligne d'article
+    updateLineTotalForItem(item) {
+        const priceField = item.querySelector('input[name*="[price]"]')
+        const quantityField = item.querySelector('input[name*="[quantity]"]')
+        const totalDisplay = item.querySelector('[data-order-items-target="lineTotal"]')
+        
+        if (priceField && totalDisplay) {
+            const price = parseFloat(priceField.value) || 0
+            const quantity = quantityField ? (parseFloat(quantityField.value) || 1) : 1
+            
+            const total = price * quantity
+            totalDisplay.textContent = total.toFixed(2) + ' €'
+            
+            // Émettre un événement pour le calcul du total général
+            this.dispatch("lineTotalUpdated")
+        }
+    }
+
+
+  // Mettre à jour tous les totaux (utile lors du chargement initial)
+    //   updateAllLineTotals() {
+    //     const items = this.itemTargets
+    //     items.forEach(item => {
+    //       this.updateLineTotalForItem(item)
+    //     })
+    //   }
+  updateAllLineTotals() {
+    this.itemTargets.forEach(item => {
+      this.updateLineTotalForItem(item)
+    })
+    this.updateOrderTotal()
+  }
+
+  updateLineTotal(event) {
+    const item = event.target.closest('[data-order-items-target="item"]')
+    this.updateLineTotalForItem(item)
+    
+    // Si vous avez un total de commande, mettez-le aussi à jour
+    if (this.hasOrderTotalTarget) {
+      this.updateOrderTotal()
     }
   }
 
-  _updateRemoveButtons() {
-    // Afficher le bouton de suppression seulement s'il y a plus d'un élément
-    const buttons = document.querySelectorAll('.remove-button');
-    buttons.forEach(button => {
-      if (this.itemTargets.length > 1) {
-        button.style.display = 'block';
-      } else {
-        button.style.display = 'none';
-      }
-    });
+
+  updateOrderTotal() {
+    if (this.hasOrderTotalTarget) {
+      let total = 0
+      this.itemTargets.forEach(item => {
+        const totalElement = item.querySelector('[data-order-items-target="lineTotal"]')
+        if (totalElement) {
+          const totalText = totalElement.textContent
+          const totalValue = parseFloat(totalText.replace(/[^\d.-]/g, '')) || 0
+          total += totalValue
+        }
+      })
+      
+      this.orderTotalTarget.textContent = total.toFixed(2) + ' €'
+    }
   }
+
 }
 

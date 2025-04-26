@@ -59,8 +59,18 @@ class ProductsController < ApplicationController
         end
         send_data csv_data, filename: "produits.csv", type: "text/csv"
       end
+      format.json do
+        products_with_prices = @products.map do |product|
+            latest_price = product.prices.last&.amount || 0
+            {
+              id: product.id,
+              name: product.name,
+              price: latest_price
+            }
+        end
+        render json: products_with_prices
+      end
     end
-
   end
 
   # 👁️ Mostrar detalhes de um produto
@@ -117,6 +127,24 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     redirect_to products_url, notice: 'Produto excluído com sucesso.'
+  end
+
+  def search
+    query = params[:query].to_s.downcase
+    @products = current_user.organisation.products.where("lower(name) LIKE ?", "%#{query}%").limit(10)
+    # Préparer les données avec les prix
+  products_with_prices = @products.map do |product|
+    latest_price = product.prices.last&.amount || 0
+    {
+      id: product.id,
+      name: product.name,
+      price: latest_price
+    }
+  end
+  
+  Rails.logger.debug "Products found with prices: #{products_with_prices.inspect}"
+  
+  render json: products_with_prices
   end
 
   private

@@ -8,9 +8,14 @@
                            { class: "select-index-bar" } %>
       </div>
 
-      <div>
-        <%= f.label :date %>
-        <%= f.date_select :date, {}, { class: "select-index-bar" } %>
+      <div class="form-group" data-controller="datepicker">
+        <%= f.label :date, "Date de la commande" %>
+        <%= f.text_field :date, 
+                  class: "select-index-bar", 
+                  placeholder: 'AAAA-MM-JJ',
+                          data: { 
+                            datepicker_target: "input"
+                          } %>
       </div>
 
       <div class="form-group">
@@ -28,7 +33,7 @@
           <div class="header-actions"></div>
         </div>
         
-        <div class="order-items-container" data-order-items-target="list">
+        <div class="order-items-container" data-order-items-target="container">
           <% if f.object.order_items.empty? %>
             <%= f.fields_for :order_items, OrderItem.new, child_index: 0 do |item_form| %>
               <%= render partial: "order_item_fields", locals: { f: item_form } %>
@@ -42,7 +47,7 @@
         
         <div class="order-items-footer">
           <button type="button" class="btn-add-item" data-action="click->order-items#add">
-            Ajouter un produit
+            <b>+</b>
           </button>
         </div>
         
@@ -51,6 +56,10 @@
           <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |item_form| %>
             <%= render partial: 'order_item_fields', locals: { f: item_form } %> 
           <% end %>
+        </div>
+
+        <div class="order-total-section">
+          <h4>Total de la commande: <span data-order-items-target="orderTotal">0.00 €</span></h4>
         </div>
       </div>
 
@@ -229,8 +238,125 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 50px;
   }
 
+.product-input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
 
+.product-autocomplete {
+  flex: 1;
+  border-radius: 4px 0 0 4px;
+}
+
+.dropdown-toggle-btn {
+  width: 30px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.product-dropdown {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-top: 2px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.product-dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-dropdown-item {
+  padding: 8px 12px;
+  display: block;
+  color: #212529;
+  text-decoration: none;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.product-dropdown-item:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.autocomplete-results {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-top: 2px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  display: none;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.order-remove-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ff3b30; /* Rouge vif */
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.order-remove-button:hover {
+  background-color: #ff1a1a; /* Rouge plus intense au survol */
+  transform: scale(1.05);
+}
+
+.order-remove-button:active {
+  background-color: #e60000; /* Rouge plus foncé au clic */
+  transform: scale(0.98);
+}
+
+/* Assurez-vous de supprimer tous les styles par défaut */
+.order-remove-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.total-display {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #2c3e50;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  text-align: right;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
 </style>

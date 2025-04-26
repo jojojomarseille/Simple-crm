@@ -1,27 +1,53 @@
 <div class="order-item-row" data-order-items-target="item">
   <div class="product-field">
     <% product_name = f.object.product ? f.object.product.name : "" %>
-    <%= text_field_tag "product_search_#{f.object_id}", product_name, class: "product-autocomplete", 
-                      placeholder: "Rechercher un produit...",
-                      data: { 
-                        order_items_target: "productField",
-                        action: "input->order-items#searchProducts"
-                      } %>
+    <div class="product-input-group">
+      <%= text_field_tag "product_search_#{f.object_id}", product_name, class: "product-autocomplete", 
+                        placeholder: "Rechercher un produit...",
+                        autocomplete: "off",
+                        data: { 
+                          order_items_target: "productField",
+                          action: "input->order-items#searchProducts"
+                        } %>
+      <!-- Bouton pour ouvrir la liste déroulante -->
+      <button type="button" 
+              class="dropdown-toggle-btn"
+              data-action="click->order-items#toggleProductDropdown">
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
+    
     <%= f.hidden_field :product_id, data: { order_items_target: "productIdField" } %>
+    
+    <!-- Conteneur pour les résultats d'autocomplétion -->
     <div class="autocomplete-results" 
          data-order-items-target="autocompleteResults">
+    </div>
+    
+    <!-- Liste déroulante complète des produits -->
+    <div class="product-dropdown d-none" 
+         data-order-items-target="productDropdown">
+      <div class="product-dropdown-list">
+        <!-- Les produits seront chargés par JavaScript -->
+      </div>
     </div>
   </div>
   
   <div class="quantity-field">
-    <%= f.number_field :quantity, placeholder: "Qté", min: 1, class: "quantity-input" %>
+    <%= f.number_field :quantity, placeholder: "Qté",value: 1, min: 1, class: "quantity-input" %>
   </div>
   
   <div class="price-field">
     <%= f.text_field :price, placeholder: "Prix", class: "price-input" %>
   </div>
+
+  <div class="form-group">
+    <label>Total</label>
+    <div class="total-display" data-order-items-target="lineTotal">0.00 €</div>
+  </div>
   
   <div class="actions-field">
-    <button type="button" class="remove-button" data-action="click->order-items#remove">×</button>
+    <button type="button" class="order-remove-button" data-action="click->order-items#remove">×</button>
   </div>
 </div>
+
