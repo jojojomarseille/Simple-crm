@@ -1,0 +1,26 @@
+<div class="order-item-row">
+  <div class="product-field">
+    <div class="product-display">
+      <%= order_item.product ? order_item.product.name : "Produit inconnu" %>
+    </div>
+  </div>
+  
+  <div class="quantity-field">
+    <div class="quantity-display">
+      <%= order_item.quantity %>
+    </div>
+  </div>
+  
+  <div class="price-field">
+    <div class="price-display">
+      <%= number_to_currency(order_item.price, unit: "€", separator: ",", delimiter: " ", format: "%n %u") %>
+    </div>
+  </div>
+
+  <div class="total-field">
+    <label>Total</label>
+    <div class="total-display">
+      <%= number_to_currency(order_item.quantity * order_item.price, unit: "€", separator: ",", delimiter: " ", format: "%n %u") %>
+    </div>
+  </div>
+</div>

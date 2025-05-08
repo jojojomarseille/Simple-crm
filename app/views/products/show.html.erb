@@ -1,10 +1,17 @@
-<h1>Detalhes do Produto</h1>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Produit no<%=@product.id%></h1>
+    
+      <div class="form-group">
+        <p>Nom:</p>
+        <p> <%= @product.name%> </P>
+      </div>
+      <div class="form-group">
+        <p>Description:</p>
+        <p> <%= @product.description%> </P>
+      </div>
 
-    <p><strong>Nome:</strong> <%= @product.name %></p>
-    <p><strong>Descrição:</strong> <%= @product.description %></p>
-  
-
-       <% if @product.product_image? %>
+      <% if @product.product_image? %>
         <%= image_tag @product.product_image.url %>
        <% end %> 
 
@@ -17,3 +24,7 @@
 
       <%= link_to 'Editar', edit_product_path(@product) %> |
     <%= link_to 'Voltar', products_path %>
+    
+  </div>
+</div>
+  
