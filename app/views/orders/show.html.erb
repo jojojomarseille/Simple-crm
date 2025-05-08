@@ -1,48 +1,87 @@
-<p>
-  <strong>Date:</strong>
-  <%= @order.date %>
-</p>
-<p>
-  <strong>id gé:</strong>
-  <%= @order.id %>
-</p>
-<p>
-  <strong>ID by org:</strong>
-  <%= @order.id_by_org %>
-</p>
-<p>
-  <strong>status:</strong>
-  <%= @order.status %>
-</p>
-<p>
-  <strong>delais de payment:</strong>
-  <%= @order.payment_terms %>
-</p>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Commande no<%=@order.id_by_org%></h1>
+    
+      <div class="form-group">
+        <p>Client:</p>
+        <p> <%= @order.client.name%> </P>
+      </div>
 
-<% if @order.status == "validé"%>
-<p>
-  <strong>date d'exigibilitée:</strong>
-  <%= @order.payment_due_date %>
-</p>
+      <div class="form-group">
+        <p>Date de la commande: </p>
+        <p> <%= @order.date%></p>
+      </div>
 
-<% if @order.status == 'validé' && @order.validation_date.present? %>
-    <p>Date de validation: <%= @order.validation_date.strftime('%d/%m/%Y') %></p>
-  <% end %>
+      <div class="form-group">
+        <p>Status: </p>
+        <p> <%= @order.status%></p>
+      </div>
 
-  <!-- Afficher la date de paiement si le statut de paiement est "payé" -->
-  <% if @order.payment_status == 'Payé' && @order.payment_due_date.present? %>
-    <p>Date de paiement: <%= @order.payment_due_date.strftime('%d/%m/%Y') %></p>
-  <% end %>
-<% end %>
-<p>
-  <strong>Total Price:</strong>
-  <%= number_to_currency(@order.total_price_ht) %>
-</p>
+      <div class="form-group">
+        <p>Delais de paiements: </p>
+        <p><%= @order.payment_terms %></p>
+      </div>
 
-<h3>Order Items</h3>
-<ul>
-  <% @order.order_items.each do |item| %>
-    <li><%= item.product.name %>: <%= item.quantity %> x <%= number_to_currency(item.price) %></li>
-  <% end %>
-</ul>
- <%= link_to 'Commandes', orders_path %>
+      <div class="order-items-section">
+        <div class="order-items-header">
+          <div class="header-product">Produit</div>
+          <div class="header-quantity">Quantité</div>
+          <div class="header-price">Prix (€)</div>
+          <div class="header-actions"></div>
+        </div>
+        
+        <div class="order-items-container">
+          <% if @order.order_items.empty? %>
+            <p class="text-muted">Aucun produit dans cette commande.</p>
+          <% else %>
+            <% @order.order_items.each do |order_item| %>
+              <%= render partial: "order_item_show", locals: { order_item: order_item } %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="order-total-section">
+          <h4>Total de la commande: <span><%= number_to_currency(@order.total_price_ht, unit: "€", separator: ",", delimiter: " ", format: "%n %u") %></span></h4>
+        </div>
+  </div>
+</div>
+
+
+<style>
+  /* Styles pour la vue show des commandes */
+.order-item-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.product-display, .quantity-display, .price-display {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.product-field {
+  flex: 3;
+}
+
+.quantity-field, .price-field {
+  flex: 1;
+}
+
+.total-field {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.total-display {
+  font-weight: bold;
+}
+
+</style>

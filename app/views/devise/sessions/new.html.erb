@@ -4,13 +4,13 @@
       <h2 class="login-title">Se connecter</h2>
 
       <div class="form-group">
-        <%= f.label :email, class: "form-label" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+        <%= f.label :email, class: "sub-custom-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "log-custom-input" %>
       </div>
 
       <div class="form-group">
-        <%= f.label :password, class: "form-label" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-input" %>
+        <%= f.label :password, class: "sub-custom-label" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "log-custom-input" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
@@ -20,8 +20,8 @@
         </div>
       <% end %>
 
-      <div class="form-group">
-        <%= f.submit "Log in", class: "form-button" %>
+      <div class="form-group-log">
+        <%= f.submit "Connexion", class: "validate-standard-btn" %>
       </div>
     <% end %>
 

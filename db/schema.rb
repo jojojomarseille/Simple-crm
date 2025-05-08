@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_27_154600) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_20_164203) do
+  create_table "base_companies", force: :cascade do |t|
+    t.string "siret"
+    t.string "siren"
+    t.string "denomination_sociale"
+    t.string "marque"
+    t.string "adresse"
+    t.string "code_postal"
+    t.string "statut"
+    t.string "pays"
+    t.datetime "date_derniere_modification"
+    t.datetime "date_creation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "capital", precision: 15, scale: 2
+    t.string "city"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "client_type"
@@ -75,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_27_154600) do
     t.datetime "updated_at", null: false
     t.string "logo"
     t.string "capital"
+    t.integer "base_company_id"
+    t.index ["base_company_id"], name: "index_organisations_on_base_company_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -110,6 +129,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_27_154600) do
     t.string "phone"
     t.date "birthdate"
     t.string "status"
+    t.json "dashboard_blocks_order"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -121,6 +141,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_27_154600) do
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "organisations"
   add_foreign_key "orders", "users"
+  add_foreign_key "organisations", "base_companies"
   add_foreign_key "prices", "products"
   add_foreign_key "products", "organisations"
   add_foreign_key "users", "organisations"

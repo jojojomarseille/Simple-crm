@@ -5,12 +5,21 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  
+  devise_scope :user do
+    # Routes pour les formulaires initiaux (GET)
+    get 'users/registrations/step1', to: 'users/registrations#new', as: 'step1_users_registrations'
+    get 'users/registrations/step2', to: 'users/registrations#step2_get', as: 'step2_users_registrations_get'
+    get 'users/registrations/step3', to: 'users/registrations#step3_get', as: 'step3_users_registrations_get'
+    get 'users/registrations/step4', to: 'users/registrations#step4_get', as: 'step4_users_registrations_get'
+    
+    # Routes pour soumettre les formulaires (POST)
+    post 'users/registrations/step2', to: 'users/registrations#step2', as: 'step2_users_registrations'
+    post 'users/registrations/step3', to: 'users/registrations#step3', as: 'step3_users_registrations'
+    post 'users/registrations/step4', to: 'users/registrations#step4', as: 'step4_users_registrations'
+    
+    get 'users/registrations/autocomplete', to: 'users/registrations#autocomplete', as: :autocomplete_base_companies
+  end
 
-  # Route pour l'édition des informations utilisateur
-  # les deux routes ci dessous etaient utilisées pour mettre a jour le user depuis les setting de l'orga
-  # get 'user/edit', to: 'users#edit', as: 'edit_user'
-  # patch 'user', to: 'users#update'
   get 'users_index', to: 'users#index', as: 'users_index'
 
   get 'users/new_collaborator', to: 'users#new_collaborator', as: 'new_collaborator'
@@ -24,9 +33,14 @@ Rails.application.routes.draw do
   # Rota para a pesquisa
   get 'search', to: 'home#search', as: 'search' 
   get 'infos_user', to: 'pages#infos_user', as: 'infos_user'
+  get 'connected_home', to: 'pages#connected_home', as: 'connected_home'
+  post 'pages/save_dashboard_order', to: 'pages#save_dashboard_order'
 
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'
+    collection do
+      get 'search'
+    end
   end 
   resources :clients do
     resources :orders, only: [:new, :create]
@@ -42,5 +56,18 @@ Rails.application.routes.draw do
   end
   
   resources :orders, only: [:show, :edit, :update, :destroy, :index]
+#pour les api (pour l'autocompletion notament)
+  namespace :api do
+    resources :base_companies, only: [] do
+      collection do
+        get :search
+      end
+    end
+    resources :products, only: [] do
+      collection do
+        get :search
+      end
+    end
+  end
   
 end

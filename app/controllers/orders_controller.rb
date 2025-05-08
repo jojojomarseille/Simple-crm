@@ -131,7 +131,11 @@ class OrdersController < ApplicationController
     end
 
     if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
+      respond_to do |format|
+        format.html { redirect_to orders_path, notice: "Commande créée avec succès." }
+        format.turbo_stream { redirect_to orders_path }
+        format.json { render :show, status: :created, location: @order }
+      end
     else
       render :new
     end
@@ -139,6 +143,14 @@ class OrdersController < ApplicationController
 
   
   def create_with_client_selection
+    # Filtrer les order_items vides
+    if params[:order] && params[:order][:order_items_attributes]
+      params[:order][:order_items_attributes].each do |key, item|
+        if item[:product_id].blank?
+          params[:order][:order_items_attributes].delete(key)
+        end
+      end
+    end
     @order = Order.new(order_params)
     @order.user_id = current_user.id
     @order.organisation_id = current_user.organisation_id
@@ -150,22 +162,26 @@ class OrdersController < ApplicationController
     end
 
     if @order.save
-      redirect_to order_path(@order), notice: 'La commande a été créée avec succès.'
+      respond_to do |format|
+        format.html { redirect_to orders_path, notice: "Commande créée avec succès." }
+        format.turbo_stream { redirect_to orders_path }
+        format.json { render :show, status: :created, location: @order }
+      end
     else
       render :new_with_client_selection
     end
   end
   
   def index
-    order_sort = params[:order_sort] || 'name'  
-    direction = params[:direction] || 'asc' 
+    sort_column = params[:sort] || 'id_by_org'
+    sort_direction = params[:direction] || 'asc'
     @per_page = params[:per_page] || 20
 
-    valid_order_columns = ['date', 'total_price_ht', 'id_by_org', 'client_id', 'status', 'payment_status']
+    valid_order_columns = ['date', 'total_price_ht', 'id_by_org', 'client_id', 'status', 'payment_status', 'payment_terms', 'payment_due_date']
 
-    if valid_order_columns.include?(order_sort) && %w[asc desc].include?(direction)
+    if valid_order_columns.include?(sort_column) && %w[asc desc].include?(sort_direction)
       @orders = Order.where(organisation_id: @organisation.id)
-                     .order("#{order_sort} #{direction}")
+                     .order("#{sort_column} #{sort_direction}")
                      .page(params[:page]).per(@per_page)
     else
       @orders = Order.where(organisation_id: @organisation.id)
@@ -229,7 +245,13 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:date, :client_id, :payment_terms, order_items_attributes: [:product_id, :quantity, :price, :_destroy])
+    params.require(:order).permit(
+      :date, 
+      :client_id, 
+      :payment_terms,
+      :status, 
+      order_items_attributes: [:id, :product_id, :quantity, :price, :_destroy]
+    )
   end
 
 end

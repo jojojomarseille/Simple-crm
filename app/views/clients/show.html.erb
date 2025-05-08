@@ -1,40 +1,35 @@
-<h1>Detalhes do Cliente</h1>
-
-    <table class="client-table">
-      <tr>
-        <td><strong>Nome:</strong></td>
-        <td><%= @client.name %></td>
-      </tr>
-      <tr>
-        <td><strong>Tipo:</strong></td>
-        <td><%= @client.client_type %></td>
-      </tr>
-      <tr>
-        <td><strong>Email:</strong></td>
-        <td><%= @client.mail %></td>
-      </tr>
-      <tr>
-        <td><strong>Telefone:</strong></td>
-        <td><%= @client.phone %></td>
-      </tr>
-      <tr>
-        <td><strong>Endereço:</strong></td>
-        <td><%= @client.address %></td>
-      </tr>
-      <tr>
-        <td><strong>Cidade:</strong></td>
-        <td><%= @client.city %></td>
-      </tr>
-      <tr>
-        <td><strong>País:</strong></td>
-        <td><%= @client.country %></td>
-      </tr>
-      <tr>
-        <td><strong>Codigo Postal:<strong></td>
-        <td><%= @client.postal_code %></td>
-      </tr>
-      
-      <%# <% end %>  
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Client no<%=@client.id%></h1>
+    
+      <div class="form-group">
+        <p>Nom:</p>
+        <p> <%= @client.name%> </P>
+      </div>
+      <div class="form-group">
+        <p>Type:</p>
+        <p> <%= @client.client_type%> </P>
+      </div>
+      <div class="form-group">
+        <p>Email:</p>
+        <p> <%= @client.mail%> </P>
+      </div>
+      <div class="form-group">
+        <p>Telephone:</p>
+        <p> <%= @client.phone%> </P>
+      </div>
+      <div class="form-group">
+        <p>Adresse:</p>
+        <p> <%= @client.address%> </P>
+      </div>
+      <div class="form-group">
+        <p>Ville:</p>
+        <p> <%= @client.city%> </P>
+      </div>
+      <div class="form-group">
+        <p>Code Postal:</p>
+        <p> <%= @client.postal_code%> </P>
+      </div>
 
       <% if @client.image? %>
         <%= image_tag @client.image.url %>
@@ -45,6 +40,7 @@
           <%= link_to 'Voltar', clients_path, class: 'btn' %>
         </td>
       </tr>
+
     </table>
     <% if Product.where(organisation_id: @organisation.id).count >= 1 %>
       <%= link_to 'Add Sale', new_client_order_path(@client), class: 'btn btn-success' %>
@@ -63,7 +59,8 @@
     </ul>
 
      <%= link_to 'Voltar', clients_path %>
-        
+  </div>  
+</div>
     <script>
     function initMap() {
       var map = new 

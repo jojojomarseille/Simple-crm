@@ -1,0 +1,488 @@
+/*step 1*/
+
+.sign-up-left-step1 {
+    min-width: 50%; 
+    display: flex; 
+    margin-top: 40px; 
+    flex-direction: column;
+  }
+  
+  .sign-up-header-step1 {
+    display: flex; 
+    justify-content: center; 
+    padding-top: 30px
+  }
+  
+  .sign-up-step-container-step1 {
+    min-width: 100%; 
+    height: 70vh; 
+    display: flex
+  }
+  
+  .create-account-text-container {
+    text-align: center; 
+    height: 150px;
+  }
+
+  .create-account-text-container-2 {
+    text-align: center; 
+    height: 100px;
+  }
+  
+  .centered-image-ariane-step1 {
+    width: 457px;
+  } 
+  
+  .centered-image-main-visual-step1 {
+    width: 400px;
+  }
+  
+  .sign-up-header-ariane{
+    min-width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 30px; 
+    padding-bottom: 30px;
+  }
+  
+  .create-account-text {
+    color: #FFA01C; 
+    font-family: 'Roboto', sans-serif; 
+    font-weight: bold; 
+    margin: 0;
+  }
+
+  .sub-main-title {
+    font-size: 40px; 
+  }
+
+  .text-step1 {
+    font-size: 32px;
+    width: 460px; 
+    margin: auto;
+  }
+  
+  .sign-up-header-visual-step1 {
+    min-width: 100%; 
+    height: 50px; 
+    text-align: center;
+  }
+  
+  .sub-form-next-1 {
+    display: flex; 
+    justify-content: right; 
+    padding-right: 35px; 
+    margin-top: 100px;
+  }
+  
+  .sign-up-right-step1 {
+    min-width: 50%; 
+    padding-top: 40px;
+  }
+  
+  /*css validation mail*/
+  .error-message {
+    color: red;
+    font-size: 12px;
+    display: none; /* Masque le message d'erreur par défaut */
+  }
+  
+  /* css pour les message de validation du mot de passe*/
+  .password-criteria {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #FFA01C;
+    margin-top: 5px;
+  }
+  
+  .criterion {
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .criterion .icon {
+    margin-right: 5px;
+    color: grey;
+  }
+  
+  .criterion.valid .icon {
+    color: green;
+  }
+  
+  .criterion:not(.valid):not(.empty) .icon {
+    color: red;
+  }
+  
+  /*pour le ptit oeuil qui montre les caracteres que l'on écris*/
+  .password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    font-size: 16px;
+  }
+  
+  .password-toggle:hover {
+    color: #333;
+  }
+
+  /*step 2*/
+  .sign-up-header-step2 {
+    min-width: 100%; 
+    height: 50px; 
+    text-align: center;
+  }
+  
+  .sign-up-header-visual-step2 {
+    display: flex; 
+    justify-content: center; 
+    padding-top: 30px;
+  }
+
+  .sub-form-return-step1 {
+    padding-left: 20%; 
+    padding-top: 35px;
+  }
+
+  .sub-custom-button-return-step2 {
+    text-decoration: none;
+  }
+
+  .sign-up-right-step2 {
+    min-width: 50%; 
+    padding-top: 30px;
+  }
+
+  .sub-form-next-step2 {
+    display: flex; 
+    justify-content: right; 
+    width: 590px; 
+    margin-top: 100px;
+  }
+
+  .datepicker-input {
+    width: 590px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 0; /* Pas de bordure arrondie */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+  }
+  
+  /* Styles pour Flatpickr */
+  .flatpickr-calendar {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange.endRange,
+  .flatpickr-day.selected.inRange,
+  .flatpickr-day.selected:focus,
+  .flatpickr-day.selected:hover {
+    background: #FFA01C;
+    border-color: #FFA01C;
+    color: white;
+  }
+  
+  .flatpickr-month {
+    background: white;
+    color: #FFA01C;
+  }
+  
+  .flatpickr-current-month .numInputWrapper span {
+    color: #FFA01C;
+  }
+  
+  .flatpickr-day.today {
+    border-color: #FFA01C;
+    color: #FFA01C;
+  }
+  
+  
+  /*phone*/
+  
+  
+  .phone-input-container {
+    position: relative;
+    
+    .iti {
+      width: 100%;
+    }
+    
+    .phone-input {
+      padding-left: 90px !important;
+    }
+    
+    .iti__flag-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    .is-invalid ~ .invalid-feedback {
+      display: block;
+    }
+    
+    .is-invalid {
+      border-color: #dc3545;
+    }
+    
+    .is-valid {
+      border-color: #28a745;
+    }
+  }
+  
+  /*step 3*/
+
+  .left-text-container-step3 {
+    text-align: center;
+  }
+
+  .sign-up-right-step3 {
+    min-width: 50%; 
+    padding-top: 30px;
+    position: relative;
+  }
+
+  .sub-form-err-mess-step3 {
+    display: none; 
+    width: 590px;
+  }
+
+  .no-display {
+    display: none;
+  }
+
+  .selected-company-info {
+    display: none; 
+    margin-top: 10px;
+  }
+
+  .sub-form-next-step3 {
+    display: flex; 
+    justify-content: right; 
+    width: 590px; 
+    position: absolute;
+    top: 62vh;
+  }
+
+.search-results {
+  position: absolute;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.company-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.company-results li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.company-results li:hover, .company-results li:focus {
+  background-color: #f5f5f5;
+}
+
+.company-results li:last-child {
+  border-bottom: none;
+}
+
+.no-results {
+  padding: 15px;
+  color: #888;
+  text-align: center;
+  font-style: italic;
+}
+
+.form-text {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.search-results-container {
+  position: relative;
+  margin-top: 5px;
+}
+
+.search-results {
+  max-height: 300px;
+  width: 590px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 1000;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.search-result-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+  background-color: #f5f8ff;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item .company-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.search-result-item .company-details {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.not-in-list-option {
+  padding: 12px 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+  color: #2c5282;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.not-in-list-option:hover {
+  background-color: #edf2ff;
+}
+
+.selected-company-info {
+  animation: fadeIn 0.3s ease-in;
+  width: 590px;
+}
+
+.sub-step3-close {
+  border: none;
+  background-color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.country-error-message {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.animate-attention {
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; transform: scale(0.97); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/*step 4*/
+.sign-up-step-container-step4 {
+  min-width: 100%; 
+  height: 78vh; 
+  display: flex
+}
+
+.sign-up-left-step4 {
+  min-width: 50%; 
+  display: flex; 
+  justify-content: center;
+  flex-direction: column;
+}
+
+.left-text-container-step4 {
+  text-align: center; 
+  height: 150px; 
+  padding-top: 50px;
+}
+
+.sign-up-header-visual-step4 {
+  display: flex; 
+  justify-content: center; 
+  padding-top: 100px;
+}
+
+.sub-form-return-step4 {
+  padding-left: 20%; 
+  padding-top: 140px;
+}
+
+.no-deco {
+  text-decoration: none; 
+}
+
+.sub-form-next-step4 {
+  display: flex; 
+  justify-content: right; 
+  width: 590px; 
+}
+
+  /* Styles pour Flatpickr */
+  .flatpickr-calendar {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange.endRange,
+  .flatpickr-day.selected.inRange,
+  .flatpickr-day.selected:focus,
+  .flatpickr-day.selected:hover {
+    background: #FFA01C;
+    border-color: #FFA01C;
+    color: white;
+  }
+  
+  .flatpickr-month {
+    background: white;
+    color: #FFA01C;
+  }
+  
+  .flatpickr-current-month .numInputWrapper span {
+    color: #FFA01C;
+  }
+  
+  .flatpickr-day.today {
+    border-color: #FFA01C;
+    color: #FFA01C;
+  }

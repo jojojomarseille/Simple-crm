@@ -1,0 +1,110 @@
+<div class="sign-up-header-step2">
+  <p class="create-account-text sub-main-title" >Créez votre compte</p>
+</div>
+
+<div class="sign-up-header-ariane" >
+  <%= image_tag('progress-bar-sign-up-3.png', alt: 'progress bar step 3/4', class: 'centered-image-ariane-step1') %>
+</div>
+
+<div class="sign-up-step-container-step1">
+
+  <div class="sign-up-left-step1" >
+
+    <div class="left-text-container-step3">
+      <p class="create-account-text text-step1">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
+    </div>
+    <div class="sign-up-header-visual-step2" >
+      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image-main-visual-step1') %>
+    </div>
+    <div class="sub-form-return-step1">
+      <%= link_to "Retour", step2_users_registrations_get_path, class: 'sub-custom-button-return sub-custom-button-return-step2', data: { turbo: false } %>
+    </div>
+  </div>
+
+  <div class="sign-up-right-step3">
+   <%= form_for @user, as: :user, url: step4_users_registrations_path, method: :post, data: { turbo: false, controller: "organisation-form" } do |f| %>
+      <%= render 'devise/shared/error_messages', resource: @user %>
+
+      <%= f.fields_for :organisation do |org_form| %>
+        <div class="form-group">
+          <%= org_form.label :country, class: 'sub-custom-label' %>
+          <%= org_form.select :country, [['🇫🇷 France', 'France'], ['🇵🇹 Portugal', 'Portugal'], ['🇧🇷 Brazil', 'Brazil']], 
+                              { prompt: 'Sélectionnez un pays', selected: nil }, 
+                              class: 'sub-custom-input country-select',
+                              data: { 
+                                organisation_form_target: "countrySelect",
+                                action: "change->organisation-form#countryChanged" 
+                              } %>
+          <div class="country-error-message alert alert-warning mt-2 sub-form-err-mess-step3" data-organisation-form-target="countryErrorMessage">
+            Nous sommes désolés, mais Simple CRM n'est pas encore disponible pour ce pays.
+          </div>
+        </div>
+
+        <div class="form-group no-display"  data-organisation-form-target="statusField">
+          <%= org_form.label :status, class: 'sub-custom-label' %>
+          <%= org_form.select :status, [
+                ['Entreprise Individuelle (EI)', 'Entreprise Individuelle'],
+                ['Auto-entrepreneur', 'Auto-entrepreneur'],
+                ['Société à Responsabilité Limitée (SARL)', 'SARL'],
+                ['Entreprise Unipersonnelle à Responsabilité Limitée (EURL)', 'EURL'],
+                ['Société par Actions Simplifiée (SAS)', 'SAS'],
+                ['Société par Actions Simplifiée Unipersonnelle (SASU)', 'SASU'],
+                ['Société Anonyme (SA)', 'SA'],
+                ['Société en Nom Collectif (SNC)', 'SNC'],
+                ['Société Civile (SC)', 'SC'],
+                ['Société en Commandite Simple (SCS)', 'SCS'],
+                ['Association avec numeros de siret', 'ASSO-SIRET'],
+                ['Association sans numeros de siret', 'ASSO-WITHOUT-SIRET']
+            ], { include_blank: 'Statut juridique', selected: nil }, 
+            class: 'sub-custom-input',
+            data: { 
+              organisation_form_target: "statusSelect",
+              action: "change->organisation-form#statusChanged" 
+            } %>
+        </div>
+
+        <div class="form-group no-display" data-organisation-form-target="searchField">
+          <%= org_form.label :name, "Recherche d'entreprise", class: 'sub-custom-label' %>
+          <%= text_field_tag :organisation_search, '', 
+                            placeholder: 'Rechercher votre entreprise...', 
+                            class: 'sub-custom-input', 
+                            id: 'organisation-search',
+                            data: { 
+                              action: "input->organisation-form#search",
+                              organisation_form_target: "searchFieldInput" 
+                            } %>
+          
+          <!-- resultats recherche -->
+          <div class="search-results" data-organisation-form-target="searchResults"></div>
+          <div>
+            <small class="form-text text-muted">Saisissez au moins 3 caractères pour rechercher votre entreprise</small>
+          </div>
+          <!-- Champ caché pour stocker l'ID de l'entreprise sélectionnée -->
+          <%= hidden_field_tag 'user[organisation_attributes][base_company_id]', '', 
+                            data: { organisation_form_target: "baseCompanyId" } %>
+          
+          <!-- confirmation de sélection -->
+          <div class="selected-company-info " 
+              data-organisation-form-target="selectedCompanyInfo"></div>
+        </div>
+
+        
+      <% end %>  
+
+      <div id="country-message" data-organisation-form-target="countryMessage" class="no-display" ></div> 
+      
+      <div class="form-group-sub sub-form-next-step3" data-organisation-form-target="submitButton">
+        <%= f.submit "Suivant", class: 'sub-custom-button' %>
+      </div>
+    
+    <% end %>
+  </div>
+  
+</div>
+
+
+
+
+
+
+

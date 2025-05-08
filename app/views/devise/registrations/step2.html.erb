@@ -1,0 +1,94 @@
+<div class="sign-up-header sign-up-header-step2">
+  <p class="create-account-text sub-main-title" >Créez votre compte</p>
+</div>
+
+<div class="sign-up-header-ariane">
+  <%= image_tag('progress-bar-sign-up-2.png', alt: 'progress bar step 2/4', class: 'centered-image-ariane-step1') %>
+</div>
+
+<div class="sign-up-step-container-step1">
+
+  <div class="sign-up-left-step1">
+
+    <div class="create-account-text-container-2">
+      <p class="create-account-text  text-step1">Dites nous en plus sur vous</p>
+    </div>
+
+    <div class="sign-up-header sign-up-header-visual-step2">
+      <%= image_tag('undraw_mindfulness_v3lv.svg', alt: 'mindfull', class: 'centered-image-main-visual-step1') %>
+    </div>
+
+    <div class="sub-form-return-step1">
+      <%= link_to "Retour", new_user_registration_path, class: 'sub-custom-button-return sub-custom-button-return-step2', data: { turbo: false } %>
+    </div>
+
+  </div>
+
+  <div class="sign-up-right-step2">
+    <%= form_for @user, as: :user, url: step3_users_registrations_path, method: :post, data: { turbo: false } do |f| %>
+      <%= render 'devise/shared/error_messages', resource: @user %>
+
+      <div class="form-group">
+        <%= f.label :firstname, class: 'sub-custom-label' %>
+        <%= f.text_field :firstname, class: 'sub-custom-input', autofocus: true, autocomplete: "firstname" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :lastname, class: 'sub-custom-label' %>
+        <%= f.text_field :lastname, class: 'sub-custom-input', autocomplete: "lastname" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :phone, class: 'sub-custom-label' %>
+        <div class="phone-input-container" data-controller="phone">
+          <%= telephone_field_tag :phone_visible, nil, 
+                          class: 'sub-custom-input phone-input', 
+                          autocomplete: "tel", 
+                          data: { phone_target: "input" } %>
+  
+          <%= f.hidden_field :phone, 
+                      data: { phone_target: "hidden" } %>  
+          <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide</div>
+        </div>
+        <small class="form-text text-muted">Sélectionnez votre pays puis entrez votre numéro</small>
+      </div>
+
+      <div data-controller="datepicker">
+        <div class="form-group">
+          <%= f.label :birthdate, class: 'sub-custom-label' %>
+          <%= f.text_field :birthdate, 
+                          class: 'sub-custom-input', 
+                          placeholder: 'AAAA-MM-JJ',
+                          data: { 
+                            datepicker_target: "input"
+                          } %>
+        </div>
+
+        <div class="form-group sub-form-next-step2">
+        <%= f.submit "Suivant", class: 'sub-custom-button' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

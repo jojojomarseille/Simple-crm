@@ -6,4 +6,12 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_items
 
   mount_uploader :product_image, ImageProductUploader 
+
+  # def latest_price
+  #   prices.order(created_at: :desc).first
+  # end
+  def latest_price
+    prices.last&.amount || 0
+  end
+
 end

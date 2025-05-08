@@ -1,0 +1,47 @@
+<section class="home-section" data-controller="topbar">
+  <div class="home-content">
+    <div class="top-bar">   
+      <% if user_signed_in? %>
+        <%= link_to 'Simple CRM', connected_home_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% else %>
+        <%= link_to 'Simple CRM', root_path, class: 'logo-top-bar', id: 'topbar-logo' %>
+      <% end %>
+      <% if user_signed_in? %>
+        <span class="navbar-text">
+          Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> 
+        </span>
+        <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-log-out' %>
+      <% else %>
+        <div class="d-flex">
+          <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-log-in' %>
+          <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-register' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<style>
+.btn-register {
+background-color: #FFA01C;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.btn-log-in {
+  background-color: #7FE550;
+  color: white;
+  border: none;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.btn-log-out {
+  background-color: #EC6965;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+</style>

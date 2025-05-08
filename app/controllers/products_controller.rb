@@ -6,26 +6,27 @@ class ProductsController < ApplicationController
   before_action :set_organisation, only: [:new, :create, :index]
 
   def index
-    order = params[:order] || 'name'  
-    direction = params[:direction] || 'asc' 
+    sort_column = params[:sort] || 'id'
+    sort_direction = params[:direction] || 'asc'
     @per_page = params[:per_page] || 10
-
-    valid_order_attributes = %w[id name]
-
-    if order == 'price'
-      @products = Product.joins(:prices) 
-                        .where(organisation_id: current_user.organisation.id)
-                        .select('products.*, prices.amount AS price_amount') 
-                        .order("price_amount #{direction}")
-                        .page(params[:page]).per(@per_page)
-    elsif valid_order_attributes.include?(order) && %w[asc desc].include?(direction)
-      @products = Product.where(organisation_id: current_user.organisation.id)
-                         .order("#{order} #{direction}")
-                         .page(params[:page]).per(@per_page)
-    else
-      @products = Product.where(organisation_id: current_user.organisation.id)
-                         .page(params[:page]).per(@per_page)
+  
+    valid_order_columns = ['id', 'name', 'description', 'price']
+  
+    @products = Product.where(organisation_id: current_user.organisation.id)
+  
+    if valid_order_columns.include?(sort_column) && %w[asc desc].include?(sort_direction)
+      if sort_column == 'price'
+        # Tri spécial avec jointure pour la colonne prix
+        @products = @products.joins(:prices)
+                             .select('products.*, prices.amount AS price_amount')
+                             .order("price_amount #{sort_direction}")
+      else
+        # Tri standard pour les autres colonnes
+        @products = @products.order("#{sort_column} #{sort_direction}")
+      end
     end
+  
+    @products = @products.page(params[:page]).per(@per_page)
 
     respond_to do |format|
       format.html
@@ -58,8 +59,18 @@ class ProductsController < ApplicationController
         end
         send_data csv_data, filename: "produits.csv", type: "text/csv"
       end
+      format.json do
+        products_with_prices = @products.map do |product|
+            latest_price = product.prices.last&.amount || 0
+            {
+              id: product.id,
+              name: product.name,
+              price: latest_price
+            }
+        end
+        render json: products_with_prices
+      end
     end
-
   end
 
   # 👁️ Mostrar detalhes de um produto
@@ -116,6 +127,24 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     redirect_to products_url, notice: 'Produto excluído com sucesso.'
+  end
+
+  def search
+    query = params[:query].to_s.downcase
+    @products = current_user.organisation.products.where("lower(name) LIKE ?", "%#{query}%").limit(10)
+    # Préparer les données avec les prix
+  products_with_prices = @products.map do |product|
+    latest_price = product.prices.last&.amount || 0
+    {
+      id: product.id,
+      name: product.name,
+      price: latest_price
+    }
+  end
+  
+  Rails.logger.debug "Products found with prices: #{products_with_prices.inspect}"
+  
+  render json: products_with_prices
   end
 
   private

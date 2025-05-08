@@ -5,174 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%# <%= hotwire_livereload_tags if Rails.env.development? %>  
+    <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "style_table", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "style_form", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "subscription_form", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "side_menu", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "top_bar", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "order_form", "data-turbo-track": "reload" %>
 
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxiaLs">
-    </script> 
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKuave45NnXlKogx1rpqD2ItifAGxiaLs"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   </head>
 
   <body>
-    <!-- left Menu -->
-    <div class="sidebar close" style="z-index: 999">
-    <div class="logo-details">
-      <a class="link_name" style="margin-top: 60px; text-decoration:none" href=".">
-        <i class='bx bxl-c-plus-plus'></i>
-        <span class="logo_name">Super CRM</span>
-      </a>
-    </div>
-    <ul class="nav-links">
-      <li>
-        <a href="#">
-          <i class='bx bx-grid-alt' ></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-collection' ></i>
-            <span class="link_name">Category</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Categorias</a></li>
-          <li><%= link_to 'Produtos', products_path %></li>
-          <li><%= link_to 'Clientes', clients_path %></li>
-          <li><%= link_to 'Vendas', orders_path %></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-book-alt' ></i>
-            <span class="link_name">Posts</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Posts</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-pie-chart-alt-2' ></i>
-          <span class="link_name">Analytics</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Analytics</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-line-chart' ></i>
-          <span class="link_name">Chart</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chart</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-plug' ></i>
-            <span class="link_name">Plugins</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Plugins</a></li>
-          <li><a href="#">UI Face</a></li>
-          <li><a href="#">Pigments</a></li>
-          <li><a href="#">Box Icons</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-compass' ></i>
-          <span class="link_name">Equipe</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><%= link_to 'Equipe', users_index_path %></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-history'></i>
-          <span class="link_name">History</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">History</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-cog' ></i>
-          <span class="link_name">Setting</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="infos_user">Setting</a></li>
-        </ul>
-      </li>
-      <li>
-    <div class="profile-details">
-      <div class="profile-content">
-         <% if user_signed_in? && current_user.organisation.logo.present? %>
-           <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation", class: "organisation-logo-lat-bar" %>
-         <%else%>
-           <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" alt="">
-         <% end %>
-        
-      </div>
-      <div class="name-job">
-        <div class="profile_name">Prem Shahi</div>
-        <div class="job">Web Desginer</div>
-      </div>
-      <i class='bx bx-log-out' ></i>
-    </div>
-  </li>
-</ul>
-</div>
-
+<!-- left Menu -->
+  <% unless current_page?(root_path) || controller_name == 'registrations' || request.path == '/users/sign_in' %>
+    <%= render 'layouts/sidebar' %>
+  <% end %>
 <!-- top bar-->
-  <section class="home-section">
-    <div class="home-content">
-      <i class='bx bx-menu' id='lat-menue-btn' style="z-index: 1000; position: fixed; top: 5px"></i>   
-      <div class="top-bar">   
-        <!-- Verificação de Login -->
-        <% if user_signed_in? %>
-          <span class="navbar-text">
-            Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> |
-          </span>
-          <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger btn-sm ms-2' %>
-        <% else %>
-          <div class="d-flex">
-            <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-outline-primary btn-sm me-2' %>
-            <%= link_to 'Créer un compte', new_user_registration_path, class: 'btn btn-outline-success btn-sm' %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </section>
+  <% unless controller_name == 'registrations' || request.path == '/users/sign_in' %>
+    <%= render 'layouts/topbar' %>
+  <% else %>
+    <%= render 'layouts/simplebar'%>
+  <% end %>
 
 <!-- Messages Flash -->
 <% flash.each do |type, message| %>
@@ -181,11 +48,12 @@
 
   
   <!-- Content of the yield-->
-  <div class="yield">
+  <div class="yield" style="padding-left: 70px">
     <main>
       <%= yield %>
     </main>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 <!-- Footer -->
 <footer class="main-footer">

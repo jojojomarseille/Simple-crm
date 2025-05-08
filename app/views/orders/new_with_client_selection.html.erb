@@ -1,41 +1,72 @@
-<h1>Nouvelle Commande</h1>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Nouvelle Commande</h1>
+    <%= form_for @order, url: create_with_client_selection_orders_path do |f| %>
+      <div class="form-group">
+        <%= f.label :client_id, "Client" %>
+        <%= f.collection_select :client_id, Client.where(organisation_id: current_user.organisation_id), :id, :name, { prompt: "Sélectionnez un client" }, 
+                           { class: "select-index-bar" } %>
+      </div>
 
-<%= form_for @order, url: create_with_client_selection_orders_path do |f| %>
-  <div class="form-group">
-    <%= f.label :client_id, "Client" %>
-    <%= f.collection_select :client_id, Client.where(organisation_id: current_user.organisation_id), :id, :name, prompt: "Sélectionnez un client", class: "form-control" %>
-  </div>
+      <div class="form-group" data-controller="datepicker">
+        <%= f.label :date, "Date de la commande" %>
+        <%= f.text_field :date, 
+                  class: "select-index-bar", 
+                  placeholder: 'AAAA-MM-JJ',
+                          data: { 
+                            datepicker_target: "input"
+                          } %>
+      </div>
 
-  <div>
-    <%= f.label :date %>
-    <%= f.datetime_select :date %>
-  </div>
+      <div class="form-group">
+        <%= f.label :payment_terms, "Delais de paiements" %>
+        <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "select-index-bar" %>
+      </div>
 
-    <div class="form-group">
-    <%= f.label :payment_terms, "Delais de paiements" %>
-    <%= f.select :payment_terms, Order::TERMS, {:prompt => "delais de paiement"}, class: "form-control" %>
-  </div>
+      <div class="order-items-section" 
+           data-controller="order-items" 
+           data-order-items-organisation-id-value="<%= @organisation.id %>">
+        <div class="order-items-header">
+          <div class="header-product">Produit</div>
+          <div class="header-quantity">Quantité</div>
+          <div class="header-price">Prix (€)</div>
+          <div class="header-actions"></div>
+        </div>
+        
+        <div class="order-items-container" data-order-items-target="container">
+          <% if f.object.order_items.empty? %>
+            <%= f.fields_for :order_items, OrderItem.new, child_index: 0 do |item_form| %>
+              <%= render partial: "order_item_fields", locals: { f: item_form } %>
+            <% end %>
+          <% else %>
+            <%= f.fields_for :order_items do |item_form| %>
+              <%= render partial: "order_item_fields", locals: { f: item_form } %>
+            <% end %>
+          <% end %>
+        </div>
+        
+        <div class="order-items-footer">
+          <button type="button" class="btn-add-item" data-action="click->order-items#add">
+            <b>+</b>
+          </button>
+        </div>
+        
+        <!-- Template caché pour nouveau produit -->
+        <div style="display: none;" data-order-items-target="template">
+          <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |item_form| %>
+            <%= render partial: 'order_item_fields', locals: { f: item_form } %> 
+          <% end %>
+        </div>
 
-  <h2>Items de la commande</h2>
-  <div class="list-container">
-    <div id="list">
-      <%= f.fields_for :order_items do |f| %>
-        <%= render partial: "order_item_fields", locals: { f: f } %> 
-      <% end %> 
-      
-    </div>
-    <button type="button" id="add-button" class="button-add">+ Ajouter produit</button>
-  </div>
+        <div class="order-total-section">
+          <h4>Total de la commande: <span data-order-items-target="orderTotal">0.00 €</span></h4>
+        </div>
+      </div>
 
-  <%# <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary" %> 
-  <%= f.submit "Enregistrer en brouillon", class: "btn btn-primary", name: "commit", value: "draft" %>
-  <%= f.submit "Valider", class: "btn btn-success", name: "commit", value: "validate" %>
-
- <!-- Placeholder pour le template -->
-  <div id="template-container" style="display: none;">
-    <%= f.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |f| %>
-      <%= render partial: 'order_item_fields', locals: { f: f } %> 
+      <div class="form-actions" style="margin-top: 20px;">
+        <%= f.submit "Enregistrer en brouillon", class: "btn-draft-order-form", name: "commit", hidden_value: "draft" %>
+        <%= f.submit "Valider", class: "btn-val-order-form", name: "commit", hidden_value: "validate" %>
+      </div>
     <% end %>
   </div>
-
-<% end %>
+</div>

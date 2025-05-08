@@ -1,0 +1,99 @@
+<div class="sign-up-header-step2">
+  <p class="create-account-text sub-main-title">Créez votre compte</p>
+</div>
+
+<div class="sign-up-header-ariane">
+  <%= image_tag('progress-bar-sign-up-4.png', alt: 'progress bar step 4/4', class: 'centered-image-ariane-step1') %>
+</div>
+
+<div class="sign-up-step-container-step4">
+
+  <div class="sign-up-left-step4">
+
+    <div class="left-text-container-step4">
+      <p class="create-account-text text-step1">Simple CRM simplifie la vie des organisations, quel que soit leur statut, activitée ou localisation</p>
+    </div>
+    <div class="sign-up-header-visual-step4">
+      <%= image_tag('undraw_work-friends_kto3.svg', alt: 'work with friends', class: 'centered-image-main-visual-step1') %>
+    </div>
+    <div class="sub-form-return-step4">
+      <%= link_to "Retour", step3_users_registrations_get_path, class: 'sub-custom-button-return no-deco', data: { turbo: false } %>
+    </div>
+  </div>
+
+  <div class="sign-up-right-step2">
+    <%= form_for @user, as: :user, url: user_registration_path, method: :post, 
+              data: { turbo: false, controller: "organisation-form", step: "4" } do |f| %>
+    <%= render 'devise/shared/error_messages', resource: @user %>
+
+    <%= f.fields_for :organisation do |org_form| %>
+      <div class="form-group-step4">
+        <%= org_form.label :business_name, class: 'sub-custom-label' %>
+        <%= org_form.text_field :business_name, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :identification_number, "N° SIRET", class: 'sub-custom-label' %>
+        <%= org_form.text_field :identification_number, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :logo, class: 'sub-custom-label' %>
+        <%= org_form.file_field :logo %>
+      </div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :capital, class: 'sub-custom-label' %>
+        <%= org_form.text_field :capital, class: 'sub-custom-input' %>
+      </div>
+     
+      <div data-controller="datepicker">
+        <div class="form-group-step4">
+          <%= org_form.label :creation_date, class: 'sub-custom-label' %>
+          <%= org_form.text_field :creation_date, 
+                                class: 'sub-custom-input', 
+                                data: { 
+                                       datepicker_target: "input"
+                                      },
+                                value: org_form.object.creation_date&.strftime('%Y-%m-%d') %>
+          <%# </small> %>
+        </div>
+      <div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :address, class: 'sub-custom-label' %>
+        <%= org_form.text_field :address, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :postal_code, class: 'sub-custom-label' %>
+        <%= org_form.text_field :postal_code, class: 'sub-custom-input' %>
+      </div>
+
+      <div class="form-group-step4">
+        <%= org_form.label :city, class: 'sub-custom-label' %>
+        <%= org_form.text_field :city, class: 'sub-custom-input' %>
+      </div>
+      
+      <%# id de base company associée %>
+      <%= org_form.hidden_field :base_company_id %>
+    <% end %>
+
+    <div class="form-group-step4 sub-form-next-step4" >
+      <%= f.submit "Terminer", class: 'sub-custom-button' %>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

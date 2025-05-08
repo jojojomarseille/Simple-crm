@@ -4,16 +4,16 @@ class ClientsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_organisation, only: [:new, :create, :index, :show]
 
-  # 📋 Listar todos os clientes
   def index
-    order = params[:order] || 'name' 
-    direction = params[:direction] || 'asc' 
-    @per_page = params[:per_page] || 10
+    sort_column = params[:sort] || 'id_by_org'
+    sort_direction = params[:direction] || 'asc'
+    @per_page = params[:per_page] || 20
 
-    # Verifica se a direção é 'desc' para reverter a ordem
-    if %w[name client_type].include?(order) && %w[asc desc].include?(direction)
+    valid_order_columns = ['id', 'name', 'client_type', 'mail', 'phone', 'address', 'city', 'country', 'postal_code']
+
+    if valid_order_columns.include?(sort_column) && %w[asc desc].include?(sort_direction)
       @clients = Client.where(organisation_id: @organisation.id)
-                       .order("#{order} #{direction}")
+                       .order("#{sort_column} #{sort_direction}")
                        .page(params[:page]).per(@per_page)
     else
       @clients = Client.where(organisation_id: @organisation.id)
@@ -27,7 +27,6 @@ class ClientsController < ApplicationController
         pdf.text "Liste des Clients", size: 30, style: :bold
         pdf.move_down 20
   
-        # Construction d'un tableau avec les clients
         data = [["ID", "Nom", "Typo", "Mail", "Phone", "Adresse", "City", "Country", "CP"]] +
                @clients.map do |client|
                  [client.id, client.name, client.client_type, client.mail, client.phone, client.address, client.city, client.country, client.postal_code]
@@ -55,20 +54,16 @@ class ClientsController < ApplicationController
 
   end
 
-  # 👁️ Mostrar detalhes de um cliente
   def show
   end
 
-  # ➕ Formulário para novo cliente
   def new
     @client = Client.new
   end
 
-  # 📝 Formulário para editar cliente
   def edit
   end
 
-  # 💾 Salvar novo cliente
   def create
     @client = Client.new(client_params)
     @client.organisation = @organisation
@@ -80,7 +75,6 @@ class ClientsController < ApplicationController
     end
   end
 
-  # 🔄 Atualizar cliente existente
   def update
     if @client.update(client_params)
       redirect_to @client, notice: 'Cliente atualizado com sucesso.'
@@ -89,7 +83,6 @@ class ClientsController < ApplicationController
     end
   end
 
-  # 🗑️ Deletar cliente
   def destroy
     @client.destroy
     redirect_to clients_url, notice: 'Cliente excluído com sucesso.'
@@ -97,7 +90,6 @@ class ClientsController < ApplicationController
 
   private
 
-  # 🔑 Buscar cliente por ID
   def set_client
     @client = Client.find(params[:id])
   end
@@ -106,7 +98,6 @@ class ClientsController < ApplicationController
     @organisation = current_user.organisation
   end
 
-  # 📦 Parâmetros permitidos
   def client_params
     params.require(:client).permit(:name, :client_type, :mail, :phone, :address, :image, :city, :country, :postal_code, :latitude, :longitude)
   end

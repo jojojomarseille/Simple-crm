@@ -37,3 +37,37 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Node.js / npm
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.npm/
+.yarn/
+
+# Fichiers de build
+/public/packs/
+/public/packs-test/
+/public/assets/
+/tmp/
+
+# Fichiers d'environnement
+.env
+.env.*
+!.env.example
+
+# Rails / Ruby
+*.rbc
+/log/
+/tmp/
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/storage/
+/coverage/
+*.gem
+*.rbc
+/.config
+/vendor/bundle
+/lib/bundler/man/
+.rvmrc
