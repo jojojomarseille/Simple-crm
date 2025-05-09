@@ -1,6 +1,6 @@
 <section class="home-section" data-controller="topbar">
   <div class="home-content">
-    <div class="top-bar">   
+    <div class="top-bar" style="margin-left: -70px; width: 100%">   
       <% if user_signed_in? %>
         <%= link_to 'Simple CRM', connected_home_path, class: 'logo-top-bar', id: 'topbar-logo' %>
       <% else %>
@@ -8,7 +8,7 @@
       <% end %>
       <% if user_signed_in? %>
         <span class="navbar-text">
-          <p style="color: #FFA01C; font-weight: bold; font-size: 14px">Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> </p>
+          Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> 
         </span>
         <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-log-out' %>
       <% else %>

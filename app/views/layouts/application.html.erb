@@ -35,10 +35,12 @@
     <%= render 'layouts/sidebar' %>
   <% end %>
 <!-- top bar-->
-  <% unless controller_name == 'registrations' || request.path == '/users/sign_in' %>
-    <%= render 'layouts/topbar' %>
-  <% else %>
-    <%= render 'layouts/simplebar'%>
+  <% if controller_name == 'registrations' || request.path == '/users/sign_in' %>
+    <%= render 'layouts/simplebar' %>
+  <% elsif current_page?(root_path) %>
+    <%= render 'layouts/home-topbar'%>
+  <%else%>
+    <%= render 'layouts/topbar'%>
   <% end %>
 
 <!-- Messages Flash -->

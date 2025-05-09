@@ -1,119 +1,326 @@
-
-<%# <p>Nossa Aplicação de gestão de Produtos!</p> %>
-
-<!-- Barra de Pesquisa -->
-<% if user_signed_in? %>
-  <div class="search-container">
-    <%= form_with(url: search_path, method: :get, class: "search-form", data: { turbo_frame: "search_results" }) do |form| %>
-      <%= form.label :query, "Pesquisar por Cliente ou Produto", class: "search-label" %>
-      <%= form.text_field :query, placeholder: "Nome do Cliente ou Produto", class: "search-input" %>
-      <%= form.submit "Pesquisar", class: "search-button" %>
-    <% end %>
+<!-- Section 1:  le hero-->
+<section class="home-hero-section">
+  <div>
+    <%= image_tag('simple-crm-hero.png', alt: 'worker at work', style: "width: 100%; max-height: 850px; object-fit: cover; object-position: top; display: block; overflow: hidden;") %>
   </div>
-<%end%>
-
-<turbo-frame id="search_results">
-  <!-- Contenu par défaut avant toute recherche -->
-  <p>Insira uma pesquisa para ver os resultados.</p>
-</turbo-frame> 
-
-
-<!-- Resultados de Pesquisa -->
-<% if params[:query].present? %>
-  <h2>Resultados da Busca</h2>
-  <div class="search-results">
-    <% if @clients.any? %>
-      <h3>Clientes Encontrados:</h3>
-      <ul>
-        <% @clients.each do |client| %>
-          <li><%= link_to client.name, client_path(client) %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>Nenhum cliente encontrado.</p>
-    <% end %>
-
-    <% if @products.any? %>
-      <h3>Produtos Encontrados:</h3>
-      <ul>
-        <% @products.each do |product| %>
-          <li><%= link_to product.name, product_path(product) %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>Nenhum produto encontrado.</p>
-    <% end %>
+  <div class="hero-text-container">
+    <p class="hero-intro">Simple CRM: Gestion de la relation client</p>
+    <h1 class="hero-title">Le CRM qui libère<br> votre temps</h1>
+    <p class="hero-subtitle">Simplifiez votre gestion client avec un système intuitif. Moins de temps devant l'écran, plus de temps pour votre métier.</p>
+    <div>
+      <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-register-home' %>
+    </div>  
   </div>
-<% end %>
+</section>
 
-<!-- Carrossel de Imagens -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+<!-- Section 2:  argu 1-->
+<section class="home-section-2">
+  <div class="home-section-2-left">
+        <%= image_tag('dashboard-view.png', alt: 'simple crm dashboard', class:"home-section-2-picture") %>
   </div>
+  <div class="home-section-2-right">
+    <h2 class="home-section-2-title">De la prospection a la facturation, l’essentiel sans le superflue</h2>
+    <p class="home-section-2-text">Chez Simple CRM, notre priorité est la simplicité pour les artisans et indépendants. Nous offrons un outil de gestion client complet et épuré, garantissant que chaque fonction, de la prospection à la facturation, est essentielle et sans superflu. Conçu pour être intuitif, Simple CRM minimise le temps passé à gérer les relations clients, vous permettant de vous concentrer davantage sur votre métier. Chaque minute devant votre écran est optimisée pour l'efficacité, augmentant votre productivité sans nécessiter un long apprentissage. En optant pour Simple CRM, vous choisissez une gestion client efficace qui valorise votre temps et votre activité.<p>
+  </div>
+</section>
 
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://media.istockphoto.com/id/157834378/fr/photo/plage-tropicale.jpg?s=612x612&w=0&k=20&c=V5_Pxhw1uSZP8hmZmuR8dFcYnLH1nW49GvFdCSU-hRg=" class="d-block w-100" alt="Imagem 1">
-    </div>
-    <div class="carousel-item">
-      <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQXYsNZOOtqnRtSMmmW24UQXVQAK9Pq8mtxyM6q7ARwp-bfPySzKiO_DetYBOnHSG3je-197nYvx4rjCKxXSw6kxeXr8t1KkESv8uzB1A" class="d-block w-100" alt="Imagem 2">
-    </div>
-    <div class="carousel-item">
-      <img src="#" class="d-block w-100" alt="Imagem 3">
+<!-- Section 3:  detail avantages produits-->
+
+<section class="home-section-3">
+  <div class="home-section-3-left">
+    <h2 class="home-section-3-title">La relation clients avec Simple CRM</h2>
+    <p class="home-section-3-subtitle">Centralisez tout vos prospects, suivez les évènements, lancez vos campagnes de relances et gardez une vision claire et a jour grace a notre vue pipeline.<p>
+    <ul class="home-section-3-list">
+      <li><span class="check-icon">✔</span>Centralisation de vos leads</li>
+      <li><span class="check-icon">✔</span>Gestion des campagnes de prospections</li>
+      <li><span class="check-icon">✔</span>Pipeline de prospection personnalisable</li>
+      <li><span class="check-icon">✔</span>Devis</li>
+      <li><span class="check-icon">✔</span>Factures</li>
+      <li><span class="check-icon">✔</span>Suivi des paiements et relances</li>
+    <ul>
+    <div>
+      <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-register-home' %>
     </div>
   </div>
+  <div class="home-section-3-right">
+    <%= image_tag('home-visual.png', alt: 'more eficiency', class:"home-section-3-picture") %>
+  </div>
+</section>
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<!-- Section 4: 4 benefices a passer a simple crm-->
 
-<!-- Seção de destaque -->
-
-<div class="highlight-section">
-  <h1 class="highlight-title">Organize melhor seu trabalho e seus ganhos!</h1>
-  <p class="highlight-description">Nossa aplicação pode te ajudar!</p>
-</div>
-
-<!-- Citações -->
-<div class="quotes-section">
-  <div class="quote-box">
-    <div class="quote">
-      <p class="quote-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</p>
-      <p class="quote-author">- John Doe</p>
+<section class="home-section-4">
+  <div class="home-section-4-top-container">
+    <h2 class="home-section-4-title">Passez a<%= link_to 'Simple CRM', connected_home_path, style: 'font-size: 30px', class: 'logo-top-bar'%></h2>
+    <p class="home-section-4-subtitle">Offrez vous un outil éfficace et adapté, qui vous permet d’etre plus éfficace simplement<p>
+  </div>
+  <div class="home-section-4-down-container">
+    <div class="home-section-4-left">
+      <div class="home-section-4-icone-text-bloc">
+        <%= image_tag('target.png', alt: 'target', class:"home-section-4-picture") %>
+        <h3>Convertissez plus de prospects<h3>
+        <p class="home-section-4-text">Grace a la centralisation de vos lead et aux taches et rappels programmés, ne laissez plus aucuns prospect sans réponse et augmentez votre taux de conversion.<p>
+      </div>
+      <div class="home-section-4-icone-text-bloc">
+        <%= image_tag('box.png', alt: 'box', class:"home-section-4-picture") %>
+        <h3>Tout est inclus<h3>
+        <p class="home-section-4-text">De la prospection a la vente, tout est inclus, vous n’avez pas besoin de jongler entres plusieurs interfaces<p>
+      </div>
     </div>
-    <div class="quote">
-      <p class="quote-text">"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p>
-      <p class="quote-author">- Jane Smith</p>
+    <div class="home-section-4-right">
+      <div class="home-section-4-icone-text-bloc">
+        <%= image_tag('time.png', alt: 'clock', class:"home-section-4-picture") %>
+        <h3>Votre temps est precieux<h3>
+        <p class="home-section-4-text">Mise en place, paramètrage et apprentissage rapide grace a notre outils simple et intuitif<p>
+      </div>
+      <div class="home-section-4-icone-text-bloc">
+        <%= image_tag('save.png', alt: 'pig saving', class:"home-section-4-picture") %>
+        <h3>Prix abordables<h3>
+        <p class="home-section-4-text">Tarification simple et avantageuse<p>
+      </div>
     </div>
-    <div class="quote">
-      <p class="quote-text">"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."</p>
-      <p class="quote-author">- Emily Johnson</p>
-    </div>
   </div>
-</div>
-<div class="social-icons">
-  <div class="icon">
-    <a href="" target="_blank">
-      <img src="#" alt="Instagram">
-    </a>
+</section>
+
+
+<!-- Section 5: Abonne toi-->
+<section class="home-section-5">
+  <h2 class="home-section-2-title">De la prospection a la facturation, l’essentiel sans le superflue</h2>
+  <div style="display: flex; width: 100%; justify-content: center; margin-left: -5%">  
+    <%= link_to 'Créer un compte', step1_users_registrations_path, class: 'btn btn-register-home' %>
   </div>
-  <div class="icon">
-    <a href="https://www.facebook.com/seu_perfil" target="_blank">
-      <img src="#" alt="Facebook">
-    </a>
-  </div>
-  <div class="icon">
-    <a href="https://www.twitter.com/seu_perfil" target="_blank">
-      <img src="#" alt="Twitter">
-    </a>
-  </div>
-</div>
+</section>
+
+<style>
+  .btn-register-home {
+    background-color: #4B6AD7;
+    color: white;
+    border-radius: 30px; 
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 10%;
+    margin-top: 50px;
+  }
+  
+  .hero-subtitle {
+    font-weight: bold; 
+    color: #7D7575; 
+    font-size: 24px; 
+    width: 463px;
+  }
+
+  .hero-title {
+    font-weight: bold; 
+    color: white; 
+    font-size: 64px; 
+    text-align: left
+  }
+
+  .hero-intro {
+    font-weight: bold;
+    color: white; 
+    font-size: 24px;
+  }
+
+  .home-hero-section {
+    min-width: 100%; 
+    min-height: 855px; 
+    margin-left: -70px;
+    margin-right: -30px;
+  }
+
+  .hero-text-container {
+    margin-top: -45%; 
+    margin-left: 10%;
+  }
+
+  .home-section-2 {
+   min-width: 100%; 
+   min-height: 637px; 
+   margin-left: -70px; 
+   margin-right: -30px;
+   display: flex;
+  }
+
+  .home-section-2-left {
+    width: 50%;
+    min-height: 100%;
+    display: flex;
+  }
+
+  .home-section-2-right {
+    width: 50%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 4% 4%;
+  }
+
+  .home-section-2-picture {
+   width: 630px; 
+   height: 370px; 
+   margin: auto; 
+   border: 2px solid #4B6AD7; 
+   border-radius: 15px
+  }
+
+  .home-section-2-title {
+    font-size: 36px;
+    margin-top: 10%;
+    text-align: center;
+  }
+
+  .home-section-2-text {
+    margin-top: 20px;
+    text-align: justify;
+    font-weight: normal;
+    font-size: 20px;
+  }
+
+  .home-section-3 {
+    min-width: 100%; 
+    min-height: 750px; 
+    margin-left: -70px; 
+    margin-right: -30px;
+    display: flex;
+  }
+
+  .home-section-3-left {
+    display: flex;
+    width: 50%;
+    min-height: 100%;
+    flex-direction: column;
+    padding: 6% 5%;
+  }
+
+  .home-section-3-right {
+    display: flex;
+    width: 50%;
+    min-height: 100%;
+  }
+
+   .home-section-3-picture {
+   width: 550px; 
+   height: 550px; 
+   margin: auto; 
+   border: 2px solid #4B6AD7; 
+   border-radius: 15px
+  }
+
+  .home-section-3-title {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .home-section-3-subtitle {
+    margin-top: 20px;
+    text-align: justify;
+    font-weight: normal;
+    font-size: 20px;
+  }
+
+  .home-section-3-list {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .home-section-3-list li{
+    margin-top: 10px;
+    list-style-type: none;
+  }
+
+  .check-icon {
+    color: white; 
+    background-color: #7BE349; 
+    border-radius: 50%; 
+    width: 20px; 
+    height: 20px;  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; 
+    font-size: 15px; 
+  }
+
+  .home-section-4 {
+    min-width: 100%; 
+    min-height: 750px; 
+    margin-left: -70px; 
+    margin-right: -30px;
+    display: flex;
+    flex-direction: column;
+    background-color: #F2D5A9;
+  }
+
+  .home-section-4-title {
+    font-size: 36px;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .home-section-4-subtitle {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 20px;
+  }
+
+  .home-section-4-down-container {
+    margin-top: 30px;;
+    min-height: 600px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .home-section-4-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-height: 100%;
+  }
+
+  .home-section-4-right {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-height: 100%;
+  }
+
+  .home-section-4-icone-text-bloc {
+    min-height: 50%;
+    display: flex;
+    flex-direction:column;
+    text-align: center;
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+
+  .home-section-4-picture {
+   width: 200px; 
+   height: 120px; 
+   margin: auto; 
+  }
+
+  .home-section-4-text {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 16px;
+  }
+
+    .home-section-5 {
+    min-width: 100%; 
+    min-height: 339px; 
+    margin-left: -70px; 
+    margin-right: -30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 100px;
+    background: linear-gradient(to bottom, #F2D5A9, #ffffff);
+  }
+</style>
