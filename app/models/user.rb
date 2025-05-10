@@ -20,6 +20,14 @@ class User < ApplicationRecord
     status == 'org_admin'
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    %w[organisation orders]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id email reset_password_token firstname lastname phone birthdate status organisation_id created_at updated_at]
+  end
+
   def set_default_status
     puts "set_defult_status called"
     self.status ||= 'collaborateur' # Définir une valeur par défaut avant la validation

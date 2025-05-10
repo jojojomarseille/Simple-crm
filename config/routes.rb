@@ -1,5 +1,8 @@
 # config/routes.rb
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  
   root "pages#home"
   devise_for :users, controllers: {
     registrations: 'users/registrations'
@@ -24,6 +27,12 @@ Rails.application.routes.draw do
 
   get 'users/new_collaborator', to: 'users#new_collaborator', as: 'new_collaborator'
   post 'users/create_collaborator', to: 'users#create_collaborator', as: 'create_collaborator'
+
+  get 'users/:id/edit', to: 'users#edit', as: 'edit_user'
+
+  # Route pour mettre à jour un utilisateur
+  patch 'users/:id', to: 'users#update', as: 'user'
+  put 'users/:id', to: 'users#update'
 
   resources :users, only: [:show, :edit, :update, :destroy]
 

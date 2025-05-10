@@ -14,11 +14,12 @@
             <i class='bx bx-grid-alt'></i>
             <span class="link_name">Produits</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" ></i>
         </div>
-        <ul class="sub-menu blank">
-          <li><%= link_to 'Liste des produits', products_path, class:"link_name"%></li>
-          <li><%= link_to 'Nouveau produit', new_product_path, class:"link_name"%></li>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="/products">Produits</a></li>
+          <li><%= link_to 'Liste des produits', products_path%></li>
+          <li><%= link_to 'Nouveau produit', new_product_path%></li>
         </ul>
       </li>
       <li>
@@ -27,11 +28,12 @@
             <i class='bx bx-collection'></i>
             <span class="link_name">Clients</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu"></i>
         </div>
         <ul class="sub-menu">
-          <li><%= link_to 'Liste des clients', clients_path, class:"link_name"%></li>
-          <li><%= link_to 'Nouveau client', new_client_path, class:"link_name"%></li>
+          <li><a class="link_name" href="/clients">Clients</a></li>
+          <li><%= link_to 'Liste des clients', clients_path%></li>
+          <li><%= link_to 'Nouveau client', new_client_path%></li>
         </ul>
       </li>
       <li>
@@ -40,11 +42,12 @@
             <i class='bx bx-book-alt'></i>
             <span class="link_name">ventes</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu"></i>
         </div>
         <ul class="sub-menu">
-          <li><%= link_to 'Liste des Ventes', orders_path, class:"link_name"%></li>
-          <li><%= link_to 'Nouvelle vente', new_with_client_selection_orders_path, class:"link_name"%></li>
+          <li><a class="link_name" href="/orders">Ventes</a></li>
+          <li><%= link_to 'Liste des Ventes', orders_path%></li>
+          <li><%= link_to 'Nouvelle vente', new_with_client_selection_orders_path%></li>
         </ul>
       </li>
       
@@ -54,11 +57,12 @@
             <i class='bx bx-compass'></i>
             <span class="link_name">Equipe</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu"></i>
         </div>
-        <ul class="sub-menu blank">
-          <li><%= link_to 'Liste des collaborateurs', users_index_path, class:"link_name"%></li>
-          <li><%= link_to 'Nouveau collaborateur', new_collaborator_path, class:"link_name"%></li>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="/users_index">Equipe</a></li>
+          <li><%= link_to 'Liste des collaborateurs', users_index_path%></li>
+          <li><%= link_to 'Nouveau collaborateur', new_collaborator_path%></li>
         </ul>
       </li>
       
@@ -68,9 +72,9 @@
             <i class='bx bx-cog'></i>
             <span class="link_name">Paramètres</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu" data-sidebar-target="arrow"></i>
+          <i class='bx bxs-chevron-down arrow' data-action="click->sidebar#toggleSubmenu"></i>
         </div>
-        <ul class="sub-menu blank">
+        <ul class="sub-menu">
           <li><a class="link_name" href="infos_user">Setting</a></li>
         </ul>
       </li>

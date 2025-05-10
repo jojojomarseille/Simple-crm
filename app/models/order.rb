@@ -30,6 +30,14 @@ class Order < ApplicationRecord
   def pending?
     payment_status == 'En attente'
   end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[client organisation order_items products]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[date client_id created_at updated_at user_id total_price_ht organisation_id status payment_terms payment_due_date id_by_org payment_status validation_date payment_date id]
+  end
    
   private
 

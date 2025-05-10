@@ -1,45 +1,10 @@
-<h1>Éditer l'utilisateur</h1>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title">Modifier un collaborateur</h1>
 
-<%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |form| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :email %>
-    <%= form.email_field :email, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :firstname %>
-    <%= form.text_field :firstname, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :lastname %>
-    <%= form.text_field :lastname, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :phone %>
-    <%= form.text_field :phone, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :birthdate %>
-    <%= form.date_select :birthdate, {order: [:day, :month, :year]}, class: 'form-control' %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit 'Mettre à jour', class: 'btn btn-primary' %>
-  </div>
-<% end %>
+<%= render 'form', user: @user %>
 
 <%= link_to 'Retour à la liste', users_index_path, class: 'btn btn-secondary' %>
+
+  </div>
+</div>
