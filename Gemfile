@@ -42,6 +42,9 @@ gem 'elasticsearch-rails'
 #pour les champs de numeros de telephones
 gem 'intl-tel-input-rails'
 
+gem 'activeadmin'
+
+
 
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]

@@ -1,34 +1,11 @@
 class BaseCompany < ApplicationRecord
-    # include Elasticsearch::Model
-    # include Elasticsearch::Model::Callbacks
+    # Méthode pour définir les associations recherchables
+  def self.ransackable_associations(auth_object = nil)
+    ["organization"] # Si une organisation peut être liée à une BaseCompany
+  end
   
-    # settings index: { number_of_shards: 1 } do
-    #   mappings dynamic: false do
-    #     indexes :siret, type: 'keyword'
-    #     indexes :siren, type: 'keyword'
-    #     indexes :denomination_sociale, type: 'text'
-    #     indexes :marque, type: 'text'
-    #     indexes :adresse, type: 'text'
-    #     indexes :code_postal, type: 'keyword'
-    #     indexes :statut, type: 'keyword'
-    #     indexes :pays, type: 'keyword'
-    #     indexes :date_derniere_modification, type: 'date'
-    #     indexes :date_creation, type: 'date'
-    #   end
-    # end
-  
-    # def self.search(query)
-    #   __elasticsearch__.search(
-    #     {
-    #       query: {
-    #         multi_match: {
-    #           query: query,
-    #           fields: ['denomination_sociale^3', 'siret', 'marque']
-    #         }
-    #       },
-    #       size: 10
-    #     }
-    #   )
-    # end
-  
+  # Méthode pour définir les attributs recherchables
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id siret siren denomination_sociale marque adresse code_postal city pays statut date_derniere_modification date_creation created_at updated_at capital]
+  end
 end

@@ -26,17 +26,49 @@ class UsersController < ApplicationController
     valid_order_attributes = %w[id firstname lastname status]
 
     if valid_order_attributes.include?(order) && %w[asc desc].include?(direction)
-      @clients = Client.where(organisation_id: @organisation.id)
+      @users = User.where(organisation_id: @organisation.id)
                        .order("#{order} #{direction}")
                        .page(params[:page]).per(@per_page)
     else
-      @clients = Client.where(organisation_id: @organisation.id)
+      @users = User.where(organisation_id: @organisation.id)
                        .page(params[:page]).per(@per_page)
     end
 
-    @users = User.where(organisation_id: @organisation.id)
-                 .order("#{order} #{direction}")
-                 .page(params[:page]).per(@per_page)
+    # @users = User.where(organisation_id: @organisation.id)
+    #              .order("#{order} #{direction}")
+    #              .page(params[:page]).per(@per_page)
+    
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = Prawn::Document.new
+        pdf.text "Liste des Collaborateurs", size: 30, style: :bold
+        pdf.move_down 20
+  
+        data = [["ID", "Nom", "Prenom", "Mail", "Telephone", "Date de naissance", "Statut"]] +
+               @users.map do |user|
+                 [user.id, user.lastname, user.firstname, user.email, user.phone, user.birthdate, user.status]
+               end
+  
+        pdf.table(data, header: true, row_colors: ["F0F0F0", "FFFFFF"], width: pdf.bounds.width) do
+          row(0).font_style = :bold
+          columns(0..3).align = :center
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+          self.header = true
+        end
+        send_data pdf.render, filename: "Collaborateurs.pdf", type: "application/pdf"
+      end
+      format.csv do
+        headers = ["ID", "Nom", "Prenom", "Mail", "Telephone", "Date de naissance", "Statut"]
+        csv_data = CSV.generate(headers: true) do |csv|
+          csv << headers
+          @users.each do |user|
+            csv << [user.id, user.lastname, user.firstname, user.email, user.phone, user.birthdate, user.status]
+          end
+        end
+        send_data csv_data, filename: "collaborateurs.csv", type: "text/csv"
+      end
+    end
     
   end
 

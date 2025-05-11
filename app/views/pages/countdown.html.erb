@@ -1,0 +1,107 @@
+<!-- app/views/pages/countdown.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coming Soon | Simple CRM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(135deg, #FFA01C 0%, #B22222 100%);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .countdown {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 2rem 0;
+    }
+    .time-unit {
+      display: inline-block;
+      margin: 0 15px;
+    }
+    .time-value {
+      font-size: 3rem;
+    }
+    .time-label {
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Simple CRM</h1>
+    
+    <div class="countdown" id="countdown">
+      <div class="time-unit">
+        <div class="time-value" id="days">--</div>
+        <div class="time-label">Jours</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="hours">--</div>
+        <div class="time-label">Heures</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="minutes">--</div>
+        <div class="time-label">Minutes</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="seconds">--</div>
+        <div class="time-label">Secondes</div>
+      </div>
+    </div>
+
+    <p>Notre site sera bientôt disponible</p>
+  </div>
+
+  <script>
+    // Date cible pour le compte à rebours (timestamp en millisecondes)
+    const targetDate = new Date().getTime() + (<%= @countdown_value %> * 1000);
+    
+    // Mise à jour du compte à rebours chaque seconde
+    const countdownTimer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      // Calcul des jours, heures, minutes et secondes
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Affichage du compte à rebours
+      document.getElementById("days").innerHTML = days;
+      document.getElementById("hours").innerHTML = hours;
+      document.getElementById("minutes").innerHTML = minutes;
+      document.getElementById("seconds").innerHTML = seconds;
+      
+      // Si le compte à rebours est terminé
+      if (distance < 0) {
+        clearInterval(countdownTimer);
+        document.getElementById("countdown").innerHTML = "Le site est maintenant disponible !";
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@
       <% end %>
       <% if user_signed_in? %>
         <span class="navbar-text">
-          Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> 
+          <p style="color: #FFA01C; font-weight: bold; font-size: 14px">Bonjour, <%= current_user.firstname %> <%= current_user.lastname %> </p>
         </span>
         <%= button_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-log-out' %>
       <% else %>

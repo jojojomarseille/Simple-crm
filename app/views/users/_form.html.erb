@@ -1,0 +1,57 @@
+ <%= form_with model: @user, url: @user.new_record? ? create_collaborator_path : user_path(@user), local: true do |form| %>
+      <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= form.label :email %>
+        <%= form.email_field :email, class: "select-index-bar" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :firstname %>
+        <%= form.text_field :firstname, class: "select-index-bar" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :lastname %>
+        <%= form.text_field :lastname, class: "select-index-bar" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :phone %>
+        <%= form.text_field :phone, class: "select-index-bar" %>
+      </div>
+
+      <div class="form-group" data-controller="datepicker">
+        <%= form.label :birthdate %>
+        <%= form.text_field :birthdate, 
+                  class: "select-index-bar", 
+                  placeholder: 'AAAA-MM-JJ',
+                          data: { 
+                            datepicker_target: "input"
+                          } %>
+      </div>
+      <% if @user.new_record? %>
+        <div class="form-group">
+            <%= form.label :password %>
+            <%= form.password_field :password, class: "select-index-bar" %>
+        </div>
+
+        <div class="form-group">
+            <%= form.label :password_confirmation %>
+            <%= form.password_field :password_confirmation, class: "select-index-bar" %>
+        </div>
+      <%end%>
+
+      <div class="actions" style="margin-bottom: 30px">
+        <%= form.submit 'valider', class: 'btn btn-primary' %>
+      </div>
+    <% end %>

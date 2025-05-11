@@ -1,13 +1,18 @@
-<h1>Détails de l'utilisateur</h1>
+<div class="order-form-container" style="width: 100%; display: flex; justify-content: center; margin-top: 20px">
+  <div style="background-color: #E4E9F7; width: 1200px; padding-top: 20px; padding-left: 50px; padding-right: 50px;">
+    <h1 class="page-title"><%=@user.id%> - <%=@user.firstname%> <%=@user.lastname%></h1>
 
-<p><strong>Prénom :</strong> <%= @user.firstname %></p>
-<p><strong>Nom :</strong> <%= @user.lastname %></p>
-<p><strong>Email :</strong> <%= @user.email %></p>
-<p><strong>Téléphone :</strong> <%= @user.phone %></p>
-<p><strong>Date de naissance :</strong> <%= @user.birthdate ? l(@user.birthdate, format: :long) : 'Non renseignée' %></p>
-<p><strong>Statut :</strong> <%= @user.status %></p>
-<p><strong>Organisation :</strong> <%= @user.organisation.business_name if @user.organisation %></p>
-<p><strong>Date de création :</strong> <%= l(@user.created_at, format: :long) %></p>
-<p><strong>Dernière mise à jour :</strong> <%= l(@user.updated_at, format: :long) %></p>
+    <p><strong>Prénom :</strong> <%= @user.firstname %></p>
+    <p><strong>Nom :</strong> <%= @user.lastname %></p>
+    <p><strong>Email :</strong> <%= @user.email %></p>
+    <p><strong>Téléphone :</strong> <%= @user.phone %></p>
+    <p><strong>Date de naissance :</strong> <%= @user.birthdate ? l(@user.birthdate, format: :long) : 'Non renseignée' %></p>
+    <p><strong>Statut :</strong> <%= @user.status %></p>
+    <p><strong>Organisation :</strong> <%= @user.organisation.business_name if @user.organisation %></p>
+    <p><strong>Date de création :</strong> <%= l(@user.created_at, format: :long) %></p>
+    <p><strong>Dernière mise à jour :</strong> <%= l(@user.updated_at, format: :long) %></p>
 
-<%= link_to 'Retour à la liste', users_index_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Retour à la liste', users_index_path, class: 'btn btn-secondary', style: 'margin-bottom: 30px' %>
+  </div>
+</div>
+    

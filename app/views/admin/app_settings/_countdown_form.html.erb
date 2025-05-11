@@ -1,0 +1,27 @@
+<%= form_tag admin_app_settings_update_countdown_path, method: :post do %>
+  <div class="countdown-inputs">
+    <div class="field">
+      <%= label_tag :days, "Jours" %>
+      <%= number_field_tag :days, (AppConfig.countdown_value / 86400).floor, min: 0 %>
+    </div>
+    
+    <div class="field">
+      <%= label_tag :hours, "Heures" %>
+      <%= number_field_tag :hours, ((AppConfig.countdown_value % 86400) / 3600).floor, min: 0, max: 23 %>
+    </div>
+    
+    <div class="field">
+      <%= label_tag :minutes, "Minutes" %>
+      <%= number_field_tag :minutes, ((AppConfig.countdown_value % 3600) / 60).floor, min: 0, max: 59 %>
+    </div>
+    
+    <div class="field">
+      <%= label_tag :seconds, "Secondes" %>
+      <%= number_field_tag :seconds, (AppConfig.countdown_value % 60).floor, min: 0, max: 59 %>
+    </div>
+  </div>
+  
+  <div class="actions">
+    <%= submit_tag "Mettre à jour le compte à rebours", class: "button" %>
+  </div>
+<% end %>
