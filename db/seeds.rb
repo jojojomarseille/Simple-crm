@@ -5,4 +5,16 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+AppConfig.find_or_create_by(key: 'maintenance_mode') do |config|
+  config.value = 'false'
+end
+
+AppConfig.find_or_create_by(key: 'countdown_mode') do |config|
+  config.value = 'false'
+end
+
+AppConfig.find_or_create_by(key: 'countdown_value') do |config|
+  config.value = '0'
+end

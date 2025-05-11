@@ -45,6 +45,9 @@ Rails.application.routes.draw do
   get 'connected_home', to: 'pages#connected_home', as: 'connected_home'
   post 'pages/save_dashboard_order', to: 'pages#save_dashboard_order'
 
+  get '/maintenance', to: 'pages#maintenance'
+  get '/countdown', to: 'pages#countdown'
+
   resources :products do
     patch 'update_price/:price_id', to: 'products#update_price', as: 'update_price'
     collection do
