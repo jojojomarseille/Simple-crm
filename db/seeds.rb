@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'bourquardez.joachim@gmail.com', password: 'Password1', password_confirmation: 'Password1') if Rails.env.development?
 
 AppConfig.find_or_create_by(key: 'maintenance_mode') do |config|
   config.value = 'false'

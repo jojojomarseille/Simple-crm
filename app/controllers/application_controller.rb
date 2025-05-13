@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
     end
 
     def after_sign_in_path_for(resource)
-      connected_home_path
+      if resource.class.name == 'AdminUser' 
+        admin_dashboard_path 
+      else
+        connected_home_path
+      end
     end
 
     def maintenance
