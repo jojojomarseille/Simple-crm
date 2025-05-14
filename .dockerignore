@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
+log/*
+tmp/*
+node_modules
+coverage
+public/assets
+public/packs
+.bundle
+vendor/bundle
+.DS_Store
