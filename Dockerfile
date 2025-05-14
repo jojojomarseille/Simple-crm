@@ -1,5 +1,6 @@
 FROM ruby:3.0.3
 
+RUN apt-get update && apt-get install -y postgresql-client && apt-get clean && rm -rf /var/lib/apt/lists/*
 # Installation des dépendances
 RUN apt-get update -qq && apt-get install -y \
     build-essential \

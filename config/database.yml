@@ -27,6 +27,7 @@ production:
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   host: <%= ENV['POSTGRES_HOST'] || 'postgres' %>
+  # host: mco00k80sgcwkkgg4cwk4kw8
   port: <%= ENV['POSTGRES_PORT'] || 5432 %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   
