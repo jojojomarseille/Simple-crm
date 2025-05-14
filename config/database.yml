@@ -21,7 +21,16 @@ test:
 
 production:
   <<: *default
-  database: simple_crm_production
-  username: <%= ENV['SIMPLE_CRM_DATABASE_USERNAME'] %>
-  password: <%= ENV['SIMPLE_CRM_DATABASE_PASSWORD'] %>
-  host: <%= ENV['POSTGRES_HOST'] %>
+  adapter: postgresql
+  encoding: unicode
+  database: <%= ENV['POSTGRES_DB'] || 'simple_crm_production' %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRES_HOST'] || 'postgres' %>
+  port: <%= ENV['POSTGRES_PORT'] || 5432 %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  
+  # database: simple_crm_production
+  # username: <%= ENV['SIMPLE_CRM_DATABASE_USERNAME'] %>
+  # password: <%= ENV['SIMPLE_CRM_DATABASE_PASSWORD'] %>
+  # host: <%= ENV['POSTGRES_HOST'] %>

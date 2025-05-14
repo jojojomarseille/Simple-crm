@@ -17,6 +17,17 @@ WORKDIR /app
 # Copie des fichiers de gestion des dépendances
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
+# Installation d'une version récente de Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get update && apt-get install -y nodejs
+
+# Vérifiez la version de Node.js
+RUN node --version
+
+# Installez une version récente de Yarn
+RUN npm install -g yarn
+RUN yarn --version
+
 # Installation des dépendances Ruby et Node.js
 RUN bundle install
 RUN yarn install
