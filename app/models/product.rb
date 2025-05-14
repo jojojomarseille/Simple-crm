@@ -7,6 +7,9 @@ class Product < ApplicationRecord
 
   mount_uploader :product_image, ImageProductUploader 
 
+  validates :name, presence: true
+  validates :description, presence: true
+
   # def latest_price
   #   prices.order(created_at: :desc).first
   # end

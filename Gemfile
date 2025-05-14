@@ -11,8 +11,6 @@ gem "sprockets-rails"
 
 gem 'pg', '~> 1.2'
 
-gem 'sequel'
-
 gem 'devise'
 gem 'kaminari'
 
@@ -44,9 +42,6 @@ gem 'elasticsearch-rails'
 gem 'intl-tel-input-rails'
 
 gem 'activeadmin'
-
-
-
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"

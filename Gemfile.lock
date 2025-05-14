@@ -342,8 +342,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sequel (5.92.0)
-      bigdecimal
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -411,7 +409,6 @@ DEPENDENCIES
   rails (~> 7.0.8, >= 7.0.8.3)
   rspec-rails
   selenium-webdriver
-  sequel
   sprockets-rails
   stimulus-rails
   turbo-rails
