@@ -9,8 +9,7 @@ gem "rails", "~> 7.0.8", ">= 7.0.8.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+gem 'pg', '~> 1.2'
 
 gem 'devise'
 gem 'kaminari'
@@ -43,9 +42,6 @@ gem 'elasticsearch-rails'
 gem 'intl-tel-input-rails'
 
 gem 'activeadmin'
-
-
-
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"

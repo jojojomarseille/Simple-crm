@@ -14,7 +14,11 @@
       <div class="block-content">
         <div class="user-profile">
           <div class="profile-pic">
-            <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation" %>
+            <% if current_user.organisation&.logo&.url.present? %>
+              <%= image_tag current_user.organisation.logo.url, alt: "Logo de l'Organisation" %>
+            <% else %>
+              <%# <%= image_tag "default_logo.png", alt: "Logo par défaut" %> 
+            <% end %>
           </div>
           <div class="profile-info">
             <h4><%= current_user&.firstname || "John " %></h4>
